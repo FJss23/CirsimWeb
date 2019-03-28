@@ -1,4 +1,4 @@
-package com.rest.cirsimweb;
+package com.api.cirsimweb;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
