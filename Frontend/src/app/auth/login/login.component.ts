@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
     this.authService.login().subscribe(() =>  {
       if(this.authService.isLoggedIn){
         let redirect = this.authService.redirectUrlAfterLogin ?
-        this.router.parseUrl(this.authService.redirectUrlAfterLogin) : '/admin';
+        this.router.parseUrl(this.authService.redirectUrlAfterLogin) : '/profesor';
         this.router.navigateByUrl(redirect);
       }
     });
