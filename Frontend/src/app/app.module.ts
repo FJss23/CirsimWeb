@@ -1,8 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AuthModule } from './auth/auth.module';
-
 import { AppRoutingModule } from './app-routing.module';
+
+
+import { AuthModule } from './auth/auth.module';
+import { TeacherModule } from './teacher/teacher.module';
+import { MaterialModule } from './material.module';
+import { FormsModule } from '@angular/forms';
+
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -12,7 +17,10 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AuthModule
+    AuthModule,
+    FormsModule,
+    TeacherModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]

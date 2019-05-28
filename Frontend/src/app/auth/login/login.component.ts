@@ -10,6 +10,8 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
   message: string;
+  username: string;
+  password: string;
 
   constructor(
     public authService: AuthService,
