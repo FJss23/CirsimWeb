@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { LoginComponent } from './login/login.component';
 import { AuthRoutingModule } from './auth-routing.module';
-
-import { MatButtonModule, MatCardModule, MatDialogModule, MatInputModule, MatTableModule,
-  MatToolbarModule } from '@angular/material';
+import { SharedModule } from '../shared.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +12,7 @@ import { MatButtonModule, MatCardModule, MatDialogModule, MatInputModule, MatTab
   imports: [
     CommonModule,
     AuthRoutingModule,
-    MatCardModule
+    SharedModule
   ]
 })
 export class AuthModule { }

@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { TeacherRoutingModule } from './teacher-routing.module';
-import { HomeComponent } from './home/home.component';
+import { TeacherHomeComponent } from './teacher-home/teacher-home.component';
+import { TeacherComponent } from './teacher/teacher.component';
 
 @NgModule({
-  declarations: [HomeComponent],
+  declarations: [TeacherHomeComponent, TeacherComponent],
   imports: [
     CommonModule,
     TeacherRoutingModule

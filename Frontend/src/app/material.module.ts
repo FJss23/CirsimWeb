@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 
 import { MatButtonModule, MatCardModule, MatDialogModule, MatInputModule, MatTableModule,
-  MatToolbarModule } from '@angular/material';
+  MatToolbarModule, MatIconModule } from '@angular/material';
 
 @NgModule({
   declarations: [],
@@ -15,7 +15,8 @@ import { MatButtonModule, MatCardModule, MatDialogModule, MatInputModule, MatTab
     MatDialogModule, 
     MatInputModule, 
     MatTableModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatIconModule
   ],
   exports: [
     CommonModule,
@@ -25,7 +26,8 @@ import { MatButtonModule, MatCardModule, MatDialogModule, MatInputModule, MatTab
     MatDialogModule, 
     MatInputModule, 
     MatTableModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatIconModule
   ]
 })
 export class MaterialModule { }
