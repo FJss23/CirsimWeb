@@ -26,14 +26,8 @@ export class LoginComponent implements OnInit {
     this.message = 'Logged ' + (this.authService.isLoggedIn ? 'in' : 'out');
   }
 
-  login(): void {
+  login(): any {
     this.message = 'Trying to log in...';
-    this.authService.login().subscribe(() =>  {
-      if(this.authService.isLoggedIn){
-        let redirect = this.authService.redirectUrlAfterLogin ?
-        this.router.parseUrl(this.authService.redirectUrlAfterLogin) : '/profesor';
-        this.router.navigateByUrl(redirect);
-      }
-    });
+    this.authService.login("123","123")
   }
 }
