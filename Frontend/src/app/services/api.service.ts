@@ -12,7 +12,7 @@ export class ApiService {
 
   post(path: string, args: any): Observable<any> {
     const options = {
-      header: this.getHeader()º,
+      header: this.getHeader(),
       withCredentials: true
     }
   }
