@@ -1,9 +1,6 @@
 package com.tfg.cirsim.api.model;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-
-import org.springframework.data.annotation.Id;
+import javax.persistence.*;
 
 /**
  * 
@@ -11,6 +8,7 @@ import org.springframework.data.annotation.Id;
  * @date 03/06/2019
  *
  */
+@Entity
 public class User {
 
 	@Id
@@ -36,5 +34,13 @@ public class User {
 
 	public String getUsername() {
 		return username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

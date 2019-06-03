@@ -1,6 +1,10 @@
 package com.tfg.cirsim.api.repository;
 
-import org.springframework.data.repository.Repository;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import com.tfg.cirsim.api.model.User;
 
@@ -10,6 +14,9 @@ import com.tfg.cirsim.api.model.User;
  * @date 03/06/2019
  *
  */
-public class UserRepository implements Repository<User, Long> {
-
+@Repository
+public interface UserRepository extends CrudRepository<User, Long> {
+	
+	List<User> findAll();
+	Optional<User> findById(Long id);
 }
