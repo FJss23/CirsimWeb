@@ -2,11 +2,13 @@ package com.tfg.cirsim.api.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tfg.cirsim.api.entities.User;
+import com.tfg.cirsim.api.exception.ResourceNotFoundException;
 import com.tfg.cirsim.api.repository.UserRepository;
 import com.tfg.cirsim.api.services.UserService;
 
@@ -29,8 +31,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getUser(Long id) {
-		return userRepository.findById(id).orElse(null);
+	public User getUser(Long id) throws ResourceNotFoundException {
+		return findUserWithException(id);
 	}
 
 	@Override
@@ -40,8 +42,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User deleteUser(Long id) {
-		User user = this.getUser(id);
+	public User deleteUser(Long id) throws ResourceNotFoundException{
+		User user = findUserWithException(id);
 		userRepository.deleteById(id);
 		return user;
 	}
@@ -49,5 +51,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User addUser(User user) {
 		return userRepository.save(user);
+	}
+	
+	private User findUserWithException(Long id) throws ResourceNotFoundException {
+		Optional<User> user = userRepository.findById(id);
+		if(user.isPresent()) 
+			return user.get();
+		 throw new ResourceNotFoundException();
 	}
 }

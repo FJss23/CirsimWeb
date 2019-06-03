@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.tfg.cirsim.api.entities.User;
+import com.tfg.cirsim.api.exception.ResourceNotFoundException;
 import com.tfg.cirsim.api.services.UserService;
 
 
@@ -36,7 +39,13 @@ public class UserController {
 	
 	@GetMapping(value= "/user/{id}")
 	public User getUser(@PathVariable Long id) {
-		return userService.getUser(id);
+		try {
+			return userService.getUser(id);
+		}
+		catch(ResourceNotFoundException exc) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, 
+					"User" + id + " not found", exc);
+		}
 	}
 	
 	@PutMapping(value = "/user/{id}")
@@ -46,6 +55,11 @@ public class UserController {
 	
 	@DeleteMapping(value = "/user/{id}")
 	public User deleteUser(@PathVariable Long id) {
-		return userService.deleteUser(id);
+		try {
+			return userService.deleteUser(id);
+		} catch (ResourceNotFoundException exc) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, 
+					"User" + id + " not found", exc);
+		}
 	}
 }

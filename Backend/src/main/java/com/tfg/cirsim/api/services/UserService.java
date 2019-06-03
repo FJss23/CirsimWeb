@@ -3,6 +3,7 @@ package com.tfg.cirsim.api.services;
 import java.util.List;
 
 import com.tfg.cirsim.api.entities.User;
+import com.tfg.cirsim.api.exception.ResourceNotFoundException;
 
 /**
  * 
@@ -14,11 +15,11 @@ public interface UserService {
 
 	List<User> getUsers();
 
-	User getUser(Long id);
+	User getUser(Long id) throws ResourceNotFoundException;
 
 	User updateUser(Long id, User user);
 
-	User deleteUser(Long id);
+	User deleteUser(Long id) throws ResourceNotFoundException;
 
 	User addUser(User user);
 
