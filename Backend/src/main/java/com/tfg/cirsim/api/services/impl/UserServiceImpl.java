@@ -1,16 +1,14 @@
-/**
- * 
- */
-package com.tfg.cirsim.api.service.impl;
+package com.tfg.cirsim.api.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tfg.cirsim.api.model.User;
+import com.tfg.cirsim.api.entities.User;
 import com.tfg.cirsim.api.repository.UserRepository;
-import com.tfg.cirsim.api.service.UserService;
+import com.tfg.cirsim.api.services.UserService;
 
 /**
  * @author Francisco.Riedemann
@@ -25,7 +23,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getUsers() {
-		return userRepository.findAll();
+		List<User> users = new ArrayList<User>();
+		userRepository.findAll().forEach(users::add);
+		return users;
 	}
 
 	@Override
@@ -35,8 +35,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User updateUser(Long id, User user) {
-		User oldUser = this.getUser(id);
-		//TODO: completar con la logica
+		user.setId(id);
 		return userRepository.save(user);
 	}
 

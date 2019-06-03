@@ -1,8 +1,8 @@
-package com.tfg.cirsim.api.service;
+package com.tfg.cirsim.api.services;
 
 import java.util.List;
 
-import com.tfg.cirsim.api.model.User;
+import com.tfg.cirsim.api.entities.User;
 
 /**
  * 
