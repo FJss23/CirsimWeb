@@ -18,7 +18,7 @@ import com.tfg.cirsim.api.services.UserService;
  */
 @RestController
 @EnableAutoConfiguration
-@RequestMapping(value = "/cirsim/api", produces = { "application/json" })
+@RequestMapping(value = "/api/cirsim", produces = { "application/json" })
 public class UserController {
 	
 	@Autowired

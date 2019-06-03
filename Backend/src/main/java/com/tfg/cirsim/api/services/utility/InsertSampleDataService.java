@@ -5,6 +5,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tfg.cirsim.api.entities.Role;
 import com.tfg.cirsim.api.entities.User;
 import com.tfg.cirsim.api.services.UserService;
 
@@ -22,12 +23,12 @@ public class InsertSampleDataService {
 	
 	@PostConstruct
 	public void init() {
-		User user1 = new User("user1","123");
-		User user2 = new User("user2","123");
-		User user3 = new User("user3","123");
-		User user4 = new User("user4","123");
-		User user5 = new User("user5","123");
-		User user6 = new User("user6","123");
+		User user1 = new User("user1", "123", "nombre1", "apellido1", Role.ADMIN);
+		User user2 = new User("user2", "123", "nombre2", "apellido2", Role.TEACHER);
+		User user3 = new User("user3", "123", "nombre3", "apellido3", Role.STUDENT);
+		User user4 = new User("user4", "123", "nombre4", "apellido4", Role.STUDENT);
+		User user5 = new User("user5", "123", "nombre5", "apellido5", Role.STUDENT);
+		User user6 = new User("user6", "123", "nombre6", "apellido6", Role.STUDENT);
 		
 		userService.addUser(user1);
 		userService.addUser(user2);
