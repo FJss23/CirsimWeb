@@ -3,9 +3,9 @@ package com.tfg.cirsim.api.entities;
 /**
  * 
  * @author francisco.riedemann
- * @date 03/06/2019
+ * @date 04/09/2019
  *
  */
-public enum Role {
-	ROLE_ADMIN, ROLE_TEACHER, ROLE_STUDENT
+public enum Status {
+	STATUS_ACTIVE, STATUS_INACTIVE
 }

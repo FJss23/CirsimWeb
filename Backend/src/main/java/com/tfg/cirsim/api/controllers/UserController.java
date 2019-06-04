@@ -5,9 +5,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.tfg.cirsim.api.controllers.dto.StatusUserOnly;
 import com.tfg.cirsim.api.entities.User;
 import com.tfg.cirsim.api.exception.ResourceNotFoundException;
 import com.tfg.cirsim.api.services.UserService;
@@ -44,7 +53,7 @@ public class UserController {
 		}
 		catch(ResourceNotFoundException exc) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, 
-					"User" + id + " not found", exc);
+					"User " + id + " not found", exc);
 		}
 	}
 	
@@ -59,7 +68,18 @@ public class UserController {
 			return userService.deleteUser(id);
 		} catch (ResourceNotFoundException exc) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, 
-					"User" + id + " not found", exc);
+					"User " + id + " not found", exc);
+		}
+	}
+	
+	@PatchMapping(value = "/user/{id}")
+	public User partialUpdateStatus(@RequestBody StatusUserOnly partialUpdate,
+			@PathVariable Long id) {
+		try {
+			return userService.partialUpdateStatus(partialUpdate, id);
+		} catch (ResourceNotFoundException exc) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, 
+					"User " + id + " not found", exc);
 		}
 	}
 }

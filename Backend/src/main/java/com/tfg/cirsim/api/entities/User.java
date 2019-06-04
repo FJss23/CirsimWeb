@@ -20,10 +20,10 @@ public class User {
 	@GeneratedValue
 	private Long id;
 	
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String password;
 	
-	@Column(nullable=false, unique=true)
+	@Column(nullable = false, unique = true)
 	private String username;
 	
 	private String name;
@@ -32,6 +32,9 @@ public class User {
 	
 	@Enumerated(EnumType.STRING)
 	private Role role;	
+	
+	@Enumerated(EnumType.STRING)
+	private Status status;
 
 	public User() { }
 	
@@ -42,6 +45,7 @@ public class User {
 		this.name = name;
 		this.surname = surname;
 		this.role = role;
+		this.status = Status.STATUS_ACTIVE;
 	}
 	
 	public User(Long id, String username, String password, String name,
@@ -53,6 +57,7 @@ public class User {
 		this.name = name;
 		this.surname = surname;
 		this.role = role;
+		this.status = Status.STATUS_ACTIVE;
 	}
 
 	public Long getId() {
@@ -103,11 +108,19 @@ public class User {
 		this.role = role;
 	}
 
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", password=" + password + 
 				", username=" + username + ", name=" + name + ", surname="
-				+ surname + ", role=" + role + "]";
+				+ surname + ", role=" + role + ", status=" + status + "]";
 	}
 	
 }
