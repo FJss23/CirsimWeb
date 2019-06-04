@@ -4,10 +4,11 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.boot.web.servlet.server.Session.Cookie;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -24,9 +25,11 @@ public class TokenService {
 	private final long VALID_TIME_TOKEN = 600 * 1000;
 	private final String AUTH_HEADER = "Authorization";
 	private final String AUTH_COOKIE = "AUTH-TOKEN";
+	private final String TOKEN_PREFIX = "Bearer ";
 	
 	/**
 	 * Generates a JWT with username, creation time and expiration time
+	 * sign with HS256
 	 * @param auth with username and password
 	 * @return String JWT serialize
 	 */
@@ -34,34 +37,60 @@ public class TokenService {
 		return Jwts.builder()
 				.setSubject(auth.getName())
 				.signWith(SignatureAlgorithm.HS256, SIGN_KEY)
-				.setIssuedAt(obtainCurrentTime())
-				.setExpiration(obtainExpirationTime())
+				.setIssuedAt(calculateCurrentTime())
+				.setExpiration(calculateExpirationTime())
 				.compact();
 	}
 	
-	public String getToken(HttpServletRequest request) {
-		Cookie authCookie = getValueFromCooke(request, AUTH_COOKIE);
-		//TODO: complete bussines logic
-		return null;
-	}
-
 	/**
-	 * Multiple cookies can be managed
-	 * This function obtain the correct one with the token
+	 * Obtain the token from the client's request,
+	 * search the header using the Bearer schema
+	 * Authorization pattern: Bearer <token>
 	 * @param request from the client
-	 * @param authCookie which we are looking for
-	 * @return Correct cookie with token
+	 * @return String token found
 	 */
-	private Cookie getValueFromCooke(HttpServletRequest request, String authCookie) {
-		//TODO: complete bussines logic
+	public String getToken(HttpServletRequest request) {
+		String authHeader = request.getHeader(AUTH_HEADER);
+		if(authHeader != null && authHeader.startsWith(TOKEN_PREFIX))
+			return authHeader.substring(7);
+		
 		return null;
 	}
 	
-	private Date obtainExpirationTime() {
+	public String getUserNameFromToken(String token) {
+		return getClaimsFromToken(token).getSubject();
+	}
+	
+	/**
+	 * Verify that the username is correct and that the token 
+	 * has not expired
+	 * @param token from request
+	 * @param userDetails with the credentials of the user
+	 * @return true if the token in valid, false otherwise
+	 */
+	public boolean validateToken(String token, UserDetails userDetails) {
+		String username = getUserNameFromToken(token);
+		return (username.equals(userDetails.getUsername())
+				&& !expiredToken(token));
+	}
+	
+	private boolean expiredToken(String token) {
+		Date expiration = getClaimsFromToken(token).getExpiration();
+		return expiration.before(new Date());
+	}
+	
+	private Claims getClaimsFromToken(String token) {
+		return Jwts.parser()
+				.setSigningKey(SIGN_KEY)
+				.parseClaimsJws(token)
+				.getBody();
+	}
+
+	private Date calculateExpirationTime() {
 		return new Date(System.currentTimeMillis() + VALID_TIME_TOKEN);
 	}
 
-	private Date obtainCurrentTime() {
+	private Date calculateCurrentTime() {
 		return new Date(System.currentTimeMillis());
 	}
 
@@ -80,4 +109,9 @@ public class TokenService {
 	public String getAuthCookie() {
 		return AUTH_COOKIE;
 	}
+
+	public String getTokenPrefix() {
+		return TOKEN_PREFIX;
+	}
+
 }

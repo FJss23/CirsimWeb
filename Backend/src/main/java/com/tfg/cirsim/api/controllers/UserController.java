@@ -21,7 +21,6 @@ import com.tfg.cirsim.api.entities.User;
 import com.tfg.cirsim.api.exception.ResourceNotFoundException;
 import com.tfg.cirsim.api.services.UserService;
 
-
 /**
  * 
  * @author Francisco.Riedemann
