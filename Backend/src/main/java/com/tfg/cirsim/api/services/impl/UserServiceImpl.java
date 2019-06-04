@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tfg.cirsim.api.controllers.dto.StatusUserOnly;
+import com.tfg.cirsim.api.controllers.dto.StatusUserOnlyDto;
 import com.tfg.cirsim.api.entities.User;
 import com.tfg.cirsim.api.exception.ResourceNotFoundException;
 import com.tfg.cirsim.api.repository.UserRepository;
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User partialUpdateStatus(StatusUserOnly partialUpdate, Long id) 
+	public User partialUpdateStatus(StatusUserOnlyDto partialUpdate, Long id) 
 			throws ResourceNotFoundException {
 		User updatedUser = findUserWithException(id);
 		updatedUser.setStatus(partialUpdate.getStatus());

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.tfg.cirsim.api.controllers.dto.StatusUserOnly;
+import com.tfg.cirsim.api.controllers.dto.StatusUserOnlyDto;
 import com.tfg.cirsim.api.entities.User;
 import com.tfg.cirsim.api.exception.ResourceNotFoundException;
 import com.tfg.cirsim.api.services.UserService;
@@ -73,7 +73,7 @@ public class UserController {
 	}
 	
 	@PatchMapping(value = "/user/{id}")
-	public User partialUpdateStatus(@RequestBody StatusUserOnly partialUpdate,
+	public User partialUpdateStatus(@RequestBody StatusUserOnlyDto partialUpdate,
 			@PathVariable Long id) {
 		try {
 			return userService.partialUpdateStatus(partialUpdate, id);

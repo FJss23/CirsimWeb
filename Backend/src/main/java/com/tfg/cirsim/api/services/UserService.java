@@ -2,7 +2,7 @@ package com.tfg.cirsim.api.services;
 
 import java.util.List;
 
-import com.tfg.cirsim.api.controllers.dto.StatusUserOnly;
+import com.tfg.cirsim.api.controllers.dto.StatusUserOnlyDto;
 import com.tfg.cirsim.api.entities.User;
 import com.tfg.cirsim.api.exception.ResourceNotFoundException;
 
@@ -24,7 +24,7 @@ public interface UserService {
 
 	User addUser(User user);
 
-	User partialUpdateStatus(StatusUserOnly partialUpdate, Long id) 
+	User partialUpdateStatus(StatusUserOnlyDto partialUpdate, Long id) 
 			throws ResourceNotFoundException;
 
 }

@@ -2,12 +2,18 @@ package com.tfg.cirsim.api.controllers.dto;
 
 import com.tfg.cirsim.api.entities.Status;
 
-public class StatusUserOnly {
+/**
+ * 
+ * @author francisco.riedemann
+ * @date 04/06/2019
+ * 
+ */
+public class StatusUserOnlyDto {
 	
 	private Long id;
 	private Status status;
 	
-	public StatusUserOnly() { }
+	public StatusUserOnlyDto() { }
 
 	public Long getId() {
 		return id;
