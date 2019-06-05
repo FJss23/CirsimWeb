@@ -14,4 +14,6 @@ import com.tfg.cirsim.api.entities.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
 
+	User findByUsername(String username);
+
 }

@@ -26,10 +26,13 @@ import com.tfg.cirsim.api.entities.User;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	
 	@Autowired
+	private TokenComponent tokenComponent;
+	
 	private AuthenticationManager authenticationManager;
 	
-	@Autowired
-	private TokenComponent tokenComponent;
+	public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+		this.authenticationManager = authenticationManager;
+	}
 	
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request,
@@ -58,6 +61,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			HttpServletResponse response, FilterChain chain, Authentication authResult)
 			throws IOException, ServletException {
 		
-		String tok;
+		String token = tokenComponent.generateToken(authResult);
+		
+		response.addHeader(tokenComponent.getAuthHeader(), 
+				tokenComponent.getTokenPrefix() + token);
 	}
 }
