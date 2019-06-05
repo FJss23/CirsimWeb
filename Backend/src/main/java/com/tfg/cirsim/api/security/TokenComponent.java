@@ -1,4 +1,4 @@
-package com.tfg.cirsim.api.config;
+package com.tfg.cirsim.api.security;
 
 import java.util.Date;
 
@@ -6,7 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+
+import com.tfg.cirsim.api.entities.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -18,8 +20,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
  * @date 04/06/2019
  *
  */
-@Service
-public class TokenService {
+@Component
+public class TokenComponent {
 	
 	private final String SIGN_KEY = "cirsim265";
 	private final long VALID_TIME_TOKEN = 600 * 1000;
@@ -35,7 +37,7 @@ public class TokenService {
 	 */
 	public String generateToken(Authentication auth) {
 		return Jwts.builder()
-				.setSubject(auth.getName())
+				.setSubject(((User)auth.getPrincipal()).getUsername())
 				.signWith(SignatureAlgorithm.HS256, SIGN_KEY)
 				.setIssuedAt(calculateCurrentTime())
 				.setExpiration(calculateExpirationTime())

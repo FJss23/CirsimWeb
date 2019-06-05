@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.tfg.cirsim.api.controllers.dto.StatusUserOnlyDto;
@@ -22,7 +23,10 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	UserRepository userRepository;
-
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 	@Override
 	public List<User> getUsers() {
 		List<User> users = new ArrayList<User>();
@@ -61,6 +65,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User addUser(User user) {
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		return userRepository.save(user);
 	}
 	

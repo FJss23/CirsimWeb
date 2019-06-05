@@ -1,4 +1,4 @@
-package com.tfg.cirsim.api.config;
+package com.tfg.cirsim.api.security;
 
 import java.io.IOException;
 
@@ -21,13 +21,13 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * @date 04/06/2019
  * 
  */
-public class JwtAuthFilter extends OncePerRequestFilter{
+public class JwtAuthorizationFilter extends OncePerRequestFilter{
 	
 	@Autowired
     private UserDetailsService userDetailsService;
 	
 	@Autowired
-	private TokenService tokenService;
+	private TokenComponent tokenService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, 
