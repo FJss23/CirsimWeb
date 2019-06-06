@@ -13,6 +13,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import com.tfg.cirsim.api.security.utility.TokenUtil;
+import com.tfg.cirsim.api.services.utility.UserDetailsServiceImpl;
+
 /**
  * 
  * @author francisco.riedemann
@@ -20,9 +23,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
  * 
  */
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
-	
-	@Autowired
-	private TokenComponent tokenComponent;
 	
 	public JwtAuthorizationFilter(AuthenticationManager authenticationManager) {
 		super(authenticationManager);
@@ -33,18 +33,17 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 			HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
-		String auth1 = tokenComponent.getAuthHeader();
-		System.out.println(auth1);
+		String header = request.getHeader(SecurityConstants.AUTH_HEADER);
 		
-		String header = request.getHeader(auth1);
-		
-		if(header == null || !header.startsWith(tokenComponent.getTokenPrefix())) {
+		if(header == null || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 		
 		UsernamePasswordAuthenticationToken auth = getAuthentication(request);
+		
 		SecurityContextHolder.getContext().setAuthentication(auth);
+		filterChain.doFilter(request, response);
 	}
 
 	/**
@@ -58,12 +57,12 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 	private UsernamePasswordAuthenticationToken getAuthentication(
 			HttpServletRequest request) {
 		
-		String token = tokenComponent.getToken(request);
+		String token = TokenUtil.getToken(request);
 		
 		if(token == null)
 			return null;
 		
-		String username = tokenComponent.getUserNameFromToken(token);
+		String username = TokenUtil.getUserNameFromToken(token);
 		
 		return (username == null) ? 
 				null: new UsernamePasswordAuthenticationToken(username, null);
