@@ -1,6 +1,7 @@
 package com.tfg.cirsim.api.security;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -42,7 +43,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			
 			UsernamePasswordAuthenticationToken userTk = 
 					new UsernamePasswordAuthenticationToken(credentials.getUsername(), 
-							credentials.getPassword());
+							credentials.getPassword(),new ArrayList<>());
 			
 			return authenticationManager.authenticate(userTk);
 

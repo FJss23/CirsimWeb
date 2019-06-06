@@ -17,7 +17,7 @@ import com.tfg.cirsim.api.repository.UserRepository;
  * @date 06/06/2019
  *
  */
-@Service("userDetailsService")
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	@Autowired
