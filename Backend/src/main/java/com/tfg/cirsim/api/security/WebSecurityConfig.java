@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -28,6 +29,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
     UserDetailsServiceImpl userDetailsService;
+	
+	@Autowired
+	private LogoutSuccess logoutSuccess;
 	
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -62,7 +66,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
          .addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), JwtAuthenticationFilter.class)
          .addFilterBefore(new JwtAuthorizationFilter(authenticationManager()), JwtAuthorizationFilter.class)
          .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-         .and().logout().permitAll();
+         .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+         .logoutSuccessHandler(logoutSuccess);
 	}
 
 }

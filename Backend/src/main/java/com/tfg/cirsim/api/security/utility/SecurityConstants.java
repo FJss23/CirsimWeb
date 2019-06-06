@@ -1,5 +1,11 @@
-package com.tfg.cirsim.api.security;
+package com.tfg.cirsim.api.security.utility;
 
+/*
+ * 
+ * @author francisco riedemann
+ * @date 06/06/2019
+ *
+ */
 public final class SecurityConstants {
 
 	public static final String SIGN_KEY = "cirsim265";

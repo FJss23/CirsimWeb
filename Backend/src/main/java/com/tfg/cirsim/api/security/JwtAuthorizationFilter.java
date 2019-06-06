@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import com.tfg.cirsim.api.security.utility.SecurityConstants;
 import com.tfg.cirsim.api.security.utility.TokenUtil;
 
 /**

@@ -5,9 +5,6 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import com.tfg.cirsim.api.security.SecurityConstants;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -56,24 +53,6 @@ public class TokenUtil {
 	
 	public static String getUserNameFromToken(String token) {
 		return getClaimsFromToken(token).getSubject();
-	}
-	
-	/**
-	 * Verify that the username is correct and that the token 
-	 * has not expired
-	 * @param token from request
-	 * @param userDetails with the credentials of the user
-	 * @return true if the token in valid, false otherwise
-	 */
-	public static boolean validateToken(String token, UserDetails userDetails) {
-		String username = getUserNameFromToken(token);
-		return (username.equals(userDetails.getUsername())
-				&& !expiredToken(token));
-	}
-	
-	private static boolean expiredToken(String token) {
-		Date expiration = getClaimsFromToken(token).getExpiration();
-		return expiration.before(new Date());
 	}
 	
 	private static Claims getClaimsFromToken(String token) {

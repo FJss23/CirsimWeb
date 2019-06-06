@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tfg.cirsim.api.entities.User;
+import com.tfg.cirsim.api.security.utility.SecurityConstants;
 import com.tfg.cirsim.api.security.utility.TokenUtil;
 
 /**
