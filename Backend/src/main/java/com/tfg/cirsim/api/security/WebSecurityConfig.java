@@ -59,15 +59,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		 http.cors().and().csrf().disable().authorizeRequests()
-         .antMatchers(HttpMethod.POST, "/login").permitAll()
-         .anyRequest().authenticated()
-         .and()
-         .addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), JwtAuthenticationFilter.class)
-         .addFilterBefore(new JwtAuthorizationFilter(authenticationManager()), JwtAuthorizationFilter.class)
-         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-         .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-         .logoutSuccessHandler(logoutSuccess);
+		 http.cors().and().csrf().disable()
+		 	.authorizeRequests()
+			 	.anyRequest().authenticated()
+			 		.and()
+		 		.formLogin().loginPage("/login").permitAll()
+		 			.and()
+		    	.logout().permitAll()
+		 			.and()
+				.addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), JwtAuthenticationFilter.class)
+				.addFilterBefore(new JwtAuthorizationFilter(authenticationManager()), JwtAuthorizationFilter.class)
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 
 }

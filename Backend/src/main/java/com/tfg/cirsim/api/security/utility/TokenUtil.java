@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -30,7 +31,7 @@ public class TokenUtil {
 		return Jwts.builder()
 				.setSubject(((org.springframework.security.core.userdetails.User)auth.getPrincipal())
 						.getUsername())
-				.signWith(SignatureAlgorithm.HS256, SecurityConstants.SIGN_KEY)
+				.signWith(SignatureAlgorithm.HS256, SecurityConstants.SECRET)
 				.setIssuedAt(calculateCurrentTime())
 				.setExpiration(calculateExpirationTime())
 				.compact();
@@ -52,14 +53,19 @@ public class TokenUtil {
 	}
 	
 	public static String getUserNameFromToken(String token) {
-		return getClaimsFromToken(token).getSubject();
+		Claims claims = getClaimsFromToken(token);
+		return (claims == null) ? null : claims.getSubject();
 	}
 	
 	private static Claims getClaimsFromToken(String token) {
-		return Jwts.parser()
-				.setSigningKey(SecurityConstants.SIGN_KEY)
-				.parseClaimsJws(token)
-				.getBody();
+		try {
+			return Jwts.parser()
+					.setSigningKey(SecurityConstants.SECRET)
+					.parseClaimsJws(token)
+					.getBody();
+		} catch (ExpiredJwtException exp) {
+			return null;
+		}
 	}
 
 	private static Date calculateExpirationTime() {
@@ -68,6 +74,13 @@ public class TokenUtil {
 
 	private static Date calculateCurrentTime() {
 		return new Date(System.currentTimeMillis());
+	}
+
+	public static boolean isTokenExpired(HttpServletRequest request) {
+		Claims claims = getClaimsFromToken(getToken(request));
+		if(claims == null)
+			return false;
+		return (claims.getExpiration().before(new Date())) ? true : false;
 	}
 
 }

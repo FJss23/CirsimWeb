@@ -40,6 +40,11 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 			return;
 		}
 		
+		if(TokenUtil.isTokenExpired(request)) {
+			filterChain.doFilter(request, response);
+			return;
+		}
+		
 		UsernamePasswordAuthenticationToken auth = getAuthentication(request);
 		
 		SecurityContextHolder.getContext().setAuthentication(auth);
