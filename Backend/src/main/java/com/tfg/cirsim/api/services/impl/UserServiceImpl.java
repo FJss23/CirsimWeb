@@ -18,7 +18,7 @@ import com.tfg.cirsim.api.services.UserService;
  * @date 03/06/2019
  *
  */
-@Service(value = "userService")
+@Service
 public class UserServiceImpl implements UserService {
 	
 	@Autowired

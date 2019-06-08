@@ -1,8 +1,12 @@
-package com.tfg.cirsim.api.services.utility;
+package com.tfg.cirsim.api.security;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,7 +21,7 @@ import com.tfg.cirsim.api.repository.UserRepository;
  * @date 06/06/2019
  *
  */
-@Service
+@Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	@Autowired
@@ -29,8 +33,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if(user == null)
 			throw new UsernameNotFoundException(username);
 		
-		return new org.springframework.security.core.userdetails.User(
-				user.getUsername(), user.getPassword(), new ArrayList<>());
+		return buildSpringUser(user);
+	}
+
+	private UserDetails buildSpringUser(User user) {
+		return new org.springframework.security.core.userdetails
+				.User(user.getUsername(), user.getPassword(), getAuthorities(user));
+	}
+
+	private Collection<? extends GrantedAuthority> getAuthorities(User user) {
+		Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+		authorities.add(new SimpleGrantedAuthority(user.getRole().getText()));
+		return authorities;
 	}
 
 }

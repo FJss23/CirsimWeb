@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -35,16 +36,19 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
+	@PreAuthorize("hasRole('ROLE_TEACHER')")
 	@GetMapping(value = "/user")
 	public List<User> getUsers() {
 		return userService.getUsers();
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping(value = "/user")
 	public User postUser(@RequestBody User user) {
 		return userService.addUser(user);	
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(value= "/user/{id}")
 	public User getUser(@PathVariable Long id) {
 		try {
@@ -56,11 +60,13 @@ public class UserController {
 		}
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping(value = "/user/{id}")
 	public User putUser(@PathVariable Long id, @RequestBody User user) {
 		return userService.updateUser(id, user);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping(value = "/user/{id}")
 	public User deleteUser(@PathVariable Long id) {
 		try {
@@ -71,6 +77,7 @@ public class UserController {
 		}
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PatchMapping(value = "/user/{id}")
 	public User partialUpdateStatus(@RequestBody StatusUserOnlyDto partialUpdate,
 			@PathVariable Long id) {

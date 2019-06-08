@@ -1,10 +1,15 @@
 package com.tfg.cirsim.api.security.utility;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -31,8 +36,13 @@ public class TokenUtil {
 		String username = ((org.springframework.security.core.userdetails.User)auth.getPrincipal())
 				.getUsername();
 		
+		String authorities = auth.getAuthorities().stream()
+				.map(GrantedAuthority::getAuthority)
+				.collect(Collectors.joining(","));
+		
 		return Jwts.builder()
 				.setSubject(username)
+				.claim(SecurityConstants.AUTHORITIES_KEY, authorities)
 				.signWith(SignatureAlgorithm.HS256, SecurityConstants.SECRET)
 				.setIssuedAt(calculateCurrentTime())
 				.setExpiration(calculateExpirationTime())
@@ -68,6 +78,14 @@ public class TokenUtil {
 		} catch (JwtException | IllegalArgumentException e) {
 			return null;
 		}
+	}
+	
+	public static Collection<SimpleGrantedAuthority> getAuthorities(String token){
+		Claims claims = getClaimsFromToken(token);
+		
+		return Arrays.stream(claims.get(SecurityConstants.AUTHORITIES_KEY).toString().split(","))
+				.map(SimpleGrantedAuthority::new)
+				.collect(Collectors.toList());
 	}
 
 	private static Date calculateExpirationTime() {

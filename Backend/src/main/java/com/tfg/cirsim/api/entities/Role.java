@@ -7,5 +7,17 @@ package com.tfg.cirsim.api.entities;
  *
  */
 public enum Role {
-	ROLE_ADMIN, ROLE_TEACHER, ROLE_STUDENT
+	ADMIN("ROLE_ADMIN"), 
+	TEACHER("ROLE_TEACHER"),  
+	STUDENT("ROLE_STUDENT");
+	
+	private String text;
+	
+	Role(String text){
+		this.text = text;
+	}
+	
+	public String getText() {
+		return text;
+	}
 }
