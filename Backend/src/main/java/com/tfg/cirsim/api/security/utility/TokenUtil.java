@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -28,9 +28,11 @@ public class TokenUtil {
 	 * @return String JWT serialize
 	 */
 	public static String generateToken(Authentication auth) {
+		String username = ((org.springframework.security.core.userdetails.User)auth.getPrincipal())
+				.getUsername();
+		
 		return Jwts.builder()
-				.setSubject(((org.springframework.security.core.userdetails.User)auth.getPrincipal())
-						.getUsername())
+				.setSubject(username)
 				.signWith(SignatureAlgorithm.HS256, SecurityConstants.SECRET)
 				.setIssuedAt(calculateCurrentTime())
 				.setExpiration(calculateExpirationTime())
@@ -63,7 +65,7 @@ public class TokenUtil {
 					.setSigningKey(SecurityConstants.SECRET)
 					.parseClaimsJws(token)
 					.getBody();
-		} catch (ExpiredJwtException exp) {
+		} catch (JwtException | IllegalArgumentException e) {
 			return null;
 		}
 	}

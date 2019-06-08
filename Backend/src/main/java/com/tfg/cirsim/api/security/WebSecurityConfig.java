@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -28,10 +27,10 @@ import com.tfg.cirsim.api.services.utility.UserDetailsServiceImpl;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
-    UserDetailsServiceImpl userDetailsService;
+    public UserDetailsServiceImpl userDetailsService;
 	
 	@Autowired
-	private LogoutSuccess logoutSuccess;
+	public ApiAuthenticationEntryPoint authenticationEntryPoint;
 	
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -59,17 +58,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		 http.cors().and().csrf().disable()
-		 	.authorizeRequests()
-			 	.anyRequest().authenticated()
-			 		.and()
-		 		.formLogin().loginPage("/login").permitAll()
-		 			.and()
-		    	.logout().permitAll()
-		 			.and()
-				.addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), JwtAuthenticationFilter.class)
-				.addFilterBefore(new JwtAuthorizationFilter(authenticationManager()), JwtAuthorizationFilter.class)
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		 http.cors().and().csrf().disable().authorizeRequests()
+         .antMatchers(HttpMethod.POST, "/login").permitAll()
+         .anyRequest().authenticated()
+         .and()
+         .addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), JwtAuthenticationFilter.class)
+         .addFilterBefore(new JwtAuthorizationFilter(authenticationManager()), JwtAuthorizationFilter.class)
+         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+         .and()  
+         .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
 	}
 
 }
