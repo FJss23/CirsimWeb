@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }      from '@angular/router';
 import { AuthService } from '../auth.service';
+import { User } from 'src/app/model/user';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -9,25 +11,23 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  message: string;
   username: string;
   password: string;
+  form: FormGroup;
 
   constructor(
     public authService: AuthService,
-    public router: Router) {
+    public router: Router,
+    public formBuilder: FormBuilder) { }
 
-      this.setMessage();
-     }
-
-  ngOnInit() { }
-
-  setMessage(): void {
-    this.message = 'Logged ' + (this.authService.isLoggedIn ? 'in' : 'out');
+  ngOnInit() { 
+    this.form = this.formBuilder.group({
+      username: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(20)])],
+      password: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(20)])]
+    });
   }
 
-  login(): any {
-    this.message = 'Trying to log in...';
-    this.authService.login("123","123")
+  login(): void {
+    this.authService.login(this.form.value);
   }
 }

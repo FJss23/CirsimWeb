@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
-import { RequestMethod } from '../model/requestMethod';
+import { RequestMethod } from '../model/HTTPMethod';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators'
 
@@ -9,29 +9,30 @@ import { catchError, map, tap } from 'rxjs/operators'
 })
 export class CommunicationService {
 
+  defaultHeader: HttpHeaders = new HttpHeaders({
+    'Accept': 'application/json',
+    'Content-type': 'application/json'
+  });  
+
   constructor(
     private http: HttpClient
   ) { }
 
-  get(path: string, args?: any): Observable<any> {
-    const options = {
-      header: this.getHeader(),
-      withCredentials: true
-    }
-
-    return this.http.get(path)
-      .pipe(catchError(this.handleError('get method', [])));
-  }
-
-  post(path: string, ):  Observable<any>{
+  /**
+   * GET method that gets information from the API
+   * @param path - with the call url
+   */
+  get(url: string): Observable<any> {
     return null;
   }
 
-  getHeader(): HttpHeaders {
-    return new HttpHeaders({
-      'Accept': 'application/json',
-      'Content-type': 'application/json'
-    });  
+  /**
+   * POST method that creates a new resource in the API
+   * @param path - with the call url
+   * @param body - with the proper information
+   */
+  post(url: string, body: any):  Observable<any>{
+    return null;
   }
 
     /**
@@ -42,7 +43,7 @@ export class CommunicationService {
    */
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(error); 
+      console.log('error'); 
       return of(result as T);
     };
   }

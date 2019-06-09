@@ -17,10 +17,7 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
       
-    console.log('AuthGuard#canActivate called');
-    let url: string = state.url;
-    
-    return this.checkLogin(url);
+      return this.canActivate(next, state);
   }
 
   canActiveChild(
@@ -28,17 +25,5 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot): boolean {
     
     return this.canActivate(next, state);
-
-  }
-
-  checkLogin(url: string): boolean {
-    if(this.authService.isLoggedIn){
-      return true;
-    }
-    // save the attempted url for diredirecting later
-    this.authService.redirectUrlAfterLogin = url;
-    // navigate to the login page
-    this.router.navigate(['/login']);
-    return false;
   }
 }
