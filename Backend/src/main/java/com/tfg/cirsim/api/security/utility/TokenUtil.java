@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,8 +24,18 @@ import io.jsonwebtoken.SignatureAlgorithm;
  *
  */
 
-public class TokenUtil {
+public class TokenUtil {	
 	
+	private static TokenUtil instance = new TokenUtil();
+	 
+	private TokenUtil() { }
+	 
+	public static TokenUtil getInstance( ) {
+		if (instance == null) {
+	        instance = new TokenUtil();
+	    }
+	    return instance;
+    }
 	
 	/**
 	 * Generates a JWT with username, creation time and expiration time
@@ -32,7 +43,7 @@ public class TokenUtil {
 	 * @param auth with username and password
 	 * @return String JWT serialize
 	 */
-	public static String generateToken(Authentication auth) {
+	public String generateToken(Authentication auth) {
 		String username = ((org.springframework.security.core.userdetails.User)auth.getPrincipal())
 				.getUsername();
 		
@@ -40,13 +51,18 @@ public class TokenUtil {
 				.map(GrantedAuthority::getAuthority)
 				.collect(Collectors.joining(","));
 		
-		return Jwts.builder()
-				.setSubject(username)
-				.claim(SecurityConstants.AUTHORITIES_KEY, authorities)
-				.signWith(SignatureAlgorithm.HS256, SecurityConstants.SECRET)
-				.setIssuedAt(calculateCurrentTime())
-				.setExpiration(calculateExpirationTime())
-				.compact();
+		try {
+			return Jwts.builder()
+					.setSubject(username)
+					.claim(GlobalProperties.AUTHORITIES_KEY, authorities)
+					.signWith(SignatureAlgorithm.HS256, GlobalProperties.SECRET)
+					.setIssuedAt(calculateCurrentTime())
+					.setExpiration(calculateExpirationTime())
+					.compact();
+		} catch(JwtException | IllegalArgumentException e) {
+			//TODO: add log
+		}
+		return null;
 	}
 	
 	/**
@@ -56,51 +72,90 @@ public class TokenUtil {
 	 * @param request from the client
 	 * @return String token found
 	 */
-	public static String getToken(HttpServletRequest request) {
-		String authHeader = request.getHeader(SecurityConstants.AUTH_HEADER);
-		if(authHeader != null && authHeader.startsWith(SecurityConstants.TOKEN_PREFIX))
+	public String getToken(HttpServletRequest request) {
+		String authHeader = request.getHeader(GlobalProperties.AUTH_HEADER);
+		if(authHeader != null && authHeader.startsWith(GlobalProperties.TOKEN_PREFIX))
 			return authHeader.substring(7);
 		
 		return null;
 	}
 	
-	public static String getUserNameFromToken(String token) {
-		Claims claims = getClaimsFromToken(token);
-		return (claims == null) ? null : claims.getSubject();
-	}
-	
-	private static Claims getClaimsFromToken(String token) {
+	/**
+	 * Obain the claims for the token received
+	 * @param token received
+	 * @return Claims for the token
+	 */
+	private Claims getClaimsFromToken(String token) {
 		try {
 			return Jwts.parser()
-					.setSigningKey(SecurityConstants.SECRET)
+					.setSigningKey(GlobalProperties.SECRET)
 					.parseClaimsJws(token)
 					.getBody();
 		} catch (JwtException | IllegalArgumentException e) {
-			return null;
+			//TODO: add log
 		}
+		return null;
 	}
 	
-	public static Collection<SimpleGrantedAuthority> getAuthorities(String token){
+	/**
+	 * Get the collection of authorities that the token has for the user
+	 * @param token String
+	 * @return a collection of authorities contained in the token
+	 */
+	public Collection<SimpleGrantedAuthority> getAuthorities(String token){
 		Claims claims = getClaimsFromToken(token);
 		
-		return Arrays.stream(claims.get(SecurityConstants.AUTHORITIES_KEY).toString().split(","))
+		return Arrays.stream(claims.get(GlobalProperties.AUTHORITIES_KEY).toString().split(","))
 				.map(SimpleGrantedAuthority::new)
 				.collect(Collectors.toList());
 	}
-
-	private static Date calculateExpirationTime() {
-		return new Date(System.currentTimeMillis() + SecurityConstants.VALID_TIME_TOKEN);
+	
+	/**
+	 * Verify that the request header has a correct Authentication parameter
+	 * @param request send
+	 * @return true if it is valid, otherwise false
+	 */
+	public boolean isValidHeaderTokenAuth(HttpServletRequest request) {
+		String header = request.getHeader(GlobalProperties.AUTH_HEADER);
+		
+		if(header == null || !header.startsWith(GlobalProperties.TOKEN_PREFIX))
+			return false;
+		return true;
 	}
 
-	private static Date calculateCurrentTime() {
+	/**
+	 * Add to the header of the request the corresponding parameter with the token
+	 * @param response HttpServletResponse
+	 * @param token String
+	 * @return the response with the full autentication parameter
+	 */
+	public HttpServletResponse completeHeaderWithToken(HttpServletResponse response,
+			String token) {
+		
+		response.addHeader(GlobalProperties.AUTH_HEADER, 
+				GlobalProperties.TOKEN_PREFIX + token);
+		
+		return response;
+	}
+	
+	private Date calculateExpirationTime() {
+		return new Date(System.currentTimeMillis() + GlobalProperties.VALID_TIME_TOKEN);
+	}
+
+	private Date calculateCurrentTime() {
 		return new Date(System.currentTimeMillis());
 	}
 
-	public static boolean isTokenExpired(HttpServletRequest request) {
+	public boolean isTokenExpired(HttpServletRequest request) {
 		Claims claims = getClaimsFromToken(getToken(request));
 		if(claims == null)
 			return false;
 		return (claims.getExpiration().before(new Date())) ? true : false;
+	}
+	
+	public String getUserNameFromToken(String token) {
+		Claims claims = getClaimsFromToken(token);
+		return (claims == null) ? null : claims.getSubject();
 	}
 
 }

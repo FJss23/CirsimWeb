@@ -16,7 +16,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.tfg.cirsim.api.security.utility.SecurityConstants;
 import com.tfg.cirsim.api.security.utility.TokenUtil;
 
 /**
@@ -24,14 +23,17 @@ import com.tfg.cirsim.api.security.utility.TokenUtil;
  * @author francisco.riedemann
  * @date 04/06/2019
  * 
+ * Special case, UserDetailsService with the tag @Autowired can not be injected
  */
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 	
 	private UserDetailsServiceImpl userDetailsService;
+	private TokenUtil tokenUtil;
 	
 	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, ApplicationContext ctx) {
 		super(authenticationManager);
 	    this.userDetailsService = ctx.getBean(UserDetailsServiceImpl.class);
+		tokenUtil = TokenUtil.getInstance();
 	}
 	
 	@Override
@@ -39,14 +41,12 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 			HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
-		String header = request.getHeader(SecurityConstants.AUTH_HEADER);
-		
-		if(header == null || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
+		if(!tokenUtil.isValidHeaderTokenAuth(request)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 		
-		if(TokenUtil.isTokenExpired(request)) {
+		if(tokenUtil.isTokenExpired(request)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
@@ -68,16 +68,16 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 	private UsernamePasswordAuthenticationToken getAuthentication(
 			HttpServletRequest request) {
 		
-		String token = TokenUtil.getToken(request);
+		String token = tokenUtil.getToken(request);
 		if(token == null)
 			return null;
 		
-		String username = TokenUtil.getUserNameFromToken(token);
+		String username = tokenUtil.getUserNameFromToken(token);
 		if(username == null)
 			return null;
 		
 		UserDetails user = userDetailsService.loadUserByUsername(username);
-		Collection<SimpleGrantedAuthority> authorities = TokenUtil.getAuthorities(token);
+		Collection<SimpleGrantedAuthority> authorities = tokenUtil.getAuthorities(token);
 		
 		return  new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), authorities);
 	}

@@ -16,7 +16,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tfg.cirsim.api.entities.User;
-import com.tfg.cirsim.api.security.utility.SecurityConstants;
 import com.tfg.cirsim.api.security.utility.TokenUtil;
 
 /**
@@ -28,9 +27,11 @@ import com.tfg.cirsim.api.security.utility.TokenUtil;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 		
 	private AuthenticationManager authenticationManager;
+	private TokenUtil tokenUtil;
 	
 	public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
 		this.authenticationManager = authenticationManager;
+		tokenUtil = TokenUtil.getInstance();
 	}
 	
 	@Override
@@ -42,11 +43,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			User credentials = new ObjectMapper()
 			        .readValue(request.getInputStream(), User.class);
 			
-			UsernamePasswordAuthenticationToken userTk = 
+			UsernamePasswordAuthenticationToken userToken = 
 					new UsernamePasswordAuthenticationToken(credentials.getUsername(), 
 							credentials.getPassword(),new ArrayList<>());
 			
-			return authenticationManager.authenticate(userTk);
+			//TODO: add log
+			
+			return authenticationManager.authenticate(userToken);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -60,9 +63,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			HttpServletResponse response, FilterChain chain, Authentication authResult)
 			throws IOException, ServletException {
 		
-		String token = TokenUtil.generateToken(authResult);
+		String token = tokenUtil.generateToken(authResult);
 		
-		response.addHeader(SecurityConstants.AUTH_HEADER, 
-				SecurityConstants.TOKEN_PREFIX + token);
+		if (token == null)
+			return;
+		
+		//TODO: add log
+		
+		response = tokenUtil.completeHeaderWithToken(response, token);
 	}
 }
