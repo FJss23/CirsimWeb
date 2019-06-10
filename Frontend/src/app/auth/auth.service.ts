@@ -20,4 +20,12 @@ export class AuthService {
     });
     return null;
   }
+
+  getCurrentUser(): User {
+    return null;
+  }
+
+  logout(): void {
+    throw new Error("Method not implemented.");
+  }
 }
