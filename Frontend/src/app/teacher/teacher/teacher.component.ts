@@ -15,7 +15,7 @@ export class TeacherComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.authService.getUser().subscribe(x => this.currentUser = x);
+
   }
 
   logout() {

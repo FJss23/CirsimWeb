@@ -4,5 +4,15 @@ export class User {
     password: string;
     name: string;
     lastName: string;
-    token?: string;
+    token: string;
+
+    constructor(username: string, password: string, role: string, 
+        token: string){
+            
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.token = token;
+
+    }
 }

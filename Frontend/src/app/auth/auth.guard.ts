@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
 
-      let currentUser = this.authService.getCurrentUser();
+      let currentUser = this.authService.getAuthenticatedUser();
       let withoutRole = -1;
       if(currentUser){
         if(next.data.roles && next.data.roles.indexOf(currentUser.role) == withoutRole){

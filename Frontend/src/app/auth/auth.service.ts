@@ -12,8 +12,8 @@ import * as jwt_decode from 'jwt-decode';
   providedIn: 'root'
 })
 export class AuthService {
-  private currentUserSubject: BehaviorSubject<User>;
-  private currentUser: Observable<User>;
+  private authenticatedUser: User;
+
   private httpOptions: { headers; observe; }  = {
     headers: new HttpHeaders({ 'Accept': 'application/json',
     'Content-Type': 'application/json'
@@ -24,9 +24,6 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router){ 
-
-      this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('token')));
-      this.currentUser = this.currentUserSubject.asObservable();
   }
 
   login(username: string, password: string): Observable<any> {
@@ -36,29 +33,24 @@ export class AuthService {
     return this.http.post<any>(environment.login, body, this.httpOptions)
       .pipe(tap((res: HttpResponse<any>) => {
         let tokenBearer = res.headers.get(`Authorization`);
-        let token = tokenBearer.replace('Bearer ', 'S');
+        let token = tokenBearer.replace('Bearer ', '');
         console.log(`Response ${token}`);
         let decodeToken = jwt_decode(token);
-        console.log(`Decode token ${decodeToken.sub}`);
-       /* if(loginUser && loginUser.token){
-          localStorage.setItem('user', JSON.stringify(loginUser));
-          this.currentUserSubject.next(loginUser);
-        }*/
+        console.log(`Decode token ${decodeToken.sub} and ${decodeToken.scope}`);
+        if(decodeToken.sub == username) {
+          sessionStorage.setItem('token', token);
+          this.authenticatedUser = new User(username, password, decodeToken.scope, token);
+        }
       }));
   }
 
   logout(): void {
-    localStorage.removeItem('token');
-    this.currentUserSubject.next(null);
+    sessionStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
 
-  getCurrentUser(): User {
-    return this.currentUserSubject.getValue();
-  }
-
-  getUser(): Observable<User> {
-    return this.currentUser;
+  getAuthenticatedUser(): User {
+    return this.authenticatedUser;
   }
 
   private handleError<T> (operation = 'operation', result?: T) {
