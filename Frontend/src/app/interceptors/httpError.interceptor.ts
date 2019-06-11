@@ -14,13 +14,12 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, 
         next: HttpHandler): Observable<HttpEvent<any>> {
-
         return next.handle(req).pipe(catchError(err => {
             if([401,403].indexOf(err.status) !== -1){
-                this.authService.logout();
-                location.reload(true);
+                //this.authService.logout();
+                //location.reload(true);
             }
-            
+            console.log(`Error receive from API response`);
             return throwError(err.error.message || err.statusText);
         }));
     }

@@ -48,7 +48,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 							credentials.getPassword(),new ArrayList<>());
 			
 			//TODO: add log
-			
+			System.out.println("Access attempt " + credentials.getUsername() + " " + 
+					credentials.getPassword());
 			return authenticationManager.authenticate(userToken);
 
 		} catch (IOException e) {
@@ -70,6 +71,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		
 		//TODO: add log
 		
+		System.out.println("Attemp success");
 		response = tokenUtil.completeHeaderWithToken(response, token);
 	}
 }

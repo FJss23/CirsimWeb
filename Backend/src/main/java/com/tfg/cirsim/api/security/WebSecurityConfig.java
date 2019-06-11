@@ -47,11 +47,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 	    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	    source.registerCorsConfiguration("/**", new CorsConfiguration()
+	    CorsConfiguration config = new CorsConfiguration();
+	    config.setAllowCredentials(true);
+	    config.addAllowedOrigin("*");
+	    config.addAllowedHeader("Access-Control-Expose-Headers");
+	    config.addAllowedHeader("X-Requested-With");
+	    config.addAllowedHeader("Authorization");
+	    config.addAllowedHeader("Content-Type");
+	    config.addAllowedHeader("If-None-Match");
+	    config.addAllowedHeader("Access-Control-Allow-Headers");
+	    
+	    config.addExposedHeader("Access-Control-Allow-Origin");
+	    config.addExposedHeader("Access-Control-Allow-Headers");
+	    config.addExposedHeader("Authorization");
+	    config.addAllowedMethod("GET");
+	    config.addAllowedMethod("POST");
+	    config.addAllowedMethod("PUT");
+	    config.addAllowedMethod("DELETE");
+	    config.addAllowedMethod("OPTIONS");
+	    config.addAllowedMethod("HEAD");
+	    
+	    source.registerCorsConfiguration("/**", config
 	    		.applyPermitDefaultValues());
 	    return source;
 	}
 	
+    
 	@Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());

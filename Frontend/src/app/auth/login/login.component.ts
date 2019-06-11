@@ -3,6 +3,7 @@ import { Router }      from '@angular/router';
 import { AuthService } from '../auth.service';
 import { User } from 'src/app/model/user';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { first } from 'rxjs/operators';
 
 
 @Component({
@@ -13,21 +14,19 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class LoginComponent implements OnInit {
   username: string;
   password: string;
-  form: FormGroup;
 
   constructor(
     public authService: AuthService,
-    public router: Router,
-    public formBuilder: FormBuilder) { }
+    public router: Router) { }
 
   ngOnInit() { 
-    this.form = this.formBuilder.group({
-      username: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(20)])],
-      password: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(20)])]
-    });
+
   }
 
   login(): void {
-    this.authService.login(this.form.value);
+    this.authService.login(this.username, this.password)
+      .subscribe(_ => {
+        this.router.navigate(['/teacher/home']);
+      });
   }
 }

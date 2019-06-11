@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  login: 'http://localhost:8081/login'
+  login: 'http://localhost:8081/login',
+  allUsers: 'http://localhost:8081/api/cirsim/user'
 };
 
 /*

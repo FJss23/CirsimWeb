@@ -38,7 +38,8 @@ public class TokenUtil {
     }
 	
 	/**
-	 * Generates a JWT with username, creation time and expiration time
+	 * Generates a JWT with username, creation time and expiration time, 
+	 * authorities, name and surname
 	 * sign with HS256
 	 * @param auth with username and password
 	 * @return String JWT serialize
