@@ -25,8 +25,11 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     this.authService.login(this.username, this.password)
-      .subscribe(_ => {
+      .subscribe(data => {
         this.router.navigate(['/teacher/home']);
+      },
+      error => {
+        console.log('ONLY TEACHER USERs');
       });
   }
 }

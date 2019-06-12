@@ -12,18 +12,23 @@ import * as jwt_decode from 'jwt-decode';
   providedIn: 'root'
 })
 export class AuthService {
+  public isLoggedIn: boolean;
+  public redirectUrl: string;
   private authenticatedUser: User;
-
-  private httpOptions: { headers; observe; }  = {
-    headers: new HttpHeaders({ 'Accept': 'application/json',
-    'Content-Type': 'application/json'
-   }),
-    observe: 'response'
-  };
+  private httpOptions: { headers; observe; };
 
   constructor(
     private http: HttpClient,
     private router: Router){ 
+
+    this.httpOptions = {
+      headers: new HttpHeaders({ 'Accept': 'application/json',
+       'Content-Type': 'application/json'
+      }),
+      observe: 'response'
+    };
+
+    this.isLoggedIn = false;
   }
 
   login(username: string, password: string): Observable<any> {
@@ -40,12 +45,15 @@ export class AuthService {
         if(decodeToken.sub == username) {
           sessionStorage.setItem('token', token);
           this.authenticatedUser = new User(username, password, decodeToken.scope, token);
+          this.isLoggedIn = true;
         }
       }));
   }
 
   logout(): void {
     sessionStorage.removeItem('token');
+    this.isLoggedIn = false;
+    this.authenticatedUser = null;
     this.router.navigate(['/login']);
   }
 
