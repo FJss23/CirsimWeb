@@ -5,7 +5,6 @@ import { User } from '../model/user';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-
 import * as jwt_decode from 'jwt-decode';
 
 @Injectable({
@@ -13,7 +12,6 @@ import * as jwt_decode from 'jwt-decode';
 })
 export class AuthService {
   public isLoggedIn: boolean;
-  public redirectUrl: string;
   private authenticatedUser: User;
   private httpOptions: { headers; observe; };
 
@@ -39,9 +37,7 @@ export class AuthService {
       .pipe(tap((res: HttpResponse<any>) => {
         let tokenBearer = res.headers.get(`Authorization`);
         let token = tokenBearer.replace('Bearer ', '');
-        console.log(`Response ${token}`);
         let decodeToken = jwt_decode(token);
-        console.log(`Decode token ${decodeToken.sub} and ${decodeToken.scope}`);
         if(decodeToken.sub == username) {
           sessionStorage.setItem('token', token);
           this.authenticatedUser = new User(username, password, decodeToken.scope, token);

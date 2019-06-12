@@ -11,7 +11,7 @@ const routes: Routes = [
     canActivate: [TeacherGuard],
     children: [
       {
-        path: 'home', 
+        path: '', 
         component: TeacherHomeComponent 
       }
     ]

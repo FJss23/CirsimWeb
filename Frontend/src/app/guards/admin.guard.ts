@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, CanActivate, Router } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { Role } from '../model/role';
@@ -25,7 +25,6 @@ export class AdminGuard implements CanActivate {
       }
       return false;
     }
-    this.authService.redirectUrl = state.url;
     this.router.navigate(['/login']);
     return false;
   }

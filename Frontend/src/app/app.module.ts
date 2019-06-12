@@ -10,7 +10,8 @@ import { HttpErrorInterceptor } from './interceptors/error.interceptor';
 import { AppComponent } from './app.component';
 import { AdminModule } from './admin/admin.module';
 import { StudentModule } from './student/student.module';
-
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,13 @@ import { StudentModule } from './student/student.module';
     SharedModule,
     HttpClientModule,
     AdminModule,
-    StudentModule
+    StudentModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AdminComponent } from './admin/admin.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { DataLogComponent } from './data-log/data-log.component';
+import { SharedModule } from '../modules/shared.module';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { DataLogComponent } from './data-log/data-log.component';
   ],
   imports: [
     CommonModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    SharedModule
   ]
 })
 export class AdminModule { }

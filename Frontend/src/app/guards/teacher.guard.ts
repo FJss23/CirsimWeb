@@ -26,7 +26,6 @@ export class TeacherGuard implements CanActivate {
       }
       return false;
     }
-    this.authService.redirectUrl = state.url;
     this.router.navigate(['/login']);
     return false;
   }

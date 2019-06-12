@@ -1,0 +1,49 @@
+<div> 
+    <mat-toolbar color="primary" class="container">
+      <div fxShow="true" fxHide.gt-sm="true">
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </div>
+  
+      <a mat-button class="companyName" routerLink="/">
+        <span>Simulación de conexionado</span>
+      </a>
+      <span class="example-spacer"></span>
+      <div fxShow="true" fxHide.lt-md="true">
+          <a mat-button routerLink="/about-us">
+            <mat-icon  class="icon">home</mat-icon> Inicio</a>
+          <a mat-button routerLink="/about-us">
+            <mat-icon  class="icon">forum</mat-icon> Tablón de anuncios</a>
+          <a mat-button routerLink="/prices">
+            <mat-icon class="icon">school</mat-icon> Tareas</a>
+          <a mat-button routerLink="/start-page">
+            <mat-icon class="icon">poll</mat-icon> Estadísticas</a>
+          <a mat-button [matMenuTriggerFor]="beforeMenu" >
+            <mat-menu #beforeMenu="matMenu" xPosition="after" color="primary">
+              <button mat-menu-item>Inglés</button>
+              <button mat-menu-item>Español</button>
+            </mat-menu>
+            <mat-icon  class="icon">view_list</mat-icon> Idioma</a>
+          <a mat-button routerLink="/contact">
+            <mat-icon  class="icon">person</mat-icon> Cerrar sesión</a>
+      </div>
+  
+    </mat-toolbar>
+    <mat-sidenav-container fxFlexFill class="example-container">
+  
+      <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over"  opened="false" fxHide.gt-sm="true">
+        <div fxLayout="column">
+            <a mat-button routerLink="/about-us">Inicio</a>
+            <a mat-button routerLink="/about-us">Tablón de anuncios</a>
+            <a mat-button routerLink="/prices">Tareas</a>
+            <a mat-button routerLink="/start-page">Estadísticas</a>
+            <a mat-button routerLink="/offer">Idioma</a>
+            <a mat-button routerLink="/contact">Cerrar sesión</a>
+        </div>
+      </mat-sidenav>
+      <mat-sidenav-content fxFlexFill>
+        Awesome content
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>

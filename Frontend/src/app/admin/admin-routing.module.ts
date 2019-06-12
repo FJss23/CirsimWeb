@@ -6,12 +6,12 @@ import { DataLogComponent } from './data-log/data-log.component';
 
 const routes: Routes = [
   {
-    path: 'teacher',
+    path: 'admin',
     component: AdminComponent,
     canActivate: [AdminGuard],
     children: [
       {
-        path: 'data-log', 
+        path: '', 
         component: DataLogComponent 
       }
     ]
