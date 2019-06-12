@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { TeacherComponent } from './teacher/teacher.component';
 import { TeacherHomeComponent } from './teacher-home/teacher-home.component';
 
-import { AuthGuard } from '../auth/auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
 
 const routes: Routes = [
   {
