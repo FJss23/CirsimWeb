@@ -6,17 +6,15 @@ import { TeacherModule } from './teacher/teacher.module';
 import { SharedModule } from './modules/shared.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
-import { HttpErrorInterceptor } from './interceptors/httpError.interceptor';
-
+import { HttpErrorInterceptor } from './interceptors/error.interceptor';
 import { AppComponent } from './app.component';
-import { AdminComponent } from './admin/admin/admin.component';
-import { StudentComponent } from './student/student/student.component';
+import { AdminModule } from './admin/admin.module';
+import { StudentModule } from './student/student.module';
+
 
 @NgModule({
   declarations: [
-    AppComponent,
-    AdminComponent,
-    StudentComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +22,9 @@ import { StudentComponent } from './student/student/student.component';
     AuthModule,
     TeacherModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    AdminModule,
+    StudentModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
