@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { TeacherComponent } from './teacher/teacher.component';
 import { TeacherHomeComponent } from './teacher-home/teacher-home.component';
 import { TeacherGuard } from '../guards/teacher.guard';
+import { NewTaskComponent } from './new-task/new-task.component';
+import { SimulationExerciseComponent } from './simulation-exercise/simulation-exercise.component';
 
 const routes: Routes = [
   {
@@ -13,6 +15,14 @@ const routes: Routes = [
       {
         path: '', 
         component: TeacherHomeComponent 
+      },
+      {
+        path: 'task/new',
+        component: NewTaskComponent
+      },
+      {
+        path: 'task/new/simulation',
+        component: SimulationExerciseComponent
       }
     ]
   }

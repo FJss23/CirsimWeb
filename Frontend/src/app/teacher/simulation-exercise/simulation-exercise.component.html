@@ -1,0 +1,9 @@
+<div>
+  <h1>Work in progress..</h1>
+  <p>Layout Simple</p>
+  <div>
+      <img [src]="url" height="200" *ngIf="url"> 
+      <input type="file" accept="image/jpeg" (change)="onSelectFile($event)">
+  </div>
+  <button mat-button color="primary">Next STEP</button>
+</div>

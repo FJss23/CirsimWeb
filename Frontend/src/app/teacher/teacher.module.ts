@@ -4,13 +4,15 @@ import { TeacherRoutingModule } from './teacher-routing.module';
 import { TeacherHomeComponent } from './teacher-home/teacher-home.component';
 import { TeacherComponent } from './teacher/teacher.component';
 import { SharedModule } from '../modules/shared.module';
-import { NavbarComponent } from '../navbar/navbar.component';
+import { NewTaskComponent } from './new-task/new-task.component';
+import { SimulationExerciseComponent } from './simulation-exercise/simulation-exercise.component';
 
 @NgModule({
   declarations: [
     TeacherHomeComponent, 
     TeacherComponent,
-    NavbarComponent
+    NewTaskComponent,
+    SimulationExerciseComponent
   ],
   imports: [
     CommonModule,
