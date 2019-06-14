@@ -4,8 +4,8 @@ import { TeacherRoutingModule } from './teacher-routing.module';
 import { TeacherHomeComponent } from './teacher-home/teacher-home.component';
 import { TeacherComponent } from './teacher/teacher.component';
 import { SharedModule } from '../modules/shared.module';
-import { NewTaskComponent } from './new-task/new-task.component';
-import { SimulationExerciseComponent } from './simulation-exercise/simulation-exercise.component';
+import { NewTaskComponent } from './task/new-task/new-task.component';
+import { SimulationExerciseComponent } from './exercise/simulation-exercise/simulation-exercise.component';
 
 @NgModule({
   declarations: [

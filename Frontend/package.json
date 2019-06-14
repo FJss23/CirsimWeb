@@ -27,6 +27,7 @@
     "jwt-decode": "^2.2.0",
     "rxjs": "~6.3.3",
     "tslib": "^1.10.0",
+    "vis": "^4.21.0",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
