@@ -1,36 +1,41 @@
-<mat-radio-group aria-label="Select an option" [(ngModel)]="numSelectedLayout">
-    <h2>Selección de layout</h2>
-    <mat-radio-button value="1">Simple</mat-radio-button>
-    <mat-radio-button value="2">Doble</mat-radio-button>
-    <mat-radio-button value="3">Triple</mat-radio-button>
-    <mat-radio-button value="6">2x3</mat-radio-button>
-</mat-radio-group>
-<div>
-  <button mat-button color="primary" (click)="makeInputs()">Siguiente</button>
+<div class="step1" fxLayout="column" fxLayoutAlign="center center" [style.display]="visibleStepOne? 'block': 'none'">
+  <h1>Selección de layout</h1>
+  <mat-radio-group aria-label="Select an option" [(ngModel)]="numSelectedLayout">
+      <mat-radio-button value="1">Simple</mat-radio-button>
+      <mat-radio-button value="2">Doble</mat-radio-button>
+      <mat-radio-button value="3">Triple</mat-radio-button>
+      <mat-radio-button value="6">2x3</mat-radio-button>
+  </mat-radio-group>
+  <div>
+    <button mat-button color="primary" (click)="nextStepTwo()">Siguiente</button>
+  </div>
 </div>
-<h2>Añadir imagen</h2>
-<div *ngFor ="let element of numInputForImage">
-  <label>{{element}}</label>
-  <img [src]="url" height="200" *ngIf="url"> 
-  <input type="file" accept="image/jpeg" (change)="onSelectFile($event)">
+
+<div class="step2" fxLayout="column" fxLayoutAlign="center center" [style.display]="visibleStepTwo? 'block': 'none'"> 
+  <h1>Añadir imagen</h1>
+  <div *ngFor ="let element of numInputForImage">
+    <label>{{element}}</label>
+    <img [src]="url" height="200" *ngIf="url"> 
+    <input type="file" accept="image/jpeg" (change)="onSelectFile($event)">
+  </div>
+  <div>
+    <button mat-button color="primary" (click)="backStepOne()">Atrás</button>
+    <button mat-button color="primary" (click)="nextStepThree()">Siguiente</button>
+  </div>
 </div>
-<div>
-  <button mat-button color="primary">Atrás</button>
-  <button mat-button color="primary">Siguiente</button>
-</div>
-<h2>Proceso de conexionado</h2>
-<div fxLayout="column" fxLayoutAlign="center center">
-    <div fxFlexFill fxLayoutAlign="center center">
-      <div fxLayoutAlign="center center">
-          <mat-slide-toggle (click)="addNode()">Modo añadir punto</mat-slide-toggle>
-      </div>
-      <div fxLayoutAlign="center center">
-          <mat-slide-toggle (click)="addEdge()">Modo añadir conexión</mat-slide-toggle>
-      </div>
-    </div>
+
+<div class="step3" fxLayout="column" fxLayoutAlign="center center" [style.display]="visibleStepThree? 'block': 'none'">
+  <h1>Proceso de conexionado</h1>
+  <div>
+    <label id="mode-selection">Seleccionar el modo:</label>
+      <mat-radio-group class="radiobtn-mode" aria-label="Select an option">
+        <mat-radio-button value="addPointMode" class="radiobtn" (click)="addPointMode()">Añadir puntos</mat-radio-button>
+        <mat-radio-button value="addConnectionMode" class="radiobtn" (click)="addConnectionMode()">Añadir conexiones</mat-radio-button>
+      </mat-radio-group>
     <div #networkContainer></div>
-</div>
-<div>
-  <button mat-button color="primary">Atrás</button>
-  <button mat-button color="primary">Confirmar</button>
+  </div>
+  <div>
+    <button mat-button color="primary" (click)="backStepTwo()">Atrás</button>
+    <button mat-button color="primary" (click)="exerciseDone()">Confirmar</button>
+  </div>
 </div>

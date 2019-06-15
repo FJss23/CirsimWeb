@@ -8,15 +8,22 @@ import { Network } from 'vis';
 })
 export class SimulationExerciseComponent implements OnInit {
   @ViewChild('networkContainer') networkContainer: ElementRef;
+  public visibleStepOne: boolean;
+  public visibleStepTwo: boolean;
+  public visibleStepThree: boolean;
   public imagePath: string;
   public url: any;
   public network : Network;
-  public numInputForImage: string[] = [];
+  public numInputForImage: string[];
   public numSelectedLayout: number;
 
   constructor() { }
 
   ngOnInit() {
+    this.visibleStepOne = true;
+    this.visibleStepTwo = false;
+    this.visibleStepThree = false;
+    this.numInputForImage = [];
     let data = { };
     let options = this.defineOptions();
     this.network = new Network(this.networkContainer.nativeElement, data, options);
@@ -30,16 +37,37 @@ export class SimulationExerciseComponent implements OnInit {
       reader.onload = () => { 
         this.url = reader.result; 
         console.log(typeof(this.url));
-        this.setBackgroundImage();
       }
     }
   }
 
-  makeInputs(): void {
+  nextStepTwo(): void {
+    this.visibleStepOne = false;
+    this.visibleStepTwo = true;
     this.numInputForImage = [];
     for(var i = 1; i <= this.numSelectedLayout; i++){
       this.numInputForImage.push(`Imagen layout ${i}`);
     }
+  }
+
+  nextStepThree(): void {
+    this.visibleStepTwo = false;
+    this.visibleStepThree = true;
+    this.setBackgroundImage();
+  }
+
+  backStepOne(): void {
+    this.visibleStepOne = true;
+    this.visibleStepTwo = false;
+  }
+
+  backStepTwo(): void {
+    this.visibleStepTwo = true;
+    this.visibleStepThree = false;
+  }
+
+  exerciseDone(): void {
+    console.log(`Saving the exercise`);
   }
 
   setBackgroundImage(): void {
@@ -51,12 +79,12 @@ export class SimulationExerciseComponent implements OnInit {
     console.log('Setting the background');
   }
 
-  addNode(): void {
+  addPointMode(): void {
     console.log(`Add node mode`);
    this.network.addNodeMode();
   } 
 
-  addEdge(): void {
+  addConnectionMode(): void {
     console.log(`Add edge mode`);
     this.network.addEdgeMode();
   }
@@ -76,10 +104,13 @@ export class SimulationExerciseComponent implements OnInit {
           enabled: false,
           type: "dynamic",
           roundness: 0.5
-        }    
+        }, 
+        color: {
+          color: '#FF0000'
+        }   
       },
       interaction: {
-        zoomView: false,
+        zoomView: false
       },
       manipulation: {
         enabled: true,
