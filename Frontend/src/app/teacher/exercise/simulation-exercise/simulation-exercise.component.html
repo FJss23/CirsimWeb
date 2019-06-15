@@ -1,4 +1,5 @@
-<div class="step1" fxLayout="column" fxLayoutAlign="center center" [style.display]="visibleStepOne? 'block': 'none'">
+
+<div class="step1" fxLayout="column" fxLayoutAlign="start center" *ngIf="visibleStepOne">
   <h1>Selección de layout</h1>
   <mat-radio-group aria-label="Select an option" [(ngModel)]="numSelectedLayout">
       <mat-radio-button value="1">Simple</mat-radio-button>
@@ -11,7 +12,7 @@
   </div>
 </div>
 
-<div class="step2" fxLayout="column" fxLayoutAlign="center center" [style.display]="visibleStepTwo? 'block': 'none'"> 
+<div class="step2" fxLayout="column" fxLayoutAlign="start center" *ngIf="visibleStepTwo"> 
   <h1>Añadir imagen</h1>
   <div *ngFor ="let element of numInputForImage">
     <label>{{element}}</label>
@@ -24,18 +25,22 @@
   </div>
 </div>
 
-<div class="step3" fxLayout="column" fxLayoutAlign="center center" [style.display]="visibleStepThree? 'block': 'none'">
-  <h1>Proceso de conexionado</h1>
-  <div>
-    <label id="mode-selection">Seleccionar el modo:</label>
-      <mat-radio-group class="radiobtn-mode" aria-label="Select an option">
-        <mat-radio-button value="addPointMode" class="radiobtn" (click)="addPointMode()">Añadir puntos</mat-radio-button>
-        <mat-radio-button value="addConnectionMode" class="radiobtn" (click)="addConnectionMode()">Añadir conexiones</mat-radio-button>
-      </mat-radio-group>
-    <div #networkContainer></div>
-  </div>
-  <div>
-    <button mat-button color="primary" (click)="backStepTwo()">Atrás</button>
-    <button mat-button color="primary" (click)="exerciseDone()">Confirmar</button>
-  </div>
+<div class="step3" fxLayout="column" fxLayoutAlign="start center" *ngIf="visibleStepThree">
+<h1>Proceso de conexionado</h1>
+<div>
+<span [cpToggle]="true" [cpDialogDisplay]="'inline'"[(colorPicker)]="color" [cpDisableInput]="false"
+(colorPickerChange)="changePointColor(color)"></span>
+  <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+    <mat-button-toggle value="addPointMode" (click)="addPointMode()">Puntos</mat-button-toggle>
+    <mat-button-toggle value="addConnectionMode" (click)="addConnectionMode()">Conexiones</mat-button-toggle>
+    <mat-button-toggle value="removeMode" >Borrar</mat-button-toggle>
+    <mat-button-toggle value="selectionMode" >Selección</mat-button-toggle>
+  </mat-button-toggle-group>
+  <div #networkContainer></div>
 </div>
+<div>
+  <button mat-button color="primary" (click)="backStepTwo()">Atrás</button>
+  <button mat-button color="primary" (click)="exerciseDone()">Confirmar</button>
+</div>
+</div>
+

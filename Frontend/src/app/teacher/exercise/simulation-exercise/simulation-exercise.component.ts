@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Network } from 'vis';
 
 @Component({
@@ -7,6 +7,7 @@ import { Network } from 'vis';
   styleUrls: ['./simulation-exercise.component.css']
 })
 export class SimulationExerciseComponent implements OnInit {
+
   @ViewChild('networkContainer') networkContainer: ElementRef;
   public visibleStepOne: boolean;
   public visibleStepTwo: boolean;
@@ -16,6 +17,8 @@ export class SimulationExerciseComponent implements OnInit {
   public network : Network;
   public numInputForImage: string[];
   public numSelectedLayout: number;
+  public connectionColor: string;
+  public pointColor: string;
 
   constructor() { }
 
@@ -24,9 +27,6 @@ export class SimulationExerciseComponent implements OnInit {
     this.visibleStepTwo = false;
     this.visibleStepThree = false;
     this.numInputForImage = [];
-    let data = { };
-    let options = this.defineOptions();
-    this.network = new Network(this.networkContainer.nativeElement, data, options);
   }
 
   onSelectFile(event: any): void { 
@@ -41,6 +41,10 @@ export class SimulationExerciseComponent implements OnInit {
     }
   }
 
+  changePointColor(newColor: string): void {
+    console.log(`color seleccionado ${newColor}`);
+  }
+
   nextStepTwo(): void {
     this.visibleStepOne = false;
     this.visibleStepTwo = true;
@@ -53,7 +57,10 @@ export class SimulationExerciseComponent implements OnInit {
   nextStepThree(): void {
     this.visibleStepTwo = false;
     this.visibleStepThree = true;
-    this.setBackgroundImage();
+
+    setTimeout(() => {
+      this.setUpNetwork();
+    }, 100);
   }
 
   backStepOne(): void {
@@ -70,6 +77,14 @@ export class SimulationExerciseComponent implements OnInit {
     console.log(`Saving the exercise`);
   }
 
+  setUpNetwork(): void  {
+    console.log(`calling then function`);
+    let data = { };
+    let options = this.defineOptions();
+    this.network = new Network(this.networkContainer.nativeElement, data, options);
+    this.setBackgroundImage();
+  }
+
   setBackgroundImage(): void {
     let sourceCanvas = document.querySelector('canvas');
     sourceCanvas.style.backgroundImage = `url('${this.url}')`;
@@ -81,7 +96,7 @@ export class SimulationExerciseComponent implements OnInit {
 
   addPointMode(): void {
     console.log(`Add node mode`);
-   this.network.addNodeMode();
+    this.network.addNodeMode();
   } 
 
   addConnectionMode(): void {
@@ -92,8 +107,8 @@ export class SimulationExerciseComponent implements OnInit {
   private defineOptions(): any {
     return {
       autoResize: true,
-      height: '800px',
-      width: '800px',
+      height: '600px',
+      width: '600px',
       locale: 'en',
       clickToUse: true,
       physics:{
@@ -113,7 +128,7 @@ export class SimulationExerciseComponent implements OnInit {
         zoomView: false
       },
       manipulation: {
-        enabled: true,
+        enabled: false,
         initiallyActive: true,
         addNode: (nodeData: any, callback: any) => {
           nodeData.label = '';
