@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnChanges } from '@angular/core';
+import { SimpleChanges } from '@angular/core';
 import { Network } from 'vis';
 
 @Component({
@@ -6,7 +7,7 @@ import { Network } from 'vis';
   templateUrl: './simulation-exercise.component.html',
   styleUrls: ['./simulation-exercise.component.css']
 })
-export class SimulationExerciseComponent implements OnInit {
+export class SimulationExerciseComponent implements OnInit, OnChanges {
 
   @ViewChild('networkContainer') networkContainer: ElementRef;
   public visibleStepOne: boolean;
@@ -19,6 +20,9 @@ export class SimulationExerciseComponent implements OnInit {
   public numSelectedLayout: number;
   public connectionColor: string;
   public pointColor: string;
+  public value: string;
+  public positions: string[];
+  public size: string[];
 
   constructor() { }
 
@@ -27,6 +31,27 @@ export class SimulationExerciseComponent implements OnInit {
     this.visibleStepTwo = false;
     this.visibleStepThree = false;
     this.numInputForImage = [];
+    this.value = '';
+    this.positions = [
+      'left top',
+      'left center',
+      'left bottom',
+      'right top',
+      'right center',
+      'right bottom',
+      'center top',
+      'center center',
+      'center bottom',
+    ];
+    this.size = [
+      "por defecto",
+      "ajustado"
+    ]
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(`Rendering change events from vis js library`);
+    this.renderChanges();
   }
 
   onSelectFile(event: any): void { 
@@ -43,6 +68,7 @@ export class SimulationExerciseComponent implements OnInit {
 
   changePointColor(newColor: string): void {
     console.log(`color seleccionado ${newColor}`);
+    this.connectionColor = newColor;
   }
 
   nextStepTwo(): void {
@@ -89,40 +115,63 @@ export class SimulationExerciseComponent implements OnInit {
     let sourceCanvas = document.querySelector('canvas');
     sourceCanvas.style.backgroundImage = `url('${this.url}')`;
     sourceCanvas.style.backgroundRepeat = "no-repeat";
-    sourceCanvas.style.backgroundSize = "contain";
+    //sourceCanvas.style.backgroundSize = "contain";
     sourceCanvas.style.backgroundPosition = "center";
     console.log('Setting the background');
   }
 
+  setPositionBackground(): void {
+
+  }
+
   addPointMode(): void {
-    console.log(`Add node mode`);
+    console.log(`Add point mode`);
     this.network.addNodeMode();
   } 
 
   addConnectionMode(): void {
-    console.log(`Add edge mode`);
+    console.log(`Add connection mode`);
     this.network.addEdgeMode();
+  }
+
+  deleteSelected(): void {
+     console.log(`Delete mode`);
+     this.network.deleteSelected();
+  }
+
+  selectionMode(): void {
+    console.log(`Selection mode`);
+    this.network.editNode();
+  }
+
+  renderChanges(): void {
+    
   }
 
   private defineOptions(): any {
     return {
       autoResize: true,
-      height: '600px',
-      width: '600px',
-      locale: 'en',
+      height: "600px",
+      width: "600px",
+      locale: "en",
       clickToUse: true,
       physics:{
         enabled: false,
       },
       edges: {
         smooth: {
-          enabled: false,
-          type: "dynamic",
-          roundness: 0.5
+          type: "cubicBezier",
+          forceDirection: "none",
+          roundness: 1
         }, 
         color: {
           color: '#FF0000'
-        }   
+        },
+        chosen: {
+          edge: (values:any , id:any , selected:any , hovering:any) => {
+            values.color = this.connectionColor;
+          } 
+        }
       },
       interaction: {
         zoomView: false

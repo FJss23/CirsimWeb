@@ -26,21 +26,59 @@
 </div>
 
 <div class="step3" fxLayout="column" fxLayoutAlign="start center" *ngIf="visibleStepThree">
-<h1>Proceso de conexionado</h1>
-<div>
-<span [cpToggle]="true" [cpDialogDisplay]="'inline'"[(colorPicker)]="color" [cpDisableInput]="false"
-(colorPickerChange)="changePointColor(color)"></span>
-  <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-    <mat-button-toggle value="addPointMode" (click)="addPointMode()">Puntos</mat-button-toggle>
-    <mat-button-toggle value="addConnectionMode" (click)="addConnectionMode()">Conexiones</mat-button-toggle>
-    <mat-button-toggle value="removeMode" >Borrar</mat-button-toggle>
-    <mat-button-toggle value="selectionMode" >Selección</mat-button-toggle>
-  </mat-button-toggle-group>
-  <div #networkContainer></div>
-</div>
-<div>
-  <button mat-button color="primary" (click)="backStepTwo()">Atrás</button>
-  <button mat-button color="primary" (click)="exerciseDone()">Confirmar</button>
-</div>
+  <mat-card>
+    <mat-card-title>Proceso de conexionado</mat-card-title>
+    <mat-card-subtitle>Añade puntos y conexiones sobre la imagen</mat-card-subtitle>
+    <div>
+      <div class="buttons">
+        <mat-button-toggle-group aria-label="Font Style">
+          <mat-button-toggle value="addPointMode" (click)="addPointMode()" fxFlex="25">Puntos</mat-button-toggle>
+          <mat-button-toggle value="addConnectionMode" (click)="addConnectionMode()" fxFlex="25">Conexiones</mat-button-toggle>
+          <mat-button-toggle value="selectionMode" (click)="selectionMode()" fxFlex="25">Editar</mat-button-toggle>
+          <mat-button-toggle value="removeMode" (click)="deleteSelected()" fxFlex="25">Borrar</mat-button-toggle>
+          <mat-button-toggle value="selectionMode" (click)="selectionMode()" fxFlex="25">Selección</mat-button-toggle>
+        </mat-button-toggle-group>
+       </div>
+      <div fxLayout="row" class="content"  fxLayoutGap="20px">
+        <div #networkContainer class="network"></div>
+        <div class="options" fxFlex="30" fxLayout="column">
+          <span [cpToggle]="true" [cpDialogDisplay]="'inline'"[(colorPicker)]="color" [cpDisableInput]="false"
+          (colorPickerChange)="changePointColor(color)"></span>
+          <mat-form-field class="campo" id="top-from-field">
+            <input matInput type="text" placeholder="Etiqueta punto" [(ngModel)]="value">
+            <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field> 
+          <mat-form-field class="campo">
+            <mat-label>Posición fondo</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let pos of positions" [value]="pos">
+                {{pos}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field> 
+          <mat-form-field class="campo">
+              <mat-label>Tamaño imagen</mat-label>
+              <mat-select>
+                <mat-option *ngFor="let elem of size" [value]="elem">
+                  {{elem}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="label-option"  fxLayout="column" fxLayoutAlign="center start"> 
+              <label class= "label-campo">Tamaño puntos</label>  
+              <mat-slider></mat-slider> 
+              <label class="label-campo">Tamaño conexiones</label>  
+              <mat-slider></mat-slider>   
+            </div>         
+        </div>
+      </div>
+    </div>
+  </mat-card>
+  <div>
+    <button mat-button color="primary" (click)="backStepTwo()">Atrás</button>
+    <button mat-button color="primary" (click)="exerciseDone()">Confirmar</button>
+  </div>
 </div>
 
