@@ -1,13 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef, OnChanges } from '@angular/core';
-import { SimpleChanges } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { Network } from 'vis';
+import { SimulationDialogComponent } from '../simulation-dialog/simulation-dialog.component';
 
 @Component({
   selector: 'app-simulation-exercise',
   templateUrl: './simulation-exercise.component.html',
   styleUrls: ['./simulation-exercise.component.css']
 })
-export class SimulationExerciseComponent implements OnInit, OnChanges {
+export class SimulationExerciseComponent implements OnInit {
 
   @ViewChild('networkContainer') networkContainer: ElementRef;
   public visibleStepOne: boolean;
@@ -23,8 +24,9 @@ export class SimulationExerciseComponent implements OnInit, OnChanges {
   public value: string;
   public positions: string[];
   public size: string[];
+  public pointLabel: string;
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
     this.visibleStepOne = true;
@@ -47,11 +49,6 @@ export class SimulationExerciseComponent implements OnInit, OnChanges {
       "por defecto",
       "ajustado"
     ]
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(`Rendering change events from vis js library`);
-    this.renderChanges();
   }
 
   onSelectFile(event: any): void { 
@@ -116,7 +113,7 @@ export class SimulationExerciseComponent implements OnInit, OnChanges {
     sourceCanvas.style.backgroundImage = `url('${this.url}')`;
     sourceCanvas.style.backgroundRepeat = "no-repeat";
     //sourceCanvas.style.backgroundSize = "contain";
-    sourceCanvas.style.backgroundPosition = "center";
+    //sourceCanvas.style.backgroundPosition = "center";
     console.log('Setting the background');
   }
 
@@ -144,8 +141,16 @@ export class SimulationExerciseComponent implements OnInit, OnChanges {
     this.network.editNode();
   }
 
-  renderChanges(): void {
-    
+  openDialog(): void {
+    const dialogRef = this.dialog.open(SimulationDialogComponent, {
+      width: '250px',
+      data: this.pointLabel
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.pointLabel = result;
+      console.log(`The dialog was closed ${result}`);
+    });
   }
 
   private defineOptions(): any {
@@ -180,6 +185,8 @@ export class SimulationExerciseComponent implements OnInit, OnChanges {
         enabled: false,
         initiallyActive: true,
         addNode: (nodeData: any, callback: any) => {
+          console.log(`Creating a new node`);
+          this.openDialog();
           nodeData.label = '';
           callback(nodeData);
           this.network.addNodeMode();
@@ -194,4 +201,5 @@ export class SimulationExerciseComponent implements OnInit, OnChanges {
       }  
     }
   }
+
 }

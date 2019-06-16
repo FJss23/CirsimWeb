@@ -6,18 +6,23 @@ import { TeacherComponent } from './teacher/teacher.component';
 import { SharedModule } from '../modules/shared.module';
 import { NewTaskComponent } from './task/new-task/new-task.component';
 import { SimulationExerciseComponent } from './exercise/simulation-exercise/simulation-exercise.component';
+import { SimulationDialogComponent } from './exercise/simulation-dialog/simulation-dialog.component';
 
 @NgModule({
   declarations: [
     TeacherHomeComponent, 
     TeacherComponent,
     NewTaskComponent,
-    SimulationExerciseComponent
+    SimulationExerciseComponent,
+    SimulationDialogComponent
   ],
   imports: [
     CommonModule,
     TeacherRoutingModule,
-    SharedModule
+    SharedModule,
+  ], 
+  entryComponents: [
+    SimulationDialogComponent
   ]
 })
 export class TeacherModule { }

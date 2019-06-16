@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Añadir un nombre al punto</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <input matInput [(ngModel)]="pointLabel">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Sin nombre</button>
+  <button mat-button [mat-dialog-close]="pointLabel" cdkFocusInitial>Ok</button>
+</div>
