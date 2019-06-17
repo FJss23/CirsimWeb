@@ -34,44 +34,43 @@
         <mat-button-toggle-group aria-label="Font Style">
           <mat-button-toggle value="addPointMode" (click)="addPointMode()" fxFlex="25">Puntos</mat-button-toggle>
           <mat-button-toggle value="addConnectionMode" (click)="addConnectionMode()" fxFlex="25">Conexiones</mat-button-toggle>
-          <mat-button-toggle value="selectionMode" (click)="selectionMode()" fxFlex="25">Editar</mat-button-toggle>
-          <mat-button-toggle value="removeMode" (click)="deleteSelected()" fxFlex="25">Borrar</mat-button-toggle>
           <mat-button-toggle value="selectionMode" (click)="selectionMode()" fxFlex="25">Selección</mat-button-toggle>
+          <mat-button-toggle value="removeMode" fxFlex="25" [disabled]="!canDelete" 
+            (change)="toggleChange($event)">Borrar</mat-button-toggle>
         </mat-button-toggle-group>
        </div>
       <div fxLayout="row" class="content"  fxLayoutGap="20px">
         <div #networkContainer class="network"></div>
         <div class="options" fxFlex="30" fxLayout="column">
-          <span [cpToggle]="true" [cpDialogDisplay]="'inline'"[(colorPicker)]="color" [cpDisableInput]="false"
-          (colorPickerChange)="changePointColor(color)"></span>
+          <span [cpToggle]="true" [cpDialogDisplay]="'inline'"[(colorPicker)]="color" [cpDisableInput]="false"></span>
           <mat-form-field class="campo" id="top-from-field">
-            <input matInput type="text" placeholder="Etiqueta punto" [(ngModel)]="value">
-            <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+            <input matInput type="text" placeholder="Etiqueta punto" [(ngModel)]="valueName">
+            <button mat-button *ngIf="valueName" matSuffix mat-icon-button aria-label="Clear" (click)="valueName=''">
               <mat-icon>close</mat-icon>
             </button>
-          </mat-form-field> 
+          </mat-form-field>
+          <div class="label-option"  fxLayout="column" fxLayoutAlign="center start"> 
+            <label class= "label-campo">Tamaño puntos</label>  
+            <mat-slider min="5" max="20" step="1" value="valueSize" [(ngModel)]="valueSizePoint"></mat-slider> 
+            <label class="label-campo">Tamaño conexiones</label>  
+            <mat-slider min="1" max="10" step="1" value="valueSizeConnection" [(ngModel)]="valueSizeConnection"></mat-slider>   
+          </div>
           <mat-form-field class="campo">
             <mat-label>Posición fondo</mat-label>
-            <mat-select>
-              <mat-option *ngFor="let pos of positions" [value]="pos">
+            <mat-select [(value)]="defualtPosition">
+              <mat-option *ngFor="let pos of positionsImage" [value]="pos" (click)="setPositionBackground(pos)">
                 {{pos}}
               </mat-option>
             </mat-select>
           </mat-form-field> 
           <mat-form-field class="campo">
-              <mat-label>Tamaño imagen</mat-label>
-              <mat-select>
-                <mat-option *ngFor="let elem of size" [value]="elem">
-                  {{elem}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <div class="label-option"  fxLayout="column" fxLayoutAlign="center start"> 
-              <label class= "label-campo">Tamaño puntos</label>  
-              <mat-slider></mat-slider> 
-              <label class="label-campo">Tamaño conexiones</label>  
-              <mat-slider></mat-slider>   
-            </div>         
+            <mat-label>Tamaño imagen</mat-label>
+            <mat-select [(value)]="defaultSize">
+              <mat-option *ngFor="let elem of sizeImage" [value]="elem" (click)="setSizeBackground(elem)">
+                {{elem}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>         
         </div>
       </div>
     </div>

@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Network } from 'vis';
-import { SimulationDialogComponent } from '../simulation-dialog/simulation-dialog.component';
 
 @Component({
   selector: 'app-simulation-exercise',
@@ -19,12 +18,15 @@ export class SimulationExerciseComponent implements OnInit {
   public network : Network;
   public numInputForImage: string[];
   public numSelectedLayout: number;
-  public connectionColor: string;
-  public pointColor: string;
-  public value: string;
-  public positions: string[];
-  public size: string[];
-  public pointLabel: string;
+  public valueName: string;
+  public valueSizePoint: number;
+  public valueSizeConnection: number;
+  public positionsImage: string[];
+  public sizeImage: string[];
+  public color: string;
+  public canDelete: boolean;
+  public defualtPosition: string;
+  public defaultSize: string;
 
   constructor(public dialog: MatDialog) { }
 
@@ -33,8 +35,7 @@ export class SimulationExerciseComponent implements OnInit {
     this.visibleStepTwo = false;
     this.visibleStepThree = false;
     this.numInputForImage = [];
-    this.value = '';
-    this.positions = [
+    this.positionsImage = [
       'left top',
       'left center',
       'left bottom',
@@ -45,10 +46,17 @@ export class SimulationExerciseComponent implements OnInit {
       'center center',
       'center bottom',
     ];
-    this.size = [
-      "por defecto",
-      "ajustado"
-    ]
+    this.sizeImage = [
+      "auto",
+      "contain"
+    ];
+    this.valueName = '';
+    this.valueSizePoint = 10;
+    this.valueSizeConnection = 5;
+    this.color = '#000000';
+    this.canDelete = false;
+    this.defualtPosition = this.positionsImage[0];
+    this.defaultSize = this.sizeImage[0];
   }
 
   onSelectFile(event: any): void { 
@@ -61,11 +69,6 @@ export class SimulationExerciseComponent implements OnInit {
         console.log(typeof(this.url));
       }
     }
-  }
-
-  changePointColor(newColor: string): void {
-    console.log(`color seleccionado ${newColor}`);
-    this.connectionColor = newColor;
   }
 
   nextStepTwo(): void {
@@ -101,7 +104,6 @@ export class SimulationExerciseComponent implements OnInit {
   }
 
   setUpNetwork(): void  {
-    console.log(`calling then function`);
     let data = { };
     let options = this.defineOptions();
     this.network = new Network(this.networkContainer.nativeElement, data, options);
@@ -112,13 +114,15 @@ export class SimulationExerciseComponent implements OnInit {
     let sourceCanvas = document.querySelector('canvas');
     sourceCanvas.style.backgroundImage = `url('${this.url}')`;
     sourceCanvas.style.backgroundRepeat = "no-repeat";
-    //sourceCanvas.style.backgroundSize = "contain";
-    //sourceCanvas.style.backgroundPosition = "center";
-    console.log('Setting the background');
   }
 
-  setPositionBackground(): void {
-
+  setPositionBackground(position: string): void {
+    let sourceCanvas = document.querySelector('canvas');
+    sourceCanvas.style.backgroundPosition = position;
+  }
+  setSizeBackground(size: string): void {
+    let sourceCanvas = document.querySelector('canvas');
+    sourceCanvas.style.backgroundSize = size;
   }
 
   addPointMode(): void {
@@ -132,33 +136,33 @@ export class SimulationExerciseComponent implements OnInit {
   }
 
   deleteSelected(): void {
-     console.log(`Delete mode`);
-     this.network.deleteSelected();
+    this.network.deleteSelected();
+    console.log(`Delete mode`);
   }
 
   selectionMode(): void {
     console.log(`Selection mode`);
-    this.network.editNode();
+    this.network.enableEditMode();
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(SimulationDialogComponent, {
-      width: '250px',
-      data: this.pointLabel
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.pointLabel = result;
-      console.log(`The dialog was closed ${result}`);
-    });
+  toggleChange(event: any):void  {
+    let toggle = event.source;
+    if(toggle){
+      console.log(toggle);
+      if(this.canDelete) {
+        this.deleteSelected();
+        this.canDelete = false;
+        toggle.checked = false;
+        toggle.disabled = true;
+      }
+    }
   }
 
   private defineOptions(): any {
     return {
       autoResize: true,
-      height: "600px",
+      height: "650px",
       width: "600px",
-      locale: "en",
       clickToUse: true,
       physics:{
         enabled: false,
@@ -168,36 +172,52 @@ export class SimulationExerciseComponent implements OnInit {
           type: "cubicBezier",
           forceDirection: "none",
           roundness: 1
-        }, 
-        color: {
-          color: '#FF0000'
         },
         chosen: {
-          edge: (values:any , id:any , selected:any , hovering:any) => {
-            values.color = this.connectionColor;
-          } 
+          edge: (values: any, id: any, selected: any, hovering: any) => {
+            values.color = '#5d8dc7';
+            this.canDelete = true;
+          }
+        }
+      },
+      nodes: {
+        font: {
+          strokeWidth: 6, 
+          strokeColor: '#ffffff'
+        },
+        chosen: {
+          node: (values: any, id: any, selected: any, hovering: any) => {
+            values.color = '#5d8dc7';
+            this.canDelete = true;
+          }
         }
       },
       interaction: {
-        zoomView: false
+        zoomView: false,
+        multiselect: true,
       },
       manipulation: {
         enabled: false,
         initiallyActive: true,
         addNode: (nodeData: any, callback: any) => {
-          console.log(`Creating a new node`);
-          this.openDialog();
-          nodeData.label = '';
+          nodeData.color = this.color;
+          nodeData.label = this.valueName;
+          nodeData.shape = 'dot';
+          nodeData.size = this.valueSizePoint;
           callback(nodeData);
           this.network.addNodeMode();
         },
         addEdge: (nodeData: any, callback: any) => {
-          nodeData.label = '';
+          nodeData.width = this.valueSizeConnection;
           callback(nodeData);
           this.network.addEdgeMode();
         },
-        deleteNode: true,
-        deleteEdge: true,
+        deleteNode: (nodeData: any, callback: any) => {
+          callback(nodeData);
+        },
+        deleteEdge: (nodeData: any, callback: any) => {
+          callback(nodeData);
+        },
       }  
     }
   }
