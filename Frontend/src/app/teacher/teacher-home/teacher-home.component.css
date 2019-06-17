@@ -1,0 +1,22 @@
+table {
+    width: 100%;
+    text-align: start;
+}
+  
+th.mat-sort-header-sorted {
+    color: black;
+}
+  
+.card {
+    width: 55%;
+}
+
+#title {
+    text-align: start;
+    font-size: 90%;
+    margin-left: 9%;
+}
+
+#card-one {
+    margin-bottom: 5%;
+}
