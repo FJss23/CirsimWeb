@@ -1,22 +1,17 @@
-table {
-    width: 100%;
-    text-align: start;
-}
-  
-th.mat-sort-header-sorted {
-    color: black;
-}
-  
-.card {
-    width: 55%;
+.data-table {
+    width: 83%;
+    text-align: center;
 }
 
-#title {
-    text-align: start;
-    font-size: 90%;
-    margin-left: 9%;
+.mat-header-cell {
+    text-align: center;
 }
 
-#card-one {
-    margin-bottom: 5%;
+#label-task {
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.label {
+    font-size: 70%;
 }
