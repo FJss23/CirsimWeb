@@ -1,6 +1,0 @@
-export class Transition {
-
-    constructor(){
-        
-    }
-}

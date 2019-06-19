@@ -31,7 +31,6 @@ export class AuthService {
 
   login(username: string, password: string): Observable<any> {
     let body = { "username": username, "password": password }
-    console.log(`Loggin to ${environment.login}`);
 
     return this.http.post<any>(environment.login, body, this.httpOptions)
       .pipe(tap((res: HttpResponse<any>) => {

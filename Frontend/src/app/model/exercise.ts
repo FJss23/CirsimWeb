@@ -1,15 +1,21 @@
-import { CorrectionPhase } from './correctionPhase';
-import { SolutionPhase } from './solutionPhase';
-import { Transition } from './transition';
+import { Point } from './point';
+import { Connection } from './connection';
+import { Image } from './image';
 
 export class Exercise { 
-    grade: string;
-    attemps: number;
-    correctionPhase: CorrectionPhase;
-    solutionPhase: SolutionPhase;
-    transitions: Transition[];
+    title: string;
+    description: string;
+    points: Point;
+    connections: Connection;
+    image: Image;
 
-    constructor(){
+    constructor(title: string, description: string, points: Point,
+        connections: Connection, image: Image){
         
+        this.title = title;
+        this.description = description;
+        this.points = points;
+        this.connections = connections;
+        this.image = image;
     }
 }

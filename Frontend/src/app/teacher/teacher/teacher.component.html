@@ -1,57 +1,25 @@
 <div> 
         <mat-toolbar color="primary" class="container">
-        <div fxShow="true" fxHide.gt-sm="true">
-                <button mat-icon-button (click)="sidenav.toggle()">
-                        <mat-icon>menu</mat-icon>
-                </button>
-        </div>
         <a mat-button class="title" routerLink="/teacher">
         <span>Simulación de conexionado</span>
         </a>
         <span class="spacer"></span>
-                <div fxShow="true" fxHide.lt-md="true">
-                        <a mat-button routerLink="/url">
-                                <mat-icon  class="icon">forum</mat-icon> Tablón de anuncios
-                        </a>
-                                <a mat-button [matMenuTriggerFor]="taskMenu">
-                                <mat-menu #taskMenu="matMenu" xPosition="after" color="primary">
-                                        <button mat-menu-item routerLink="task/new">Nueva</button>
+                <div>
+                        <a mat-button [matMenuTriggerFor]="lengMenu" >
+                                <mat-menu #lengMenu="matMenu" xPosition="after" color="primary">
                                         <button mat-menu-item routerLink="/url">Enviadas</button>
-                                        <button mat-menu-item routerLink="/url">Repositorio</button>
+                                        <button mat-menu-item routerLink="task/new">Nueva</button>
                                 </mat-menu>
                                 <mat-icon  class="icon">school</mat-icon> Tareas
                         </a>
                         <a mat-button routerLink="/url">
-                                <mat-icon class="icon">poll</mat-icon> Estadísticas
-                        </a>
-                        <a mat-button [matMenuTriggerFor]="lengMenu" >
-                                <mat-menu #lengMenu="matMenu" xPosition="after" color="primary">
-                                        <button mat-menu-item routerLink="/url">Inglés</button>
-                                        <button mat-menu-item routerLink="/url">Español</button>
-                                </mat-menu>
-                                <mat-icon  class="icon">view_list</mat-icon> Idioma
+                                <mat-icon class="icon">storage</mat-icon> Repositorio
                         </a>
                         <a mat-button (click)="logout()">
                                 <mat-icon  class="icon">person</mat-icon> Cerrar sesión
                         </a>
                 </div>
         </mat-toolbar>
-        <mat-sidenav-container fxFlexFill class="example-container">
-                <mat-sidenav color="primary" #sidenav fxLayout="column" mode="over"  opened="false" fxHide.gt-sm="true">
-                        <div fxLayout="column">
-                                <a mat-button routerLink="/url">Tablón de anuncios</a>
-                                <a mat-button routerLink="task/new">Tareas: Nueva</a>
-                                <a mat-button routerLink="/url">Tareas: Enviadas</a>
-                                <a mat-button routerLink="/url">Tareas: Repositorio</a>
-                                <a mat-button routerLink="/url">Estadísticas</a>
-                                <a mat-button routerLink="/url">Idioma: Inglés</a>
-                                <a mat-button routerLink="/url">Idioma: Español</a>
-                                <a mat-button (click)="logout()">Cerrar sesión</a>
-                        </div>
-                </mat-sidenav>
-                <mat-sidenav-content fxFlexFill>
-                        <router-outlet></router-outlet>
-                </mat-sidenav-content>
-        </mat-sidenav-container>
+        <router-outlet></router-outlet>
 </div>
     

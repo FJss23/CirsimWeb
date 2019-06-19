@@ -3,8 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { TeacherComponent } from './teacher/teacher.component';
 import { TeacherHomeComponent } from './teacher-home/teacher-home.component';
 import { TeacherGuard } from '../guards/teacher.guard';
-import { NewTaskComponent } from './task/new-task/new-task.component';
-import { SimulationExerciseComponent } from './exercise/simulation-exercise/simulation-exercise.component';
+import { TeacherNewTaskComponent } from './teacher-new-task/teacher-new-task.component';
+import { TeacherExerciseComponent } from './teacher-exercise/teacher-exercise.component';
 
 const routes: Routes = [
   {
@@ -18,11 +18,11 @@ const routes: Routes = [
       },
       {
         path: 'task/new',
-        component: NewTaskComponent
+        component: TeacherNewTaskComponent 
       },
       {
         path: 'task/new/simulation',
-        component: SimulationExerciseComponent
+        component: TeacherExerciseComponent
       }
     ]
   }

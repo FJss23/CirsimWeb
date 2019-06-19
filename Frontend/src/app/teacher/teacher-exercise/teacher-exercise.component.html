@@ -1,31 +1,28 @@
 
-<div class="step1" fxLayout="column" fxLayoutAlign="start center" *ngIf="visibleStepOne">
-  <h1>Selección de layout</h1>
-  <mat-radio-group aria-label="Select an option" [(ngModel)]="numSelectedLayout">
-      <mat-radio-button value="1">Simple</mat-radio-button>
-      <mat-radio-button value="2">Doble</mat-radio-button>
-      <mat-radio-button value="3">Triple</mat-radio-button>
-      <mat-radio-button value="6">2x3</mat-radio-button>
-  </mat-radio-group>
-  <div>
-    <button mat-button color="primary" (click)="nextStepTwo()">Siguiente</button>
-  </div>
-</div>
-
-<div class="step2" fxLayout="column" fxLayoutAlign="start center" *ngIf="visibleStepTwo"> 
-  <h1>Añadir imagen</h1>
-  <div *ngFor ="let element of numInputForImage">
-    <label>{{element}}</label>
-    <img [src]="url" height="200" *ngIf="url"> 
-    <input type="file" accept="image/jpeg" (change)="onSelectFile($event)">
-  </div>
-  <div>
-    <button mat-button color="primary" (click)="backStepOne()">Atrás</button>
-    <button mat-button color="primary" (click)="nextStepThree()">Siguiente</button>
-  </div>
-</div>
-
-<div class="step3" fxLayout="column" fxLayoutAlign="start center" *ngIf="visibleStepThree">
+<div class="step3" fxLayout="column" fxLayoutAlign="start center">
+  <mat-card>
+    <mat-card-title>Añadir descripción y título </mat-card-title>
+    <mat-card-subtitle>Añade un título para el ejercicio y una descripción del mismo</mat-card-subtitle>
+    <mat-card-content>
+      <mat-form-field>
+        <div>
+          <input matInput type="text">
+        </div>
+        <div>
+          <input matInput type="text"> 
+        </div>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-title>Añadir imagen</mat-card-title>
+    <mat-card-subtitle>Selecciona una imagen para añadir en el proceso de conexionado</mat-card-subtitle>
+    <mat-card-content>
+      <div>
+        <input type="file" accept="image/jpeg" (change)="onSelectFile($event)">
+      </div>
+    </mat-card-content>
+  </mat-card>
   <mat-card>
     <mat-card-title>Proceso de conexionado</mat-card-title>
     <mat-card-subtitle>Añade puntos y conexiones sobre la imagen</mat-card-subtitle>
@@ -34,9 +31,9 @@
         <mat-button-toggle-group aria-label="Font Style">
           <mat-button-toggle value="addPointMode" (click)="addPointMode()" fxFlex="25">Puntos</mat-button-toggle>
           <mat-button-toggle value="addConnectionMode" (click)="addConnectionMode()" fxFlex="25">Conexiones</mat-button-toggle>
-          <mat-button-toggle value="selectionMode" (click)="selectionMode()" fxFlex="25">Selección</mat-button-toggle>
-          <mat-button-toggle value="removeMode" fxFlex="25" [disabled]="!canDelete" 
-            (change)="toggleChange($event)">Borrar</mat-button-toggle>
+          <mat-button-toggle value="selectionMode" (click)="selectionMode()" fxFlex="25">Editar</mat-button-toggle>
+          <mat-button-toggle value="removeMode" fxFlex="25"
+            (click)="activateDelete()">Borrar</mat-button-toggle>
         </mat-button-toggle-group>
        </div>
       <div fxLayout="row" class="content"  fxLayoutGap="20px">
@@ -76,8 +73,7 @@
     </div>
   </mat-card>
   <div>
-    <button mat-button color="primary" (click)="backStepTwo()">Atrás</button>
-    <button mat-button color="primary" (click)="exerciseDone()">Confirmar</button>
+    <button mat-button color="primary" (click)="exerciseDone()">Terminar</button>
   </div>
 </div>
 

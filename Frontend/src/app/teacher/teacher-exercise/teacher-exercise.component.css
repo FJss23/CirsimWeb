@@ -4,18 +4,10 @@
 
 .buttons {
     margin-bottom: 1%;
-    font-size: 70%;
-}
-.campo {
-    font-size: 50%;
 }
 
 #top-from-field {
     margin-top: 7%;
-}
-
-.label-campo {
-    font-size: 50%;
 }
 
 .label-option {
@@ -24,4 +16,4 @@
 
 mat-slider {
     width: 100%;
-  }
+}
