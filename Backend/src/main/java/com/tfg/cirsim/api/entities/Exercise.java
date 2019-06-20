@@ -1,6 +1,5 @@
 package com.tfg.cirsim.api.entities;
 
-import java.sql.Connection;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -19,6 +18,8 @@ public class Exercise {
 	@GeneratedValue
 	private Long id;
 	
+	private String visId;
+	
 	private String title;
 	
 	private String description;
@@ -31,8 +32,9 @@ public class Exercise {
 	
 	public Exercise() { }
 	
-	public Exercise(String title, String description, List<Point> points, List<Connection> connection,
-			Image image) {
+	public Exercise(String visId, String title, String description, List<Point> points,
+			List<Connection> connection, Image image) {
+		this.visId = visId;
 		this.title = title;
 		this.description = description;
 		this.points = points;
@@ -40,10 +42,11 @@ public class Exercise {
 		this.image = image;
 	}
 
-	public Exercise(Long id, String title, String description, List<Point> points, List<Connection> connection,
-			Image image) {
+	public Exercise(Long id, String visId, String title, String description, List<Point> points,
+			List<Connection> connection, Image image) {
 		super();
 		this.id = id;
+		this.visId = visId;
 		this.title = title;
 		this.description = description;
 		this.points = points;
@@ -57,6 +60,14 @@ public class Exercise {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getVisId() {
+		return visId;
+	}
+
+	public void setVisId(String visId) {
+		this.visId = visId;
 	}
 
 	public String getTitle() {
@@ -101,8 +112,7 @@ public class Exercise {
 
 	@Override
 	public String toString() {
-		return "Exercise [id=" + id + ", title=" + title + ", description=" + description + ", points=" + points
-				+ ", connection=" + connection + ", image=" + image + "]";
+		return "Exercise [id=" + id + ", visId=" + visId + ", title=" + title + ", description=" + description
+				+ ", points=" + points + ", connection=" + connection + ", image=" + image + "]";
 	}
-	
 }
