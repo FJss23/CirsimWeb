@@ -27,7 +27,7 @@ export class TeacherExerciseComponent implements OnInit {
   public defaultSize: string;
   public activeSelectionMode: boolean;
 
-  constructor(public taskService: TaskService) { }
+  constructor(private taskService: TaskService) { }
 
   ngOnInit() {
     this.positionsImage = [
@@ -132,6 +132,7 @@ export class TeacherExerciseComponent implements OnInit {
     let description = 'descripción de prueba para el ejercicio';
     let exercise = new Exercise(title, description,
     this.getPoints(), this.getConnections(), this.getImage());
+    this.taskService.addExercise(exercise);
   }
 
   getImage(): Image {
@@ -145,7 +146,6 @@ export class TeacherExerciseComponent implements OnInit {
     let connections: Connection = {
       data: JSON.stringify(connectionsNetwork)
     }
-    console.log(connections.data);
     return connections;
   }
  
@@ -154,7 +154,6 @@ export class TeacherExerciseComponent implements OnInit {
     let points: Point = {
       data: JSON.stringify(pointNetwork)
     }
-    console.log(points.data);
     return points;
   } 
 

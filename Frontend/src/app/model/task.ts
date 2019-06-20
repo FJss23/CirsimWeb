@@ -1,19 +1,30 @@
 import { Exercise } from './exercise';
+import { User } from './user';
 
 export class Task { 
-    author: string;
+    author: User;
     grade: string;
-    code: string;
     name: string;
     openDate: Date;
     exercises: Exercise[];
 
-    constructor(author: string, grade: string, code: string, name: string){
+    constructor(author: User){
         this.author = author;
-        this.grade = grade;
-        this.code = code;
-        this.name = name;
         this.openDate = new Date();
         this.exercises = [];
+    }
+
+    addExercise(exercise: Exercise): void {
+        this.exercises.push(exercise);
+    }
+
+    setGrade(grade: string): Task {
+        this.grade = grade;
+        return this;
+    }
+
+    setName(name: string): Task {
+        this.name = name;
+        return this;
     }
 }

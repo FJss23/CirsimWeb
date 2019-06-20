@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   login: 'http://localhost:8081/login',
-  allUsers: 'http://localhost:8081/api/cirsim/user'
+  allUsers: 'http://localhost:8081/api/cirsim/user',
+  newTask: 'http://localhost:8081/api/cirsim/task'
 };
 
 /*

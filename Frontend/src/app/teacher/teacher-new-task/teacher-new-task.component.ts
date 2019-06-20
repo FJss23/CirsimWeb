@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { TaskService } from 'src/app/services/task.service';
+import { Task } from 'src/app/model/task';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-teacher-new-task',
@@ -7,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TeacherNewTaskComponent implements OnInit {
 
-  constructor() { }
+  constructor(private taskService: TaskService,
+    private authService: AuthService) { }
 
   ngOnInit() {
+    this.initializeTask();
   }
 
+  initializeTask(): void {
+    let task = new Task(this.authService.getAuthenticatedUser());
+    this.taskService.initializeTask(task);
+  }
+
+  addTask(): void {
+    this.taskService.getTask().setGrade('1ºA').setName('Autor1');
+  }
 }
