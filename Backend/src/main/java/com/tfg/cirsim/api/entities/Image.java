@@ -3,6 +3,7 @@ package com.tfg.cirsim.api.entities;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  * 
@@ -23,6 +24,9 @@ public class Image {
 	private String position;
 	
 	private String size;
+	
+	@OneToOne(mappedBy = "image")
+	private Exercise exercise;
 	
 	public Image() { }
 	

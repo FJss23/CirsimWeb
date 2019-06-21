@@ -1,8 +1,14 @@
 package com.tfg.cirsim.api.entities;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  * 
@@ -17,13 +23,24 @@ public class Connection {
 	@GeneratedValue
 	private Long id;
 	
+	@Column(name = "vis_id")
 	private String visId;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "point_from_id", referencedColumnName = "id")
 	private Point from;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "point_to_id", referencedColumnName = "id")
 	private Point to;
 	
 	private int width;
+	
+	@ManyToOne
+	@JoinTable(name = "TEXERCISE_CONNECTION",
+		joinColumns = @JoinColumn(name = "connection_id"), 
+		inverseJoinColumns = @JoinColumn(name = "exercise_id"))
+	private Exercise exercise;
 	
 	public Connection() { }
 

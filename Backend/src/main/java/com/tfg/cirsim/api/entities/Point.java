@@ -1,8 +1,10 @@
 package com.tfg.cirsim.api.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 /**
  * 
@@ -16,8 +18,13 @@ public class Point {
 	@GeneratedValue
 	private Long id;
 	
+	@Column(name = "vis_id")
+	private String visId;
+	
+	@Column(name = "position_x")
 	private String positionX;
 	
+	@Column(name = "position_y")
 	private String positionY;
 	
 	private String label;
@@ -28,10 +35,17 @@ public class Point {
 	
 	private int size;
 	
+	@OneToOne(mappedBy = "from")
+	private Connection connectionTo;
+	
+	@OneToOne(mappedBy = "to")
+	private Connection connectionFrom;
+	
 	public Point() { }
 
-	public Point(String positionX, String positionY, String label, 
+	public Point(String visId, String positionX, String positionY, String label, 
 			String color, String shape, int size) {
+		this.visId = visId;
 		this.positionX = positionX;
 		this.positionY = positionY;
 		this.label = label;
@@ -40,10 +54,11 @@ public class Point {
 		this.size = size;
 	}
 	
-	public Point(Long id, String positionX, String positionY, String label, 
+	public Point(Long id, String visId,String positionX, String positionY, String label, 
 			String color, String shape, int size) {
 		super();
 		this.id = id;
+		this.visId = visId;
 		this.positionX = positionX;
 		this.positionY = positionY;
 		this.label = label;

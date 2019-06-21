@@ -1,11 +1,15 @@
 package com.tfg.cirsim.api.entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 /**
  * 
@@ -35,6 +39,12 @@ public class User {
 	
 	@Enumerated(EnumType.STRING)
 	private Status status;
+	
+	@OneToMany(mappedBy = "author")
+	private List<Task> taskAuthor;
+	
+	@ManyToMany(mappedBy = "students")
+	private List<Task> taskToDo;
 
 	public User() { }
 	

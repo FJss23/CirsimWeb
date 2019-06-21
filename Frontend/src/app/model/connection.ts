@@ -1,3 +1,8 @@
+import { Point } from './point';
+
 export interface Connection {
-    data: any;
+    visId: string;
+    from: Point;
+    to: Point;
+    width: number;
 }

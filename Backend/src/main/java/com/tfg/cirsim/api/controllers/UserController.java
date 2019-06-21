@@ -49,7 +49,7 @@ public class UserController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@GetMapping(value= "/user/{id}")
+	@GetMapping(value = "/user/{id}")
 	public User getUser(@PathVariable Long id) {
 		try {
 			return userService.getUser(id);

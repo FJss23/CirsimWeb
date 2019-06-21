@@ -7,6 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  * 
@@ -21,23 +26,31 @@ public class Task {
 	@GeneratedValue
 	private Long id;
 	
-	@Column(nullable = false, unique = true)
+	@ManyToOne
+	@JoinTable(name = "TTASK_CREATED_BY",
+	 	joinColumns = @JoinColumn(name = "task_id"), 
+	 	inverseJoinColumns = @JoinColumn(name = "author_id"))
 	private User author;
 	
-	private String grade;
+	@ManyToMany
+	@JoinTable(name = "TTASK_ASIGNED_TO",
+		joinColumns = @JoinColumn(name = "task_id"), 
+		inverseJoinColumns = @JoinColumn(name = "student_id"))
+	private List<User> students;
 	
 	private String name;
 	
+	@Column(name = "open_date")
 	private Date openDate;
 	
+	@OneToMany(mappedBy = "task")
 	private List<Exercise> exercises;
 	
 	public Task() { }
 	
 	public Task(User author, String grade, String name, Date openDate,
 			List<Exercise> exercises) {
-		this.author = author;
-		this.grade = grade;
+//		this.author = author;
 		this.name = name;
 		this.openDate = openDate;
 		this.exercises = exercises;
@@ -47,8 +60,7 @@ public class Task {
 			List<Exercise> exercises) {
 		super();
 		this.id = id;
-		this.author = author;
-		this.grade = grade;
+//		this.author = author;
 		this.name = name;
 		this.openDate = openDate;
 		this.exercises = exercises;
@@ -62,21 +74,14 @@ public class Task {
 		this.id = id;
 	}
 
-	public User getAuthor() {
-		return author;
-	}
+//	public User getAuthor() {
+//		return author;
+//	}
+//
+//	public void setAuthor(User author) {
+//		this.author = author;
+//	}
 
-	public void setAuthor(User author) {
-		this.author = author;
-	}
-
-	public String getGrade() {
-		return grade;
-	}
-
-	public void setGrade(String grade) {
-		this.grade = grade;
-	}
 
 	public String getName() {
 		return name;
@@ -101,11 +106,11 @@ public class Task {
 	public void setExercises(List<Exercise> exercises) {
 		this.exercises = exercises;
 	}
-
-	@Override
-	public String toString() {
-		return "Task [id=" + id + ", author=" + author + ", grade=" + grade + ", name=" + name + ", openDate="
-				+ openDate + ", exercises=" + exercises + "]";
-	}
+//
+//	@Override
+//	public String toString() {
+//		return "Task [id=" + id + ", author=" + author + ", name=" + name + ", openDate="
+//				+ openDate + ", exercises=" + exercises + "]";
+//	}
 	
 }

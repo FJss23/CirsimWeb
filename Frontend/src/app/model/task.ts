@@ -3,7 +3,6 @@ import { User } from './user';
 
 export class Task { 
     author: User;
-    grade: string;
     name: string;
     openDate: Date;
     exercises: Exercise[];
@@ -16,11 +15,6 @@ export class Task {
 
     addExercise(exercise: Exercise): void {
         this.exercises.push(exercise);
-    }
-
-    setGrade(grade: string): Task {
-        this.grade = grade;
-        return this;
     }
 
     setName(name: string): Task {

@@ -23,6 +23,6 @@ export class TeacherNewTaskComponent implements OnInit {
   }
 
   addTask(): void {
-    this.taskService.getTask().setGrade('1ºA').setName('Autor1');
+    this.taskService.getTask().setName('Autor1');
   }
 }

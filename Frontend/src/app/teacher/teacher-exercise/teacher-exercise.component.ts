@@ -131,7 +131,7 @@ export class TeacherExerciseComponent implements OnInit {
     let title = 'título de prueba';
     let description = 'descripción de prueba para el ejercicio';
     let exercise = new Exercise(title, description,
-    this.getPoints(), this.getConnections(), this.getImage());
+    this.getConnections(), this.getImage());
     this.taskService.addExercise(exercise);
   }
 
@@ -141,19 +141,38 @@ export class TeacherExerciseComponent implements OnInit {
     return new Image(this.url, position, size);
   }
 
-  getConnections(): Connection {
+  getConnections(): Connection[] {
     let connectionsNetwork = this.network.body.data.edges._data;
-    let connections: Connection = {
-      data: JSON.stringify(connectionsNetwork)
+    let connections: Connection[] = [];
+    for(let elem in connectionsNetwork){
+      let connection: Connection = {
+        visId: connectionsNetwork[elem].id,
+        from: connectionsNetwork[elem].from,
+        to: connectionsNetwork[elem].to,
+        width: connectionsNetwork[elem].width
+      }
+      connections.push(connection);
     }
+    console.log(connections);
     return connections;
   }
  
-  private getPoints(): Point {
+  private getPoints(): Point[] {
     let pointNetwork = this.network.body.data.nodes._data;
-    let points: Point = {
-      data: JSON.stringify(pointNetwork)
+    let points: Point[] = [];
+    for(let elem in pointNetwork){
+      let point: Point = {
+        visId: pointNetwork[elem].id,
+        positionX: pointNetwork[elem].x,
+        positionY: pointNetwork[elem].y,
+        label: pointNetwork[elem].label,
+        color: pointNetwork[elem].color,
+        shape: pointNetwork[elem].shape,
+        size: pointNetwork[elem].size
+      }
+      points.push(point);
     }
+    console.log(points);
     return points;
   } 
 

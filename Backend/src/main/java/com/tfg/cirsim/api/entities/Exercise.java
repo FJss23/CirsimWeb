@@ -2,9 +2,15 @@ package com.tfg.cirsim.api.entities;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  * 
@@ -24,32 +30,37 @@ public class Exercise {
 	
 	private String description;
 	
-	private List<Point> points;
-	
+	@OneToMany(mappedBy = "exercise")
 	private List<Connection> connection;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "image_id", referencedColumnName = "id")
 	private Image image;
+	
+	@ManyToOne
+	@JoinTable(name = "TEXERCISE_TASK",
+ 		joinColumns = @JoinColumn(name = "exercise_id"), 
+ 		inverseJoinColumns = @JoinColumn(name = "task_id"))
+	private Task task;
 	
 	public Exercise() { }
 	
-	public Exercise(String visId, String title, String description, List<Point> points,
+	public Exercise(String visId, String title, String description,
 			List<Connection> connection, Image image) {
 		this.visId = visId;
 		this.title = title;
 		this.description = description;
-		this.points = points;
 		this.connection = connection;
 		this.image = image;
 	}
 
-	public Exercise(Long id, String visId, String title, String description, List<Point> points,
+	public Exercise(Long id, String visId, String title, String description,
 			List<Connection> connection, Image image) {
 		super();
 		this.id = id;
 		this.visId = visId;
 		this.title = title;
 		this.description = description;
-		this.points = points;
 		this.connection = connection;
 		this.image = image;
 	}
@@ -86,14 +97,6 @@ public class Exercise {
 		this.description = description;
 	}
 
-	public List<Point> getPoints() {
-		return points;
-	}
-
-	public void setPoints(List<Point> points) {
-		this.points = points;
-	}
-
 	public List<Connection> getConnection() {
 		return connection;
 	}
@@ -113,6 +116,6 @@ public class Exercise {
 	@Override
 	public String toString() {
 		return "Exercise [id=" + id + ", visId=" + visId + ", title=" + title + ", description=" + description
-				+ ", points=" + points + ", connection=" + connection + ", image=" + image + "]";
+				+ ", connection=" + connection + ", image=" + image + "]";
 	}
 }
