@@ -1,7 +1,7 @@
 package com.tfg.cirsim.api.entities;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,7 +36,7 @@ public class Task {
 	@JoinTable(name = "TTASK_ASIGNED_TO",
 		joinColumns = @JoinColumn(name = "task_id"), 
 		inverseJoinColumns = @JoinColumn(name = "student_id"))
-	private List<User> students;
+	private Set<User> students;
 	
 	private String name;
 	
@@ -44,23 +44,15 @@ public class Task {
 	private Date openDate;
 	
 	@OneToMany(mappedBy = "task")
-	private List<Exercise> exercises;
+	private Set<Exercise> exercises;
 	
 	public Task() { }
-	
-	public Task(User author, String grade, String name, Date openDate,
-			List<Exercise> exercises) {
-//		this.author = author;
-		this.name = name;
-		this.openDate = openDate;
-		this.exercises = exercises;
-	}
-	
-	public Task(Long id, User author, String grade, String name, Date openDate,
-			List<Exercise> exercises) {
+
+	public Task(Long id, User author, Set<User> students, String name, Date openDate, Set<Exercise> exercises) {
 		super();
 		this.id = id;
-//		this.author = author;
+		this.author = author;
+		this.students = students;
 		this.name = name;
 		this.openDate = openDate;
 		this.exercises = exercises;
@@ -74,14 +66,21 @@ public class Task {
 		this.id = id;
 	}
 
-//	public User getAuthor() {
-//		return author;
-//	}
-//
-//	public void setAuthor(User author) {
-//		this.author = author;
-//	}
+	public User getAuthor() {
+		return author;
+	}
 
+	public void setAuthor(User author) {
+		this.author = author;
+	}
+
+	public Set<User> getStudents() {
+		return students;
+	}
+
+	public void setStudents(Set<User> students) {
+		this.students = students;
+	}
 
 	public String getName() {
 		return name;
@@ -99,18 +98,43 @@ public class Task {
 		this.openDate = openDate;
 	}
 
-	public List<Exercise> getExercises() {
+	public Set<Exercise> getExercises() {
 		return exercises;
 	}
 
-	public void setExercises(List<Exercise> exercises) {
+	public void setExercises(Set<Exercise> exercises) {
 		this.exercises = exercises;
 	}
-//
-//	@Override
-//	public String toString() {
-//		return "Task [id=" + id + ", author=" + author + ", name=" + name + ", openDate="
-//				+ openDate + ", exercises=" + exercises + "]";
-//	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((openDate == null) ? 0 : openDate.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Task other = (Task) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (openDate == null) {
+			if (other.openDate != null)
+				return false;
+		} else if (!openDate.equals(other.openDate))
+			return false;
+		return true;
+	}
 	
 }

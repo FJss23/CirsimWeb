@@ -2,13 +2,11 @@ import { Exercise } from './exercise';
 import { User } from './user';
 
 export class Task { 
-    author: User;
     name: string;
     openDate: Date;
     exercises: Exercise[];
 
-    constructor(author: User){
-        this.author = author;
+    constructor(){
         this.openDate = new Date();
         this.exercises = [];
     }

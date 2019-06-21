@@ -5,6 +5,7 @@ import { Exercise } from 'src/app/model/exercise';
 import { Point } from 'src/app/model/point';
 import { Connection } from '../../model/connection';
 import { Image } from '../../model/image';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-teacher-exercise',
@@ -27,7 +28,8 @@ export class TeacherExerciseComponent implements OnInit {
   public defaultSize: string;
   public activeSelectionMode: boolean;
 
-  constructor(private taskService: TaskService) { }
+  constructor(private taskService: TaskService,
+    private router: Router) { }
 
   ngOnInit() {
     this.positionsImage = [
@@ -63,6 +65,7 @@ export class TeacherExerciseComponent implements OnInit {
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = () => { 
         this.url = reader.result; 
+        console.log(this.url);
         this.setBackgroundImage();
       }
     }
@@ -132,7 +135,9 @@ export class TeacherExerciseComponent implements OnInit {
     let description = 'descripción de prueba para el ejercicio';
     let exercise = new Exercise(title, description,
     this.getConnections(), this.getImage());
-    this.taskService.addExercise(exercise);
+
+    this.taskService.addExerciseCurrentTask(exercise);
+    this.router.navigateByUrl('/teacher/task/new');
   }
 
   getImage(): Image {
@@ -141,20 +146,29 @@ export class TeacherExerciseComponent implements OnInit {
     return new Image(this.url, position, size);
   }
 
-  getConnections(): Connection[] {
+  private getConnections(): Connection[] {
     let connectionsNetwork = this.network.body.data.edges._data;
     let connections: Connection[] = [];
     for(let elem in connectionsNetwork){
       let connection: Connection = {
         visId: connectionsNetwork[elem].id,
-        from: connectionsNetwork[elem].from,
-        to: connectionsNetwork[elem].to,
+        from: this.getPoint(connectionsNetwork[elem].from),
+        to: this.getPoint(connectionsNetwork[elem].to),
         width: connectionsNetwork[elem].width
       }
       connections.push(connection);
     }
-    console.log(connections);
     return connections;
+  }
+
+  private getPoint(input: any): Point {
+    let correctPoint;
+    this.getPoints().forEach(point => {
+      if(point.visId == input){
+        correctPoint = point;
+      }
+    });
+    return correctPoint; 
   }
  
   private getPoints(): Point[] {
@@ -172,7 +186,6 @@ export class TeacherExerciseComponent implements OnInit {
       }
       points.push(point);
     }
-    console.log(points);
     return points;
   } 
 

@@ -8,7 +8,8 @@
                         <a mat-button [matMenuTriggerFor]="lengMenu" >
                                 <mat-menu #lengMenu="matMenu" xPosition="after" color="primary">
                                         <button mat-menu-item routerLink="/url">Enviadas</button>
-                                        <button mat-menu-item routerLink="task/new">Nueva</button>
+                                        <button mat-menu-item routerLink="task/new"
+                                        (click)="initializeTask()">Nueva</button>
                                 </mat-menu>
                                 <mat-icon  class="icon">school</mat-icon> Tareas
                         </a>

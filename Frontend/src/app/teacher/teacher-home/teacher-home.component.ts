@@ -13,5 +13,5 @@ export class TeacherHomeComponent implements OnInit {
   ngOnInit() {
     this.name = 'Profesor X'
   }
-
+  
 }

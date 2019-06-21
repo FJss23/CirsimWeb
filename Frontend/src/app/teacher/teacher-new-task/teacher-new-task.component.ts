@@ -14,15 +14,14 @@ export class TeacherNewTaskComponent implements OnInit {
     private authService: AuthService) { }
 
   ngOnInit() {
-    this.initializeTask();
-  }
-
-  initializeTask(): void {
-    let task = new Task(this.authService.getAuthenticatedUser());
-    this.taskService.initializeTask(task);
+    
   }
 
   addTask(): void {
-    this.taskService.getTask().setName('Autor1');
+    this.taskService.getCurrentTask().setName('Tarea de prueba');
+    this.taskService.addTask().subscribe(() => {
+        console.log(`New task Added`);
+      }
+    );
   }
 }

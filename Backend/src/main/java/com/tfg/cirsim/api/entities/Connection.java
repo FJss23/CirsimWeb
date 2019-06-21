@@ -44,20 +44,14 @@ public class Connection {
 	
 	public Connection() { }
 
-	public Connection(String visId, Point from, Point to, int width) {
-		this.visId = visId;
-		this.from = from;
-		this.to = to;
-		this.width = width;
-	}
-	
-	public Connection(Long id, String visId, Point from, Point to, int width) {
+	public Connection(Long id, String visId, Point from, Point to, int width, Exercise exercise) {
 		super();
 		this.id = id;
 		this.visId = visId;
 		this.from = from;
 		this.to = to;
 		this.width = width;
+		this.exercise = exercise;
 	}
 
 	public Long getId() {
@@ -100,9 +94,42 @@ public class Connection {
 		this.width = width;
 	}
 
-	@Override
-	public String toString() {
-		return "Connection [id=" + id + ", visId=" + visId + ", from=" + from + ", to=" + to + ", width=" + width + "]";
+	public Exercise getExercise() {
+		return exercise;
 	}
+
+	public void setExercise(Exercise exercise) {
+		this.exercise = exercise;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((visId == null) ? 0 : visId.hashCode());
+		result = prime * result + width;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Connection other = (Connection) obj;
+		if (visId == null) {
+			if (other.visId != null)
+				return false;
+		} else if (!visId.equals(other.visId))
+			return false;
+		if (width != other.width)
+			return false;
+		return true;
+	}
+
+	
 
 }

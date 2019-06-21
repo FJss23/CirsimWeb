@@ -7,5 +7,5 @@ package com.tfg.cirsim.api.entities;
  *
  */
 public enum Status {
-	STATUS_ACTIVE, STATUS_INACTIVE
+	ACTIVE, INACTIVE
 }

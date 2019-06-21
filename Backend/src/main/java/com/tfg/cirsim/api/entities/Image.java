@@ -29,19 +29,14 @@ public class Image {
 	private Exercise exercise;
 	
 	public Image() { }
-	
-	public Image(String imageb64, String position, String size) {
-		this.imageb64 = imageb64;
-		this.position = position;
-		this.size = size;
-	}
 
-	public Image(Long id, String imageb64, String position, String size) {
+	public Image(Long id, String imageb64, String position, String size, Exercise exercise) {
 		super();
 		this.id = id;
 		this.imageb64 = imageb64;
 		this.position = position;
 		this.size = size;
+		this.exercise = exercise;
 	}
 
 	public Long getId() {
@@ -76,9 +71,51 @@ public class Image {
 		this.size = size;
 	}
 
-	@Override
-	public String toString() {
-		return "Image [id=" + id + ", imageb64=" + imageb64 + ", position=" + position + ", size=" + size + "]";
+	public Exercise getExercise() {
+		return exercise;
 	}
 
+	public void setExercise(Exercise exercise) {
+		this.exercise = exercise;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((imageb64 == null) ? 0 : imageb64.hashCode());
+		result = prime * result + ((position == null) ? 0 : position.hashCode());
+		result = prime * result + ((size == null) ? 0 : size.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Image other = (Image) obj;
+		if (imageb64 == null) {
+			if (other.imageb64 != null)
+				return false;
+		} else if (!imageb64.equals(other.imageb64))
+			return false;
+		if (position == null) {
+			if (other.position != null)
+				return false;
+		} else if (!position.equals(other.position))
+			return false;
+		if (size == null) {
+			if (other.size != null)
+				return false;
+		} else if (!size.equals(other.size))
+			return false;
+		return true;
+	}
+
+
+	
 }

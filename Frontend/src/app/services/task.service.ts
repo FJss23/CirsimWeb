@@ -6,6 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { tap } from 'rxjs/operators';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,7 @@ export class TaskService {
   task: Task;
   httpOptions: { headers; observe; };
 
-  constructor(private http: HttpClient,
-    private router: Router) { 
+  constructor(private http: HttpClient) { 
 
       this.httpOptions = {
         headers: new HttpHeaders({ 'Accept': 'application/json',
@@ -26,24 +26,24 @@ export class TaskService {
   }
 
   initializeTask(task: Task): void {
-    console.log(`initialize task`);
     this.task = task;
   }
 
-  addExercise(exercise: Exercise): void {
-    console.log(exercise);
-    console.log(this.task);
+  addExerciseCurrentTask(exercise: Exercise): void {
+    if(!this.task){
+      this.task = new Task();
+    }
     this.task.addExercise(exercise);
   }
 
-  getTask(): Task {
+  getCurrentTask(): Task {
     return this.task;
   }
 
   addTask(): Observable<any> {
     console.log(this.task);
     return this.http.post<Task>(environment.newTask, this.task, this.httpOptions).pipe(
-      tap(() => console.log(`Adding new task`))
+      tap(() => console.log(`Sending new task to backend`))
     );
   }
 }
