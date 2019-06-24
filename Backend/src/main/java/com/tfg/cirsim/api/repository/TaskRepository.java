@@ -6,4 +6,5 @@ import com.tfg.cirsim.api.entities.Task;
 
 public interface TaskRepository extends CrudRepository<Task, Long> {
 
+	Task findTopByOrderByIdDesc();
 }

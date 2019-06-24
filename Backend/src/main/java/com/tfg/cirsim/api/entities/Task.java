@@ -1,6 +1,7 @@
 package com.tfg.cirsim.api.entities;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -29,13 +30,13 @@ public class Task {
 	@ManyToOne
 	@JoinTable(name = "TTASK_CREATED_BY",
 	 	joinColumns = @JoinColumn(name = "task_id"), 
-	 	inverseJoinColumns = @JoinColumn(name = "author_id"))
+	 	inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private User author;
 	
 	@ManyToMany
 	@JoinTable(name = "TTASK_ASIGNED_TO",
 		joinColumns = @JoinColumn(name = "task_id"), 
-		inverseJoinColumns = @JoinColumn(name = "student_id"))
+		inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> students;
 	
 	private String name;
@@ -44,10 +45,10 @@ public class Task {
 	private Date openDate;
 	
 	@OneToMany(mappedBy = "task")
-	private Set<Exercise> exercises;
+	private Set<Exercise> exercises = new HashSet<Exercise>();
 	
 	public Task() { }
-
+	
 	public Task(Long id, User author, Set<User> students, String name, Date openDate, Set<Exercise> exercises) {
 		super();
 		this.id = id;

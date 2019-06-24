@@ -1,7 +1,7 @@
 package com.tfg.cirsim.api.services.impl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Override
-	public List<User> getUsers() {
-		List<User> users = new ArrayList<User>();
+	public Set<User> getUsers() {
+		Set<User> users = new HashSet<User>();
 		userRepository.findAll().forEach(users::add);
 		return users;
 	}

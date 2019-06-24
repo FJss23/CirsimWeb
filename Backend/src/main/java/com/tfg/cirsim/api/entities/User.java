@@ -1,11 +1,13 @@
 package com.tfg.cirsim.api.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -40,11 +42,11 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-	@OneToMany(mappedBy = "author")
-	private Set<Task> taskAuthor;
+	@OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+	private Set<Task> taskAuthor = new HashSet<Task>();
 	
-	@ManyToMany(mappedBy = "students")
-	private Set<Task> taskToDo;
+	@ManyToMany(mappedBy = "students", fetch = FetchType.EAGER)
+	private Set<Task> taskToDo = new HashSet<Task>();
 
 	public User() { }
 	
@@ -57,17 +59,19 @@ public class User {
 		this.role = role;
 		this.status = Status.ACTIVE;
 	}
-	
-	public User(Long id, String username, String password, String name,
-			String surname, Role role) {
+
+	public User(Long id, String password, String username, String name, String surname, Role role, Status status,
+			Set<Task> taskAuthor, Set<Task> taskToDo) {
 		super();
 		this.id = id;
-		this.username = username;
 		this.password = password;
+		this.username = username;
 		this.name = name;
 		this.surname = surname;
 		this.role = role;
-		this.status = Status.ACTIVE;
+		this.status = status;
+		this.taskAuthor = taskAuthor;
+		this.taskToDo = taskToDo;
 	}
 
 	public Long getId() {

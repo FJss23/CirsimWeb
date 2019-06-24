@@ -133,9 +133,11 @@ export class TeacherExerciseComponent implements OnInit {
   exerciseDone(): void {
     let title = 'título de prueba';
     let description = 'descripción de prueba para el ejercicio';
+    let points = this.getPoints();
+    
     let exercise = new Exercise(title, description,
-    this.getConnections(), this.getImage());
-
+    this.getConnections(points), points, this.getImage());
+    console.log(points);
     this.taskService.addExerciseCurrentTask(exercise);
     this.router.navigateByUrl('/teacher/task/new');
   }
@@ -146,14 +148,14 @@ export class TeacherExerciseComponent implements OnInit {
     return new Image(this.url, position, size);
   }
 
-  private getConnections(): Connection[] {
+  private getConnections(points: Point[]): Connection[] {
     let connectionsNetwork = this.network.body.data.edges._data;
     let connections: Connection[] = [];
     for(let elem in connectionsNetwork){
       let connection: Connection = {
         visId: connectionsNetwork[elem].id,
-        from: this.getPoint(connectionsNetwork[elem].from),
-        to: this.getPoint(connectionsNetwork[elem].to),
+        from: this.getPoint(points, connectionsNetwork[elem].from),
+        to: this.getPoint(points, connectionsNetwork[elem].to),
         width: connectionsNetwork[elem].width
       }
       connections.push(connection);
@@ -161,9 +163,9 @@ export class TeacherExerciseComponent implements OnInit {
     return connections;
   }
 
-  private getPoint(input: any): Point {
+  private getPoint(points: Point[], input: any): Point {
     let correctPoint;
-    this.getPoints().forEach(point => {
+    points.forEach(point => {
       if(point.visId == input){
         correctPoint = point;
       }

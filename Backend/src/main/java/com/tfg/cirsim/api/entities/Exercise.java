@@ -1,9 +1,11 @@
 package com.tfg.cirsim.api.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -29,7 +31,10 @@ public class Exercise {
 	private String description;
 	
 	@OneToMany(mappedBy = "exercise")
-	private Set<Connection> connections;
+	private Set<Connection> connections = new HashSet<Connection>();
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "exercise")
+	private Set<Point> points = new HashSet<Point>();
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "image_id", referencedColumnName = "id")
@@ -43,12 +48,15 @@ public class Exercise {
 	
 	public Exercise() { }
 
-	public Exercise(Long id, String title, String description, Set<Connection> connections, Image image, Task task) {
+
+	public Exercise(Long id, String title, String description, Set<Connection> connections, Set<Point> points,
+			Image image, Task task) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.connections = connections;
+		this.points = points;
 		this.image = image;
 		this.task = task;
 	}
@@ -57,49 +65,71 @@ public class Exercise {
 		return id;
 	}
 
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 
 	public String getTitle() {
 		return title;
 	}
 
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 
 	public String getDescription() {
 		return description;
 	}
 
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 
 	public Set<Connection> getConnections() {
 		return connections;
 	}
 
+
 	public void setConnections(Set<Connection> connections) {
 		this.connections = connections;
 	}
+
+
+	public Set<Point> getPoints() {
+		return points;
+	}
+
+
+	public void setPoints(Set<Point> points) {
+		this.points = points;
+	}
+
 
 	public Image getImage() {
 		return image;
 	}
 
+
 	public void setImage(Image image) {
 		this.image = image;
 	}
+
 
 	public Task getTask() {
 		return task;
 	}
 
+
 	public void setTask(Task task) {
 		this.task = task;
 	}
+
 
 	@Override
 	public int hashCode() {

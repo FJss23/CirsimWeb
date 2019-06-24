@@ -1,9 +1,11 @@
 package com.tfg.cirsim.api.entities;
 
-import javax.persistence.Entity;
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 /**
@@ -41,10 +43,13 @@ public class Point {
 	@OneToOne(mappedBy = "to")
 	private Connection connectionFrom;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Exercise exercise;
+	
 	public Point() { }
-
+	
 	public Point(Long id, String visId, String positionX, String positionY, String label, String color, String shape,
-			int size, Connection connectionTo, Connection connectionFrom) {
+			int size, Connection connectionTo, Connection connectionFrom, Exercise exercise) {
 		super();
 		this.id = id;
 		this.visId = visId;
@@ -56,6 +61,7 @@ public class Point {
 		this.size = size;
 		this.connectionTo = connectionTo;
 		this.connectionFrom = connectionFrom;
+		this.exercise = exercise;
 	}
 
 	public Long getId() {
@@ -136,6 +142,14 @@ public class Point {
 
 	public void setConnectionFrom(Connection connectionFrom) {
 		this.connectionFrom = connectionFrom;
+	}
+
+	public Exercise getExercise() {
+		return exercise;
+	}
+
+	public void setExercise(Exercise exercise) {
+		this.exercise = exercise;
 	}
 
 	@Override

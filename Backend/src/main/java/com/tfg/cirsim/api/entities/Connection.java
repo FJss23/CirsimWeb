@@ -3,10 +3,10 @@ package com.tfg.cirsim.api.entities;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
@@ -36,10 +36,7 @@ public class Connection {
 	
 	private int width;
 	
-	@ManyToOne
-	@JoinTable(name = "TEXERCISE_CONNECTION",
-		joinColumns = @JoinColumn(name = "connection_id"), 
-		inverseJoinColumns = @JoinColumn(name = "exercise_id"))
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Exercise exercise;
 	
 	public Connection() { }

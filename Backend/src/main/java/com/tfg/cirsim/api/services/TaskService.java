@@ -1,6 +1,6 @@
 package com.tfg.cirsim.api.services;
 
-import java.util.List;
+import java.util.Set;
 
 import com.tfg.cirsim.api.entities.Task;
 
@@ -12,7 +12,7 @@ import com.tfg.cirsim.api.entities.Task;
  */
 public interface TaskService {
 	
-	List<Task> getTasks();
+	Set<Task> getTasks();
 	
 	Task getTask(Long id);
 	

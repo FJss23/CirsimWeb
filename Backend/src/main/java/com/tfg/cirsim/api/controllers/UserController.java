@@ -1,6 +1,6 @@
 package com.tfg.cirsim.api.controllers;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -38,7 +38,7 @@ public class UserController {
 
 	@PreAuthorize("hasRole('ROLE_TEACHER')")
 	@GetMapping(value = "/user")
-	public List<User> getUsers() {
+	public Set<User> getUsers() {
 		return userService.getUsers();
 	}
 	

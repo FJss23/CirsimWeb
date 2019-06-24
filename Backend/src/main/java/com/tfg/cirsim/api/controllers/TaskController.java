@@ -1,6 +1,6 @@
 package com.tfg.cirsim.api.controllers;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -33,7 +33,7 @@ public class TaskController {
 	
 	@PreAuthorize("hasRole('ROLE_TEACHER')")
 	@GetMapping(value = "/task")
-	public List<Task> getTasks() {
+	public Set<Task> getTasks() {
 		//TODO
 		return null;
 	}

@@ -1,6 +1,6 @@
 package com.tfg.cirsim.api.services;
 
-import java.util.List;
+import java.util.Set;
 
 import com.tfg.cirsim.api.controllers.dto.StatusUserOnlyDto;
 import com.tfg.cirsim.api.entities.User;
@@ -14,7 +14,7 @@ import com.tfg.cirsim.api.exception.ResourceNotFoundException;
  */
 public interface UserService {
 
-	List<User> getUsers();
+	Set<User> getUsers();
 
 	User getUser(Long id) throws ResourceNotFoundException;
 

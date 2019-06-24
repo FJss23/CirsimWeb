@@ -1,12 +1,18 @@
 package com.tfg.cirsim.api.services.impl;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.tfg.cirsim.api.entities.Role;
 import com.tfg.cirsim.api.entities.Task;
+import com.tfg.cirsim.api.entities.User;
 import com.tfg.cirsim.api.repository.TaskRepository;
+import com.tfg.cirsim.api.repository.UserRepository;
+import com.tfg.cirsim.api.services.ExerciseService;
 import com.tfg.cirsim.api.services.TaskService;
 
 /**
@@ -21,8 +27,14 @@ public class TaskServiceImpl implements TaskService {
 	@Autowired
 	TaskRepository taskRepository;
 	
+	@Autowired
+	UserRepository userRepository;
+	
+	@Autowired
+	ExerciseService exerciseService;
+	
 	@Override
-	public List<Task> getTasks() {
+	public Set<Task> getTasks() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -47,7 +59,21 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public Task addTask(Task task) {
+		task.setAuthor(obtainAuthor());
+		task.setStudents(obtainStudents());
+		task.getExercises().forEach(exercise -> exerciseService
+				.addExercise(exercise));
 		return taskRepository.save(task);
+	}
+
+	private Set<User> obtainStudents() {
+		return userRepository.findByRole(Role.STUDENT);
+	}
+
+	private User obtainAuthor() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = (String)auth.getPrincipal();
+		return userRepository.findByUsername(username);
 	}
 
 }
