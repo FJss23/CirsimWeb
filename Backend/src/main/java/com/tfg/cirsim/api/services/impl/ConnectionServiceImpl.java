@@ -2,11 +2,23 @@ package com.tfg.cirsim.api.services.impl;
 
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.tfg.cirsim.api.entities.Connection;
-import com.tfg.cirsim.api.entities.Task;
+import com.tfg.cirsim.api.repository.ConnectionRepository;
 import com.tfg.cirsim.api.services.ConnectionService;
 
+/**
+ * 
+ * @author francisco riedemann
+ * @date 22/06/2019
+ */
+@Service
 public class ConnectionServiceImpl implements ConnectionService {
+	
+	@Autowired
+	ConnectionRepository connectionRepository;
 
 	@Override
 	public Set<Connection> getConnection() {
@@ -15,27 +27,26 @@ public class ConnectionServiceImpl implements ConnectionService {
 	}
 
 	@Override
-	public Task getConnection(Long id) {
+	public Connection getConnection(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Task updateConnection(Long id, Connection Connection) {
+	public Connection updateConnection(Long id, Connection connection) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Task deleteConnection(Long id) {
+	public Connection deleteConnection(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Task addConnection(Connection Connection) {
-		// TODO Auto-generated method stub
-		return null;
+	public Connection addConnection(Connection connection) {
+		return connectionRepository.save(connection);
 	}
 
 }

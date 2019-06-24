@@ -3,13 +3,10 @@ package com.tfg.cirsim.api.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -33,17 +30,14 @@ public class Exercise {
 	@OneToMany(mappedBy = "exercise")
 	private Set<Connection> connections = new HashSet<Connection>();
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "exercise")
+	@OneToMany(mappedBy = "exercise")
 	private Set<Point> points = new HashSet<Point>();
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "image_id", referencedColumnName = "id")
 	private Image image;
 	
 	@ManyToOne
-	@JoinTable(name = "TEXERCISE_TASK",
- 		joinColumns = @JoinColumn(name = "exercise_id"), 
- 		inverseJoinColumns = @JoinColumn(name = "task_id"))
 	private Task task;
 	
 	public Exercise() { }

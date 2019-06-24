@@ -1,5 +1,6 @@
 package com.tfg.cirsim.api.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,6 +20,7 @@ public class Image {
 	@GeneratedValue
 	private Long id;
 	
+	@Column(length = 1000)
 	private String imageb64;
 	
 	private String position;

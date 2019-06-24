@@ -3,7 +3,6 @@ package com.tfg.cirsim.api.services;
 import java.util.Set;
 
 import com.tfg.cirsim.api.entities.Connection;
-import com.tfg.cirsim.api.entities.Task;
 
 /**
  * 
@@ -15,12 +14,12 @@ public interface ConnectionService {
 	
 	Set<Connection> getConnection();
 	
-	Task getConnection(Long id);
+	Connection getConnection(Long id);
 	
-	Task updateConnection(Long id, Connection Connection);
+	Connection updateConnection(Long id, Connection connection);
 	
-	Task deleteConnection(Long id);
+	Connection deleteConnection(Long id);
 	
-	Task addConnection(Connection Connection);
+	Connection addConnection(Connection connection);
 	
 }
