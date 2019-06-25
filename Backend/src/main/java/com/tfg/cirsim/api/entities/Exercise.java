@@ -3,13 +3,15 @@ package com.tfg.cirsim.api.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 
@@ -27,24 +29,23 @@ public class Exercise {
 	
 	private String description;
 	
-	@OneToMany(mappedBy = "exercise")
+	@OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL)
 	private Set<Connection> connections = new HashSet<Connection>();
 	
-	@OneToMany(mappedBy = "exercise")
+	@OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL)
 	private Set<Point> points = new HashSet<Point>();
 	
-	@OneToOne
-	@JoinColumn(name = "image_id", referencedColumnName = "id")
+	@OneToOne(mappedBy = "exercise", cascade = CascadeType.ALL)
 	private Image image;
 	
 	@ManyToOne
+	@JsonIgnore
 	private Task task;
 	
 	public Exercise() { }
 
-
-	public Exercise(Long id, String title, String description, Set<Connection> connections, Set<Point> points,
-			Image image, Task task) {
+	public Exercise(Long id, String title, String description, Set<Connection> 
+			connections, Set<Point> points, Image image) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -52,7 +53,6 @@ public class Exercise {
 		this.connections = connections;
 		this.points = points;
 		this.image = image;
-		this.task = task;
 	}
 
 	public Long getId() {

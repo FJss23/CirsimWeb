@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.tfg.cirsim.api.controllers.dto.StatusUserOnlyDto;
+import com.tfg.cirsim.api.entities.Role;
 import com.tfg.cirsim.api.entities.User;
 import com.tfg.cirsim.api.exception.ResourceNotFoundException;
 import com.tfg.cirsim.api.repository.UserRepository;
@@ -26,6 +27,11 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	@Override
+	public User getUserByUsername(String username) {
+		return userRepository.findByUsername(username);
+	}
 	
 	@Override
 	public Set<User> getUsers() {
@@ -80,5 +86,10 @@ public class UserServiceImpl implements UserService {
 		User updatedUser = findUserWithException(id);
 		updatedUser.setStatus(partialUpdate.getStatus());
 		return updatedUser;
+	}
+
+	@Override
+	public Set<User> findByRole(Role role) {
+		return userRepository.findByRole(role);
 	}
 }

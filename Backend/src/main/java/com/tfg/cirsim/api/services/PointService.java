@@ -2,6 +2,7 @@ package com.tfg.cirsim.api.services;
 
 import java.util.Set;
 
+import com.tfg.cirsim.api.entities.Exercise;
 import com.tfg.cirsim.api.entities.Point;
 
 /**
@@ -11,15 +12,7 @@ import com.tfg.cirsim.api.entities.Point;
  *
  */
 public interface PointService {
-	
-	Set<Point> getPoint();
-	
-	Point getPoint(Long id);
-	
-	Point updatePointk(Long id, Point point);
-	
-	Point deletePoint(Long id);
-	
-	Point addPoint(Point point);
+
+	void addPoints(Set<Point> points, Exercise exercise);
 	
 }

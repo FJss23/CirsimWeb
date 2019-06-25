@@ -154,23 +154,13 @@ export class TeacherExerciseComponent implements OnInit {
     for(let elem in connectionsNetwork){
       let connection: Connection = {
         visId: connectionsNetwork[elem].id,
-        from: this.getPoint(points, connectionsNetwork[elem].from),
-        to: this.getPoint(points, connectionsNetwork[elem].to),
+        fromVisId: connectionsNetwork[elem].from,
+        toVisId: connectionsNetwork[elem].to,
         width: connectionsNetwork[elem].width
       }
       connections.push(connection);
     }
     return connections;
-  }
-
-  private getPoint(points: Point[], input: any): Point {
-    let correctPoint;
-    points.forEach(point => {
-      if(point.visId == input){
-        correctPoint = point;
-      }
-    });
-    return correctPoint; 
   }
  
   private getPoints(): Point[] {

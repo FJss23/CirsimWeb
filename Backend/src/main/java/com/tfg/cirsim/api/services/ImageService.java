@@ -1,7 +1,6 @@
 package com.tfg.cirsim.api.services;
 
-import java.util.Set;
-
+import com.tfg.cirsim.api.entities.Exercise;
 import com.tfg.cirsim.api.entities.Image;
 
 /**
@@ -11,15 +10,7 @@ import com.tfg.cirsim.api.entities.Image;
  *
  */
 public interface ImageService {
-	
-	Set<Image> getImage();
-	
-	Image getImage(Long id);
-	
-	Image updateImage(Long id, Image image);
-	
-	Image deleteImage(Long id);
-	
-	Image addImage(Image image);
+
+	void addImage(Image image, Exercise exercise);
 	
 }

@@ -3,6 +3,7 @@ package com.tfg.cirsim.api.services;
 import java.util.Set;
 
 import com.tfg.cirsim.api.entities.Exercise;
+import com.tfg.cirsim.api.entities.Task;
 
 /**
  * 
@@ -11,15 +12,7 @@ import com.tfg.cirsim.api.entities.Exercise;
  *
  */
 public interface ExerciseService {
-	
-	Set<Exercise> getExercise();
-	
-	Exercise getExercise(Long id);
-	
-	Exercise updateExercise(Long id, Exercise exercise);
-	
-	Exercise deleteExercise(Long id);
-	
-	Exercise addExercise(Exercise exercise);
+
+	void addExercises(Set<Exercise> exercises, Task task);
 	
 }

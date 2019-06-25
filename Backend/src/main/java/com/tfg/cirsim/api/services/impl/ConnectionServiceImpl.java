@@ -2,11 +2,10 @@ package com.tfg.cirsim.api.services.impl;
 
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tfg.cirsim.api.entities.Connection;
-import com.tfg.cirsim.api.repository.ConnectionRepository;
+import com.tfg.cirsim.api.entities.Exercise;
 import com.tfg.cirsim.api.services.ConnectionService;
 
 /**
@@ -17,36 +16,11 @@ import com.tfg.cirsim.api.services.ConnectionService;
 @Service
 public class ConnectionServiceImpl implements ConnectionService {
 	
-	@Autowired
-	ConnectionRepository connectionRepository;
-
 	@Override
-	public Set<Connection> getConnection() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Connection getConnection(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Connection updateConnection(Long id, Connection connection) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Connection deleteConnection(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Connection addConnection(Connection connection) {
-		return connectionRepository.save(connection);
+	public void addConnection(Set<Connection> connections, Exercise exercise) {
+		connections.forEach(connection -> {
+			connection.setExercise(exercise);
+		});
 	}
 
 }

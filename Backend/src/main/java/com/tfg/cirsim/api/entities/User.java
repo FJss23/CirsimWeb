@@ -3,6 +3,7 @@ package com.tfg.cirsim.api.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 
@@ -42,10 +45,12 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-	@OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonIgnore
 	private Set<Task> taskAuthor = new HashSet<Task>();
 	
-	@ManyToMany(mappedBy = "students", fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "students", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonIgnore
 	private Set<Task> taskToDo = new HashSet<Task>();
 
 	public User() { }
@@ -58,20 +63,6 @@ public class User {
 		this.surname = surname;
 		this.role = role;
 		this.status = Status.ACTIVE;
-	}
-
-	public User(Long id, String password, String username, String name, String surname, Role role, Status status,
-			Set<Task> taskAuthor, Set<Task> taskToDo) {
-		super();
-		this.id = id;
-		this.password = password;
-		this.username = username;
-		this.name = name;
-		this.surname = surname;
-		this.role = role;
-		this.status = status;
-		this.taskAuthor = taskAuthor;
-		this.taskToDo = taskToDo;
 	}
 
 	public Long getId() {

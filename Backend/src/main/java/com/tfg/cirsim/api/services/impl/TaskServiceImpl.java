@@ -11,9 +11,9 @@ import com.tfg.cirsim.api.entities.Role;
 import com.tfg.cirsim.api.entities.Task;
 import com.tfg.cirsim.api.entities.User;
 import com.tfg.cirsim.api.repository.TaskRepository;
-import com.tfg.cirsim.api.repository.UserRepository;
 import com.tfg.cirsim.api.services.ExerciseService;
 import com.tfg.cirsim.api.services.TaskService;
+import com.tfg.cirsim.api.services.UserService;
 
 /**
  * 
@@ -28,7 +28,7 @@ public class TaskServiceImpl implements TaskService {
 	TaskRepository taskRepository;
 	
 	@Autowired
-	UserRepository userRepository;
+	UserService userService;
 	
 	@Autowired
 	ExerciseService exerciseService;
@@ -59,21 +59,25 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public Task addTask(Task task) {
-		task.setAuthor(obtainAuthor());
-		task.setStudents(obtainStudents());
-		task.getExercises().forEach(exercise -> exerciseService
-				.addExercise(exercise));
+		User author = obtainAuthor();
+		Set<User> students = obtainStudents();
+		task.setAuthor(author);
+		task.setStudents(students);
+		exerciseService.addExercises(task.getExercises(), task);
+		author.getTaskAuthor().add(task);
+		students.forEach(student -> student.getTaskToDo().add(task));
+		
 		return taskRepository.save(task);
 	}
 
 	private Set<User> obtainStudents() {
-		return userRepository.findByRole(Role.STUDENT);
+		return userService.findByRole(Role.STUDENT);
 	}
 
 	private User obtainAuthor() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = (String)auth.getPrincipal();
-		return userRepository.findByUsername(username);
+		return userService.getUserByUsername(username);
 	}
 
 }

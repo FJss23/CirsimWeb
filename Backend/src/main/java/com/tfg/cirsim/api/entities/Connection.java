@@ -1,14 +1,12 @@
 package com.tfg.cirsim.api.entities;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 
@@ -26,29 +24,25 @@ public class Connection {
 	@Column(name = "vis_id")
 	private String visId;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "point_from_id", referencedColumnName = "id")
-	private Point from;
+	private String fromVisId;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "point_to_id", referencedColumnName = "id")
-	private Point to;
+	private String toVisId;
 	
 	private int width;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
+	@JsonIgnore
 	private Exercise exercise;
 	
 	public Connection() { }
 
-	public Connection(Long id, String visId, Point from, Point to, int width, Exercise exercise) {
+	public Connection(Long id, String visId, String fromVisId, String toVisId, int width) {
 		super();
 		this.id = id;
 		this.visId = visId;
-		this.from = from;
-		this.to = to;
+		this.fromVisId = fromVisId;
+		this.toVisId = toVisId;
 		this.width = width;
-		this.exercise = exercise;
 	}
 
 	public Long getId() {
@@ -67,20 +61,20 @@ public class Connection {
 		this.visId = visId;
 	}
 
-	public Point getFrom() {
-		return from;
+	public String getFromVisId() {
+		return fromVisId;
 	}
 
-	public void setFrom(Point from) {
-		this.from = from;
+	public void setFromVisId(String fromVisId) {
+		this.fromVisId = fromVisId;
 	}
 
-	public Point getTo() {
-		return to;
+	public String getToVisId() {
+		return toVisId;
 	}
 
-	public void setTo(Point to) {
-		this.to = to;
+	public void setToVisId(String toVisId) {
+		this.toVisId = toVisId;
 	}
 
 	public int getWidth() {
@@ -103,6 +97,8 @@ public class Connection {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((fromVisId == null) ? 0 : fromVisId.hashCode());
+		result = prime * result + ((toVisId == null) ? 0 : toVisId.hashCode());
 		result = prime * result + ((visId == null) ? 0 : visId.hashCode());
 		result = prime * result + width;
 		return result;
@@ -117,6 +113,16 @@ public class Connection {
 		if (getClass() != obj.getClass())
 			return false;
 		Connection other = (Connection) obj;
+		if (fromVisId == null) {
+			if (other.fromVisId != null)
+				return false;
+		} else if (!fromVisId.equals(other.fromVisId))
+			return false;
+		if (toVisId == null) {
+			if (other.toVisId != null)
+				return false;
+		} else if (!toVisId.equals(other.toVisId))
+			return false;
 		if (visId == null) {
 			if (other.visId != null)
 				return false;
@@ -126,7 +132,5 @@ public class Connection {
 			return false;
 		return true;
 	}
-
-	
 
 }

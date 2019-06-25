@@ -4,7 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 
@@ -20,25 +23,26 @@ public class Image {
 	@GeneratedValue
 	private Long id;
 	
-	@Column(length = 1000)
+	@Column
 	private String imageb64;
 	
 	private String position;
 	
 	private String size;
 	
-	@OneToOne(mappedBy = "image")
+	@OneToOne
+	@JoinColumn(name = "exercise_id", referencedColumnName = "id")
+	@JsonIgnore
 	private Exercise exercise;
 	
 	public Image() { }
 
-	public Image(Long id, String imageb64, String position, String size, Exercise exercise) {
+	public Image(Long id, String imageb64, String position, String size) {
 		super();
 		this.id = id;
 		this.imageb64 = imageb64;
 		this.position = position;
 		this.size = size;
-		this.exercise = exercise;
 	}
 
 	public Long getId() {

@@ -4,9 +4,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -29,9 +29,6 @@ public class Task {
 	private Long id;
 	
 	@ManyToOne
-	@JoinTable(name = "TTASK_CREATED_BY",
-	 	joinColumns = @JoinColumn(name = "task_id"), 
-	 	inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private User author;
 	
 	@ManyToMany
@@ -45,16 +42,14 @@ public class Task {
 	@Column(name = "open_date")
 	private Date openDate;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "task")
+	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
 	private Set<Exercise> exercises = new HashSet<Exercise>();
 	
 	public Task() { }
 	
-	public Task(Long id, User author, Set<User> students, String name, Date openDate, Set<Exercise> exercises) {
+	public Task(Long id, String name, Date openDate, Set<Exercise> exercises) {
 		super();
 		this.id = id;
-		this.author = author;
-		this.students = students;
 		this.name = name;
 		this.openDate = openDate;
 		this.exercises = exercises;

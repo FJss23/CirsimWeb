@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.tfg.cirsim.api.entities.Exercise;
-import com.tfg.cirsim.api.repository.ExerciseRepository;
+import com.tfg.cirsim.api.entities.Task;
 import com.tfg.cirsim.api.services.ConnectionService;
 import com.tfg.cirsim.api.services.ExerciseService;
 import com.tfg.cirsim.api.services.ImageService;
@@ -19,10 +19,7 @@ import com.tfg.cirsim.api.services.PointService;
  */
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
-	
-	@Autowired
-	ExerciseRepository exerciseRepository;
-	
+
 	@Autowired
 	ConnectionService connectionService;
 	
@@ -33,38 +30,14 @@ public class ExerciseServiceImpl implements ExerciseService {
 	ImageService imageService;
 
 	@Override
-	public Set<Exercise> getExercise() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Exercise getExercise(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Exercise updateExercise(Long id, Exercise exercise) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Exercise deleteExercise(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Exercise addExercise(Exercise exercise) {
-		exercise.getConnections().forEach(connection ->
-		connectionService.addConnection(connection));
-		exercise.getPoints().forEach(point -> 
-		pointService.addPoint(point));
-		imageService.addImage(exercise.getImage());
-		
-		return exerciseRepository.save(exercise);
+	public void addExercises(Set<Exercise> exercises, Task task) {
+		exercises.forEach(exercise -> {
+				exercise.setTask(task);
+				pointService.addPoints(exercise.getPoints(), exercise);
+				connectionService.addConnection(exercise.getConnections(),
+						exercise);
+				imageService.addImage(exercise.getImage(), exercise);
+		});
 	}
 
 

@@ -2,11 +2,11 @@ package com.tfg.cirsim.api.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 
@@ -37,19 +37,14 @@ public class Point {
 	
 	private int size;
 	
-	@OneToOne(mappedBy = "from")
-	private Connection connectionTo;
-	
-	@OneToOne(mappedBy = "to")
-	private Connection connectionFrom;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
+	@JsonIgnore
 	private Exercise exercise;
 	
 	public Point() { }
 	
-	public Point(Long id, String visId, String positionX, String positionY, String label, String color, String shape,
-			int size, Connection connectionTo, Connection connectionFrom, Exercise exercise) {
+	public Point(Long id, String visId, String positionX, String positionY, 
+			String label, String color, String shape, int size) {
 		super();
 		this.id = id;
 		this.visId = visId;
@@ -59,9 +54,6 @@ public class Point {
 		this.color = color;
 		this.shape = shape;
 		this.size = size;
-		this.connectionTo = connectionTo;
-		this.connectionFrom = connectionFrom;
-		this.exercise = exercise;
 	}
 
 	public Long getId() {
@@ -126,22 +118,6 @@ public class Point {
 
 	public void setSize(int size) {
 		this.size = size;
-	}
-
-	public Connection getConnectionTo() {
-		return connectionTo;
-	}
-
-	public void setConnectionTo(Connection connectionTo) {
-		this.connectionTo = connectionTo;
-	}
-
-	public Connection getConnectionFrom() {
-		return connectionFrom;
-	}
-
-	public void setConnectionFrom(Connection connectionFrom) {
-		this.connectionFrom = connectionFrom;
 	}
 
 	public Exercise getExercise() {

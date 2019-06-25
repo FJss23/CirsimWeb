@@ -3,6 +3,7 @@ package com.tfg.cirsim.api.services;
 import java.util.Set;
 
 import com.tfg.cirsim.api.entities.Connection;
+import com.tfg.cirsim.api.entities.Exercise;
 
 /**
  * 
@@ -11,15 +12,7 @@ import com.tfg.cirsim.api.entities.Connection;
  *
  */
 public interface ConnectionService {
-	
-	Set<Connection> getConnection();
-	
-	Connection getConnection(Long id);
-	
-	Connection updateConnection(Long id, Connection connection);
-	
-	Connection deleteConnection(Long id);
-	
-	Connection addConnection(Connection connection);
+
+	void addConnection(Set<Connection> connections, Exercise exercise);
 	
 }
