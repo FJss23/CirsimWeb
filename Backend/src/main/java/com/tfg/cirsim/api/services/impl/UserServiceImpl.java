@@ -4,13 +4,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.tfg.cirsim.api.controllers.dto.StatusUserOnlyDto;
 import com.tfg.cirsim.api.entities.Role;
 import com.tfg.cirsim.api.entities.User;
-import com.tfg.cirsim.api.exception.ResourceNotFoundException;
 import com.tfg.cirsim.api.repository.UserRepository;
 import com.tfg.cirsim.api.services.UserService;
 
@@ -41,8 +42,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getUser(Long id) throws ResourceNotFoundException {
-		return findUserWithException(id);
+	public User getUser(Long id) {
+		return userRepository.findById(id).get();
 	}
 
 	@Override
@@ -63,8 +64,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User deleteUser(Long id) throws ResourceNotFoundException{
-		User user = findUserWithException(id);
+	public User deleteUser(Long id){
+		User user = userRepository.findById(id).get();
 		userRepository.deleteById(id);
 		return user;
 	}
@@ -74,16 +75,10 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		return userRepository.save(user);
 	}
-	
-	private User findUserWithException(Long id) throws ResourceNotFoundException {
-		return userRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException());
-	}
 
 	@Override
-	public User partialUpdateStatus(StatusUserOnlyDto partialUpdate, Long id) 
-			throws ResourceNotFoundException {
-		User updatedUser = findUserWithException(id);
+	public User partialUpdateStatus(StatusUserOnlyDto partialUpdate, Long id){
+		User updatedUser = userRepository.findById(id).get();
 		updatedUser.setStatus(partialUpdate.getStatus());
 		return updatedUser;
 	}
@@ -91,5 +86,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Set<User> findByRole(Role role) {
 		return userRepository.findByRole(role);
+	}
+
+	@Override
+	public User getAuthenticatedUser() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String username = (String)auth.getPrincipal();
+		return getUserByUsername(username);
 	}
 }

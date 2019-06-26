@@ -18,7 +18,8 @@ export class TeacherNewTaskComponent implements OnInit {
   }
 
   addTask(): void {
-    this.taskService.getCurrentTask().setName('Tarea de prueba');
+    this.taskService.getCurrentTask().setName('Tarea de prueba')
+    .setDescription('Descripción de la tarea de prueba');
     this.taskService.addTask().subscribe(() => {
         console.log(`New task Added`);
         this.router.navigateByUrl('/teacher');

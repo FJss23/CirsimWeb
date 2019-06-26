@@ -31,11 +31,11 @@ public class TaskController {
 	@Autowired
 	TaskService taskService;
 	
-	@PreAuthorize("hasRole('ROLE_TEACHER')")
+	@PreAuthorize("hasRole('ROLE_TEACHER') or hasRole('ROLE_STUDENT')")
 	@GetMapping(value = "/task")
 	public Set<Task> getTasks() {
-		//TODO
-		return null;
+		Set<Task> result = taskService.getTasks();
+		return result;
 	}
 	
 	@PreAuthorize("hasRole('ROLE_TEACHER')")

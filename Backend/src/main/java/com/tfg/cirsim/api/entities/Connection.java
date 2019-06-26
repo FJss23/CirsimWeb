@@ -36,7 +36,8 @@ public class Connection {
 	
 	public Connection() { }
 
-	public Connection(Long id, String visId, String fromVisId, String toVisId, int width) {
+	public Connection(Long id, String visId, String fromVisId, String toVisId,
+			int width) {
 		super();
 		this.id = id;
 		this.visId = visId;

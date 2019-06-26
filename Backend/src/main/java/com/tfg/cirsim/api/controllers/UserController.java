@@ -4,7 +4,6 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,11 +14,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.tfg.cirsim.api.controllers.dto.StatusUserOnlyDto;
 import com.tfg.cirsim.api.entities.User;
-import com.tfg.cirsim.api.exception.ResourceNotFoundException;
 import com.tfg.cirsim.api.services.UserService;
 
 /**
@@ -51,13 +48,7 @@ public class UserController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(value = "/user/{id}")
 	public User getUser(@PathVariable Long id) {
-		try {
-			return userService.getUser(id);
-		}
-		catch(ResourceNotFoundException exc) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, 
-					"User " + id + " not found", exc);
-		}
+		return userService.getUser(id);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -69,23 +60,13 @@ public class UserController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping(value = "/user/{id}")
 	public User deleteUser(@PathVariable Long id) {
-		try {
-			return userService.deleteUser(id);
-		} catch (ResourceNotFoundException exc) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, 
-					"User " + id + " not found", exc);
-		}
+		return userService.deleteUser(id);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PatchMapping(value = "/user/{id}")
 	public User partialUpdateStatus(@RequestBody StatusUserOnlyDto partialUpdate,
 			@PathVariable Long id) {
-		try {
-			return userService.partialUpdateStatus(partialUpdate, id);
-		} catch (ResourceNotFoundException exc) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, 
-					"User " + id + " not found", exc);
-		}
+		return userService.partialUpdateStatus(partialUpdate, id);
 	}
 }

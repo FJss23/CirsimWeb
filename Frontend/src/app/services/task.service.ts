@@ -3,10 +3,8 @@ import { Task } from '../model/task';
 import { Exercise } from '../model/exercise';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { tap } from 'rxjs/operators';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -41,9 +39,19 @@ export class TaskService {
   }
 
   addTask(): Observable<any> {
-    console.log(this.task);
-    return this.http.post<Task>(environment.newTask, this.task, this.httpOptions).pipe(
+    return this.http.post<Task>(environment.task, this.task, this.httpOptions).pipe(
       tap(() => console.log(`Sending new task to backend`))
+    );
+  }
+
+  
+  /**
+   * if teacher, returns the tasks created
+   * if student, return the assigned tasks
+   */
+  getTasks(): Observable<any> {
+    return this.http.get<Task[]>(environment.task, this.httpOptions).pipe(
+      tap(() => console.log(`Getting tasks from backend`))
     );
   }
 }

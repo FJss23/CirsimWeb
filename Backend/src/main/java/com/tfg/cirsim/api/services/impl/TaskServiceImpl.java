@@ -1,10 +1,9 @@
 package com.tfg.cirsim.api.services.impl;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.tfg.cirsim.api.entities.Role;
@@ -35,8 +34,14 @@ public class TaskServiceImpl implements TaskService {
 	
 	@Override
 	public Set<Task> getTasks() {
-		// TODO Auto-generated method stub
-		return null;
+		User authenticated = userService.getAuthenticatedUser();
+		if(authenticated.getRole() == Role.STUDENT) {
+			return authenticated.getTaskToDo();
+		} 
+		if(authenticated.getRole() == Role.TEACHER) {
+			return authenticated.getTaskAuthor();
+		}
+		return new HashSet<Task>();
 	}
 
 	@Override
@@ -59,25 +64,22 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public Task addTask(Task task) {
-		User author = obtainAuthor();
-		Set<User> students = obtainStudents();
+		User author = userService.getAuthenticatedUser();
+		Set<User> students = userService.findByRole(Role.STUDENT);
+		
+		// father links 
 		task.setAuthor(author);
 		task.setStudents(students);
+		
+		// children links
 		exerciseService.addExercises(task.getExercises(), task);
 		author.getTaskAuthor().add(task);
 		students.forEach(student -> student.getTaskToDo().add(task));
 		
+		// saving the father causes saving the children
 		return taskRepository.save(task);
 	}
 
-	private Set<User> obtainStudents() {
-		return userService.findByRole(Role.STUDENT);
-	}
 
-	private User obtainAuthor() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String username = (String)auth.getPrincipal();
-		return userService.getUserByUsername(username);
-	}
 
 }

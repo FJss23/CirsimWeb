@@ -5,7 +5,6 @@ import java.util.Set;
 import com.tfg.cirsim.api.controllers.dto.StatusUserOnlyDto;
 import com.tfg.cirsim.api.entities.Role;
 import com.tfg.cirsim.api.entities.User;
-import com.tfg.cirsim.api.exception.ResourceNotFoundException;
 
 /**
  * 
@@ -19,16 +18,17 @@ public interface UserService {
 
 	Set<User> getUsers();
 
-	User getUser(Long id) throws ResourceNotFoundException;
+	User getUser(Long id);
 
 	User updateUser(Long id, User user);
 
-	User deleteUser(Long id) throws ResourceNotFoundException;
+	User deleteUser(Long id);
 
 	User addUser(User user);
 
-	User partialUpdateStatus(StatusUserOnlyDto partialUpdate, Long id) 
-			throws ResourceNotFoundException;
+	User partialUpdateStatus(StatusUserOnlyDto partialUpdate, Long id);
 
 	Set<User> findByRole(Role role);
+	
+	User getAuthenticatedUser();
 }
