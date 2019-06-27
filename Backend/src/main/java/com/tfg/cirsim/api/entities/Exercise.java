@@ -32,10 +32,12 @@ public class Exercise {
 	@Column(length = 256)
 	private String description;
 	
-	@OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "exercise", fetch = FetchType.EAGER, 
+			cascade = CascadeType.ALL)
 	private Set<Connection> connections = new HashSet<Connection>();
 	
-	@OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "exercise", fetch = FetchType.EAGER,
+			 cascade = CascadeType.ALL)
 	private Set<Point> points = new HashSet<Point>();
 	
 	@OneToOne(mappedBy = "exercise", cascade = CascadeType.ALL)

@@ -31,3 +31,27 @@ th, td {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+  
+mat-toolbar{
+  height: 7vh;
+}
+
+.div-navbar {
+  overflow: inherit;
+}
+
+.a-navbar {
+  text-decoration: none;
+  white-space: normal;
+  font-size: 100%;
+}
+
+.spacer-navbar {
+  flex: 1 1 auto;
+}
+
+.container-navbar {
+  min-height:10vh;
+  max-height:17vh;
+}

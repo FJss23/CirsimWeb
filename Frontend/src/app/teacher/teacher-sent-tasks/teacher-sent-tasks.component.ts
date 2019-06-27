@@ -40,10 +40,9 @@ export class TeacherSentTasksComponent implements OnInit {
   }
 
   deleteTask(task: Task): void {
-    console.log(task.id);
+    this.taskService.deleteTask(task).subscribe();
     this.createdTasks = this.createdTasks.filter(t => t !== task);
     this.dataSource.data = [...this.createdTasks];
-    //this.taskService.deleteTask().subscribe();
   }
   
 }

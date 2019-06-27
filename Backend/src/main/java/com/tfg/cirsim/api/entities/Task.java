@@ -43,7 +43,8 @@ public class Task {
 	@Column(name = "open_date")
 	private Date openDate;
 	
-	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "task", fetch = FetchType.EAGER, 
+			cascade = CascadeType.ALL)
 	private Set<Exercise> exercises = new HashSet<Exercise>();
 
 	public Task() { }

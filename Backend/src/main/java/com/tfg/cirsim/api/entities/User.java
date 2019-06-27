@@ -45,11 +45,11 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-	@OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<Task> taskAuthor = new HashSet<Task>();
 	
-	@ManyToMany(mappedBy = "students", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy = "students", fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<Task> taskToDo = new HashSet<Task>();
 

@@ -59,8 +59,7 @@ public class TaskController {
 	
 	@PreAuthorize("hasRole('ROLE_TEACHER')")
 	@DeleteMapping(value = "/task/{id}")
-	public Task deleteTask(@PathVariable Long id) {
-		//TODO
-		return null;
+	public void deleteTask(@PathVariable Long id) {
+		taskService.deleteTask(id);
 	}
 }

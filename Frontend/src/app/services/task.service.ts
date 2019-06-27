@@ -59,8 +59,8 @@ export class TaskService {
     );
   }
 
-  deleteTask(): Observable<any> {
-    return this.http.delete<Task>(environment.task + `/${this.task.id}`, this.httpOptions).pipe(
+  deleteTask(task: Task): Observable<any> {
+    return this.http.delete<Task>(environment.task + `/${task.id}`, this.httpOptions).pipe(
       tap(() => console.log(`Sending the delete petition`))
     )
   }

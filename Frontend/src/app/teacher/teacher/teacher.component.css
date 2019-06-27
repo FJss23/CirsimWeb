@@ -1,31 +1,8 @@
-.title{
+.button-navbar{
+    font-size: 110%;
+    min-width: min-content;
+}
+
+.title-navbar {
     font-size: 150%;
-}
-  
-.mat-toolbar{
-  height: 7vh;
-}
-
-div {
-  overflow: inherit;
-}
-
-a{
-  text-decoration: none;
-  white-space: normal;
-  font-size: 100%;
-}
-
-button{
-  font-size: 110%;
-  min-width: min-content;
-}
-
-.spacer {
-  flex: 1 1 auto;
-}
-
-.container {
-  min-height:10vh;
-  max-height:17vh;
 }

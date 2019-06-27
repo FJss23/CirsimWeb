@@ -5,7 +5,12 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.tfg.cirsim.api.entities.Connection;
+import com.tfg.cirsim.api.entities.Exercise;
+import com.tfg.cirsim.api.entities.Image;
+import com.tfg.cirsim.api.entities.Point;
 import com.tfg.cirsim.api.entities.Role;
 import com.tfg.cirsim.api.entities.Task;
 import com.tfg.cirsim.api.entities.User;
@@ -13,6 +18,7 @@ import com.tfg.cirsim.api.repository.TaskRepository;
 import com.tfg.cirsim.api.services.ExerciseService;
 import com.tfg.cirsim.api.services.TaskService;
 import com.tfg.cirsim.api.services.UserService;
+import com.tfg.cirsim.api.services.utility.ImageUtil;
 
 /**
  * 
@@ -22,6 +28,8 @@ import com.tfg.cirsim.api.services.UserService;
  */
 @Service
 public class TaskServiceImpl implements TaskService {
+	
+	ImageUtil imageUtil = ImageUtil.getInstance();
 
 	@Autowired
 	TaskRepository taskRepository;
@@ -57,9 +65,9 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Task deleteTask(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional
+	public void deleteTask(Long id) {
+		taskRepository.deleteById(id);
 	}
 
 	@Override
@@ -72,12 +80,38 @@ public class TaskServiceImpl implements TaskService {
 		task.setStudents(students);
 		
 		// children links
-		exerciseService.addExercises(task.getExercises(), task);
+//		exerciseService.addExercises(task.getExercises(), task);
+		setChildExercise(task.getExercises(), task);
 		author.getTaskAuthor().add(task);
 		students.forEach(student -> student.getTaskToDo().add(task));
 		
 		// saving the father causes saving the children
 		return taskRepository.save(task);
+	}
+	
+	private void setChildExercise(Set<Exercise> exercises, Task task) {
+		exercises.forEach(exercise -> {
+			exercise.setTask(task);
+			setChildPoint(exercise.getPoints(), exercise);
+			setChildConnection(exercise.getConnections(),exercise);
+			setChildImage(exercise.getImage(), exercise);
+	});
+	}
+
+	private void setChildImage(Image image, Exercise exercise) {
+		imageUtil.addImage(image, exercise);
+	}
+
+	private void setChildConnection(Set<Connection> connections, Exercise exercise) {
+		connections.forEach(connection -> {
+			connection.setExercise(exercise);
+		});
+	}
+
+	private void setChildPoint(Set<Point> points, Exercise exercise) {
+		points.forEach(point -> {
+			point.setExercise(exercise);
+		});
 	}
 
 
