@@ -1,32 +1,32 @@
+<div class="content">
+  <h1 class="pageTitle">Nueva tarea > Nuevo ejercicio</h1>
+  <mat-divider></mat-divider>
+  <div fxLayout="column">
 
-<div class="step3" fxLayout="column" fxLayoutAlign="start center">
-  <mat-card>
-    <mat-card-title>Añadir descripción y título </mat-card-title>
-    <mat-card-subtitle>Añade un título para el ejercicio y una descripción del mismo</mat-card-subtitle>
-    <mat-card-content>
+    <h2 class="second-title">1.- Añade información general</h2>
+
+    <div fxLayout="column" class="form">
       <mat-form-field>
-        <div>
-          <input matInput type="text">
-        </div>
-        <div>
-          <input matInput type="text"> 
-        </div>
+          <input matInput #title maxlength="50" placeholder="Título del ejercicio" [(ngModel)]="titleExercise">
+          <mat-hint align="end">{{title.value.length}} / 50</mat-hint>
       </mat-form-field>
-    </mat-card-content>
-  </mat-card>
-  <mat-card>
-    <mat-card-title>Añadir imagen</mat-card-title>
-    <mat-card-subtitle>Selecciona una imagen para añadir en el proceso de conexionado</mat-card-subtitle>
-    <mat-card-content>
-      <div>
-        <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event)">
-      </div>
-    </mat-card-content>
-  </mat-card>
-  <mat-card>
-    <mat-card-title>Proceso de conexionado</mat-card-title>
-    <mat-card-subtitle>Añade puntos y conexiones sobre la imagen</mat-card-subtitle>
-    <div>
+      <mat-form-field class="description">
+          <textarea matInput #description maxlength="256" placeholder="Descripción del ejercicio"
+          [(ngModel)]="descriptionExercise"></textarea>
+          <mat-hint align="end">{{description.value.length}} / 256</mat-hint>
+      </mat-form-field>
+      <mat-checkbox>Añadir al repositorio</mat-checkbox>
+    </div>
+
+    <h2 class="second-title">2.- Añade una imagen</h2>
+
+    <div class="form">
+      <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event)">
+    </div>
+
+    <h2 class="second-title">3.- Realiza la conexión</h2>
+    
+    <div class="step" id="editor">
       <div class="buttons">
         <mat-button-toggle-group aria-label="Font Style">
           <mat-button-toggle value="addPointMode" (click)="addPointMode()" fxFlex="25">Puntos</mat-button-toggle>
@@ -35,8 +35,8 @@
           <mat-button-toggle value="removeMode" fxFlex="25"
             (click)="activateDelete()">Borrar</mat-button-toggle>
         </mat-button-toggle-group>
-       </div>
-      <div fxLayout="row" class="content"  fxLayoutGap="20px">
+      </div>
+      <div fxLayout="row"  fxLayoutGap="20px">
         <div #networkContainer class="network"></div>
         <div class="options" fxFlex="30" fxLayout="column">
           <span [cpToggle]="true" [cpDialogDisplay]="'inline'"[(colorPicker)]="color" [cpDisableInput]="false"></span>
@@ -71,9 +71,10 @@
         </div>
       </div>
     </div>
-  </mat-card>
-  <div>
-    <button mat-button color="primary" (click)="exerciseDone()">Terminar</button>
+
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center"  class="confirm">
+    <button mat-raised-button color="primary" (click)="goBack()">Atrás</button>
+    <button mat-raised-button color="primary" (click)="exerciseDone()" id="create-exercise">Añadir ejercicio</button>
   </div>
 </div>
-

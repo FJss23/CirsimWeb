@@ -1,7 +1,8 @@
 import { Exercise } from './exercise';
 
 export class Task { 
-    name: string;
+    id: number;
+    title: string;
     openDate: Date;
     exercises: Exercise[];
     description: string;
@@ -15,13 +16,18 @@ export class Task {
         this.exercises.push(exercise);
     }
 
-    setName(name: string): Task {
-        this.name = name;
+    removeExercise(exercise: Exercise): void {
+        this.exercises.forEach( (item, index) => {
+            if(item === exercise) { 
+                this.exercises.splice(index,1);
+                console.log(`removed`);
+            }
+        });
+    }
+
+    setTitle(name: string): Task {
+        this.title = name;
         return this;
     }
     
-    setDescription(description: string): Task {
-        this.description = description;
-        return this;
-    }
 }

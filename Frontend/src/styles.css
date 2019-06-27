@@ -18,4 +18,16 @@ body {
 
 table {
     width: 100%;
+    table-layout: fixed;
+}
+
+.confirm {
+    margin-top: 1%;
+}
+
+th, td {
+    overflow: hidden;
+    width: 20%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

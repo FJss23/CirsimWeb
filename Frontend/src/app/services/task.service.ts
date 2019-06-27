@@ -25,6 +25,7 @@ export class TaskService {
 
   initializeTask(task: Task): void {
     this.task = task;
+    console.log(`Iinitializing current task`);
   }
 
   addExerciseCurrentTask(exercise: Exercise): void {
@@ -38,13 +39,16 @@ export class TaskService {
     return this.task;
   }
 
+  getExercisesOfCurrentTask(): Exercise[] {
+    return this.task.exercises;
+  }
+
   addTask(): Observable<any> {
     return this.http.post<Task>(environment.task, this.task, this.httpOptions).pipe(
       tap(() => console.log(`Sending new task to backend`))
     );
   }
 
-  
   /**
    * if teacher, returns the tasks created
    * if student, return the assigned tasks
@@ -53,5 +57,11 @@ export class TaskService {
     return this.http.get<Task[]>(environment.task, this.httpOptions).pipe(
       tap(() => console.log(`Getting tasks from backend`))
     );
+  }
+
+  deleteTask(): Observable<any> {
+    return this.http.delete<Task>(environment.task + `/${this.task.id}`, this.httpOptions).pipe(
+      tap(() => console.log(`Sending the delete petition`))
+    )
   }
 }

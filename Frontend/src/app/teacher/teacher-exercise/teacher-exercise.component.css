@@ -17,3 +17,25 @@
 mat-slider {
     width: 100%;
 }
+
+#create-exercise {
+    margin-left: 0.5%;
+}
+
+#editor {
+    border: 1px solid grey;
+    margin: auto;  
+    padding: 1%;
+}
+
+.second-title {
+    margin-left: 24%;
+    margin-right: 24%;
+}
+
+.form {
+    border: 1px solid grey;
+    margin-left: 24%;
+    margin-right: 24%;
+    padding: 1%;
+}

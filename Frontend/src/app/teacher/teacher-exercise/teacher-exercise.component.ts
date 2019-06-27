@@ -13,8 +13,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./teacher-exercise.component.css']
 })
 export class TeacherExerciseComponent implements OnInit {
-
   @ViewChild('networkContainer') networkContainer: ElementRef;
+  public titleExercise: string;
+  public descriptionExercise: string;
   public url: any;
   public network : Network;
   public valueName: string;
@@ -131,14 +132,16 @@ export class TeacherExerciseComponent implements OnInit {
   }
 
   exerciseDone(): void {
-    let title = 'título de prueba';
-    let description = 'descripción de prueba para el ejercicio';
     let points = this.getPoints();
     
-    let exercise = new Exercise(title, description,
+    let exercise = new Exercise(this.titleExercise, this.descriptionExercise,
     this.getConnections(points), points, this.getImage());
     console.log(points);
     this.taskService.addExerciseCurrentTask(exercise);
+    this.router.navigateByUrl('/teacher/task/new');
+  }
+
+  goBack(): void {
     this.router.navigateByUrl('/teacher/task/new');
   }
 

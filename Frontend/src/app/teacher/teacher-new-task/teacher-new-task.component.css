@@ -1,6 +1,6 @@
 .btn-new-exercise{
-    margin-top: 1%;
-    margin-bottom: 1%;
+    margin-top: 2%;
+    margin-bottom: 2%;
     font-size: 120%;
 }
 
@@ -8,6 +8,10 @@
     margin-bottom: 1%;
 }
 
-#confirm {
-    margin-top: 1%;
+#create-task {
+    margin-left: 0.5%;
+}
+
+th:nth-child(3) {
+    width: 2%;
 }

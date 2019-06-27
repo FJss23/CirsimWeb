@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { TaskService } from 'src/app/services/task.service';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { Task } from 'src/app/model/task';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-teacher-sent-tasks',
@@ -16,12 +15,11 @@ export class TeacherSentTasksComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private taskService: TaskService,
-    private authService: AuthService) { }
+  constructor(private taskService: TaskService) { }
 
   ngOnInit() {
     this.getCreatedTasks(); 
-    this.displayedColumns = ['name', 'openData', 'numExercises', 'description', 'action'];
+    this.displayedColumns = ['title', 'openData', 'numExercises', 'action'];
     this.dataSource = new MatTableDataSource<Task>(this.createdTasks);
     this.dataSource.paginator = this.paginator;
   }
@@ -39,6 +37,13 @@ export class TeacherSentTasksComponent implements OnInit {
         this.dataSource.data = this.createdTasks;
       }
     );
+  }
+
+  deleteTask(task: Task): void {
+    console.log(task.id);
+    this.createdTasks = this.createdTasks.filter(t => t !== task);
+    this.dataSource.data = [...this.createdTasks];
+    //this.taskService.deleteTask().subscribe();
   }
   
 }
