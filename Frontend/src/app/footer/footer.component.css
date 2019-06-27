@@ -1,0 +1,10 @@
+#footer-content {
+    font-size: 80%;
+    background-color: darkgrey;
+    text-align: center;
+}
+
+#footer {
+    top: 100%;
+    width: 100%;    
+}

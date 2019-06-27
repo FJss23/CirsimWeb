@@ -1,5 +1,38 @@
-<div>
-  <span>Ejercicio:</span>
-  <button mat-button routerLink="simulation">Nuevo</button>
+<div class="content">
+  <h1 class="pageTitle">Ejercicios añadidos</h1>
+  <mat-divider></mat-divider>
+  <div fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button routerLink="simulation" color="primary" 
+    matTooltip="Click para añadir un nuevo ejercicio a la tarea"
+    class="btn-new-exercise">
+      <mat-icon >add_circle</mat-icon> EJERCICIO</button>
+  </div>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef> Título </th>
+      <td mat-cell *matCellDef="let exercise"> {{exercise.position}} </td>xº
+    </ng-container>
+  
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Descripción </th>
+      <td mat-cell *matCellDef="let exercise"> {{exercise.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef> Eliminar </th>
+      <td mat-cell *matCellDef="let task"> 
+        <button mat-icon-button matTooltip="Click para eliminar" class="iconbutton" color="warn">
+          <mat-icon aria-label="Delete">delete</mat-icon>
+        </button> 
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <div fxLayout="column" fxLayoutAlign="end center">
+    <button mat-raised-button color="primary" (click)="addTask()"
+    id="confirm">Crear tarea</button>
+  </div>
 </div>
-<button mat-button (click)="addTask()">Confirmar</button>

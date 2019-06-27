@@ -1,4 +1,4 @@
-.btn-new-exercise{
+.btn-new-task{
     margin-top: 1%;
     margin-bottom: 1%;
     font-size: 120%;
@@ -6,8 +6,4 @@
 
 .mat-icon {
     margin-bottom: 1%;
-}
-
-#confirm {
-    margin-top: 1%;
 }

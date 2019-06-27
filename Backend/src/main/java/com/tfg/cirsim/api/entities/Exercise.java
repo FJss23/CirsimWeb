@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -29,16 +30,16 @@ public class Exercise {
 	
 	private String description;
 	
-	@OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Connection> connections = new HashSet<Connection>();
 	
-	@OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Point> points = new HashSet<Point>();
 	
 	@OneToOne(mappedBy = "exercise", cascade = CascadeType.ALL)
 	private Image image;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Task task;
 	

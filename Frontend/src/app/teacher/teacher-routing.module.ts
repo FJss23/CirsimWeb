@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TeacherComponent } from './teacher/teacher.component';
-import { TeacherHomeComponent } from './teacher-home/teacher-home.component';
+import { TeacherSentTasksComponent } from './teacher-sent-tasks/teacher-sent-tasks.component';
 import { TeacherGuard } from '../guards/teacher.guard';
 import { TeacherNewTaskComponent } from './teacher-new-task/teacher-new-task.component';
 import { TeacherExerciseComponent } from './teacher-exercise/teacher-exercise.component';
@@ -14,7 +14,7 @@ const routes: Routes = [
     children: [
       {
         path: '', 
-        component: TeacherHomeComponent 
+        component: TeacherSentTasksComponent 
       },
       {
         path: 'task/new',

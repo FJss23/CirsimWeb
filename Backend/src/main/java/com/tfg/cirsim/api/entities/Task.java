@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -28,10 +29,10 @@ public class Task {
 	@GeneratedValue
 	private Long id;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private User author;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "TTASK_ASIGNED_TO",
 		joinColumns = @JoinColumn(name = "task_id"), 
 		inverseJoinColumns = @JoinColumn(name = "user_id"))
@@ -42,7 +43,7 @@ public class Task {
 	@Column(name = "open_date")
 	private Date openDate;
 	
-	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "task", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<Exercise> exercises = new HashSet<Exercise>();
 	
 	private String description;
