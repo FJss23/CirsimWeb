@@ -73,7 +73,6 @@ export class TeacherExerciseComponent implements OnInit {
   }
 
   setUpNetwork(): void  {
-    console.log(this.networkContainer.nativeElement);
     let data = { };
     let options = this.defineOptions();
     this.network = new Network(this.networkContainer.nativeElement, data, options);

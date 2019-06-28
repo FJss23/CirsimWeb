@@ -1,5 +1,17 @@
 <div class="content">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
   <h1 class="pageTitle">{{taskToResolve.title}}</h1>
+  <mat-chip-list>
+    <mat-chip>Ejercicio 1/2</mat-chip>
+  </mat-chip-list>
+  </div>
   <mat-divider></mat-divider>
-  <div #networkContainer class="network"></div>
+  <div fxLayout="column" fxLayoutAlign="center center" id="network-editor">
+    <div class="information"  fxLayout="column" fxLayoutAlign="start center">
+      <h2>Título</h2>
+      <div>Descripción</div>
+    </div>
+    <div #networkContainer class="network"></div>
+    <button mat-raised-button color="primary" id="finish-btn">Terminar</button>
+  </div>
 </div>

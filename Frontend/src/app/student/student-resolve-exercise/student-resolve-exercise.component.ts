@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import { Task } from 'src/app/model/task';
 import { TaskService } from 'src/app/services/task.service';
 import { Network } from 'vis';
@@ -17,6 +17,13 @@ export class StudentResolveExerciseComponent implements OnInit {
 
   ngOnInit() {
     this.taskToResolve = this.taskService.getTaskToResolveByStudent();
+    this.setUpNetwork();
+  }
+
+  setUpNetwork(): void  {
+    let data = { };
+    let options = this.defineOptions();
+    this.network = new Network(this.networkContainer.nativeElement, data, options);
   }
 
   defineOptions(): any {
