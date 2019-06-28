@@ -80,7 +80,6 @@ public class TaskServiceImpl implements TaskService {
 		task.setStudents(students);
 		
 		// children links
-//		exerciseService.addExercises(task.getExercises(), task);
 		setChildExercise(task.getExercises(), task);
 		author.getTaskAuthor().add(task);
 		students.forEach(student -> student.getTaskToDo().add(task));

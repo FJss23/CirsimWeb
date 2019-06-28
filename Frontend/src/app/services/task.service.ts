@@ -10,11 +10,11 @@ import { tap, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class TaskService {
-  task: Task;
+  taskCreated: Task;
+  taskToResolve: Task;
   httpOptions: { headers; observe; };
 
   constructor(private http: HttpClient) { 
-
       this.httpOptions = {
         headers: new HttpHeaders({ 'Accept': 'application/json',
          'Content-Type': 'application/json'
@@ -23,28 +23,38 @@ export class TaskService {
       };
   }
 
-  initializeTask(task: Task): void {
-    this.task = task;
-    console.log(`Iinitializing current task`);
+  initTaskCreatedByTeacher(task: Task): void {
+    this.taskCreated = task;
   }
 
-  addExerciseCurrentTask(exercise: Exercise): void {
-    if(!this.task){
-      this.task = new Task();
+  addExerciseCurrentTaskByTeacher(exercise: Exercise): void {
+    if(!this.taskCreated){
+      this.taskCreated = new Task();
     }
-    this.task.addExercise(exercise);
+    this.taskCreated.addExercise(exercise);
   }
 
-  getCurrentTask(): Task {
-    return this.task;
+  getCurrentTaskByTeacher(): Task {
+    return this.taskCreated;
   }
 
-  getExercisesOfCurrentTask(): Exercise[] {
-    return this.task.exercises;
+  getExercisesOfCurrentTaskByTeacher(): Exercise[] {
+    return this.taskCreated.exercises;
   }
 
+  setTaskToResolveByStudent(task: Task): void {
+    this.taskToResolve = task;
+  }
+
+  getTaskToResolveByStudent(): Task {
+    return this. taskToResolve;
+  }
+
+  /**
+   * TODO
+   */
   addTask(): Observable<any> {
-    return this.http.post<Task>(environment.task, this.task, this.httpOptions).pipe(
+    return this.http.post<Task>(environment.task, this.taskCreated, this.httpOptions).pipe(
       tap(() => console.log(`Sending new task to backend`))
     );
   }
@@ -59,6 +69,10 @@ export class TaskService {
     );
   }
 
+  /**
+   * 
+   * @param task 
+   */
   deleteTask(task: Task): Observable<any> {
     return this.http.delete<Task>(environment.task + `/${task.id}`, this.httpOptions).pipe(
       tap(() => console.log(`Sending the delete petition`))

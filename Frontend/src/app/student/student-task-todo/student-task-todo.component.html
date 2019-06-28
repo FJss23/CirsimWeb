@@ -24,7 +24,7 @@
           <th mat-header-cell *matHeaderCellDef class="header-del"> Acción </th>
           <td mat-cell *matCellDef="let task" class="cell-de"> 
             <button mat-raised-button color="accent" matTooltip="Click para resolver el ejercicio"
-            (click)="try(task)"> Resolver </button> 
+            (click)="try(task)" routerLink="resolve-exercise"> Resolver </button> 
           </td>
         </ng-container>
   

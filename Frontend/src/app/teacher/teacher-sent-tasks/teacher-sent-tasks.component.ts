@@ -25,7 +25,7 @@ export class TeacherSentTasksComponent implements OnInit {
 
   initializeTask(): void {
     let task = new Task();
-    this.taskService.initializeTask(task);
+    this.taskService.initTaskCreatedByTeacher(task);
   }
 
   getCreatedTasks(): void {

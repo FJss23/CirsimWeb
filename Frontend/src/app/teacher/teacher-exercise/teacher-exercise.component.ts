@@ -73,6 +73,7 @@ export class TeacherExerciseComponent implements OnInit {
   }
 
   setUpNetwork(): void  {
+    console.log(this.networkContainer.nativeElement);
     let data = { };
     let options = this.defineOptions();
     this.network = new Network(this.networkContainer.nativeElement, data, options);
@@ -137,7 +138,7 @@ export class TeacherExerciseComponent implements OnInit {
     let exercise = new Exercise(this.titleExercise, this.descriptionExercise,
     this.getConnections(points), points, this.getImage());
     console.log(points);
-    this.taskService.addExerciseCurrentTask(exercise);
+    this.taskService.addExerciseCurrentTaskByTeacher(exercise);
     this.router.navigateByUrl('/teacher/task/new');
   }
 

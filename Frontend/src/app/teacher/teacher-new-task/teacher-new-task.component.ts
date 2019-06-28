@@ -19,12 +19,12 @@ export class TeacherNewTaskComponent implements OnInit {
 
   ngOnInit() {
    this.displayedColumns = ['title', 'description', 'action'];
-   this.taskTitle = this.taskService.getCurrentTask().title;
-   this.dataSource = this.taskService.getExercisesOfCurrentTask();
+   this.taskTitle = this.taskService.getCurrentTaskByTeacher().title;
+   this.dataSource = this.taskService.getExercisesOfCurrentTaskByTeacher();
   }
 
   setTaskTitle(): void {
-    this.taskService.getCurrentTask().setTitle(this.taskTitle);
+    this.taskService.getCurrentTaskByTeacher().setTitle(this.taskTitle);
   }
 
   addTask(): void {
@@ -37,8 +37,8 @@ export class TeacherNewTaskComponent implements OnInit {
   }
 
   removeExercise(exercise: Exercise): void {
-    this.taskService.getCurrentTask().removeExercise(exercise);
-    this.dataSource = [...this.taskService.getExercisesOfCurrentTask()];
+    this.taskService.getCurrentTaskByTeacher().removeExercise(exercise);
+    this.dataSource = [...this.taskService.getExercisesOfCurrentTaskByTeacher()];
     console.log(`Removing exercise`);
   }
 }

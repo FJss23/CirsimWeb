@@ -29,6 +29,11 @@ export class AuthService {
     this.isLoggedIn = false;
   }
 
+  /**
+   * TODO
+   * @param username 
+   * @param password 
+   */
   login(username: string, password: string): Observable<any> {
     let body = { "username": username, "password": password }
 
@@ -45,6 +50,9 @@ export class AuthService {
       }));
   }
 
+  /**
+   * TODO
+   */
   logout(): void {
     sessionStorage.removeItem('token');
     this.isLoggedIn = false;
