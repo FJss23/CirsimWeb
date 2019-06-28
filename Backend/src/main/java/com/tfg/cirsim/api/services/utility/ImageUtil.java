@@ -1,5 +1,6 @@
 package com.tfg.cirsim.api.services.utility;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
@@ -56,5 +57,10 @@ public class ImageUtil {
 		int startIndex = almostB64.indexOf("data:image/") + 10;
 	    int endIndex = almostB64.indexOf(";base64,");
 	    return almostB64.substring(startIndex + 1, endIndex);
+	}
+
+	public void deleteImage(Image image) {
+		File file = new File(image.getImageb64());
+		file.delete();
 	}
 }

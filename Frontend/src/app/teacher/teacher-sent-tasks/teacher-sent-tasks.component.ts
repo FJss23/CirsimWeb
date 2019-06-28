@@ -12,7 +12,6 @@ export class TeacherSentTasksComponent implements OnInit {
   displayedColumns: string[];
   dataSource: any;
   createdTasks: Task[];
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private taskService: TaskService) { }

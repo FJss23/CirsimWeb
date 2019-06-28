@@ -7,7 +7,7 @@
           <input [(ngModel)]="taskTitle" matInput #title maxlength="50" placeholder="Título de la tarea">
           <mat-hint align="end">{{title.value.length}} / 50</mat-hint>
       </mat-form-field>
-    <button mat-raised-button routerLink="simulation" color="primary" 
+    <button mat-raised-button routerLink="simulation" color="accent" 
     matTooltip="Click para añadir un nuevo ejercicio a la tarea"
     class="btn-new-exercise" (click)="setTaskTitle()">
       <mat-icon >add_circle</mat-icon> EJERCICIO</button>

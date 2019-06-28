@@ -12,6 +12,10 @@
     margin-left: 0.5%;
 }
 
+th:nth-child(1) {
+    width: 10%;
+}
+
 th:nth-child(3) {
     width: 2%;
 }

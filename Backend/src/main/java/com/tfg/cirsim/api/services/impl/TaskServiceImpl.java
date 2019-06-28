@@ -15,7 +15,6 @@ import com.tfg.cirsim.api.entities.Role;
 import com.tfg.cirsim.api.entities.Task;
 import com.tfg.cirsim.api.entities.User;
 import com.tfg.cirsim.api.repository.TaskRepository;
-import com.tfg.cirsim.api.services.ExerciseService;
 import com.tfg.cirsim.api.services.TaskService;
 import com.tfg.cirsim.api.services.UserService;
 import com.tfg.cirsim.api.services.utility.ImageUtil;
@@ -36,9 +35,6 @@ public class TaskServiceImpl implements TaskService {
 	
 	@Autowired
 	UserService userService;
-	
-	@Autowired
-	ExerciseService exerciseService;
 	
 	@Override
 	public Set<Task> getTasks() {
@@ -67,6 +63,10 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	@Transactional
 	public void deleteTask(Long id) {
+		Task taskToDelete = taskRepository.findById(id).get();
+		taskToDelete.getExercises().forEach(exercise -> {
+			imageUtil.deleteImage(exercise.getImage());
+		});
 		taskRepository.deleteById(id);
 	}
 
