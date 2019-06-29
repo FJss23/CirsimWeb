@@ -6,6 +6,7 @@ import { Point } from 'src/app/model/point';
 import { Connection } from '../../model/connection';
 import { Image } from '../../model/image';
 import { Router } from '@angular/router';
+import { TeacherService } from 'src/app/services/teacher.service';
 
 @Component({
   selector: 'app-teacher-exercise',
@@ -25,11 +26,11 @@ export class TeacherExerciseComponent implements OnInit {
   public sizeImage: string[];
   public color: string;
   public canDelete: boolean;
-  public defualtPosition: string;
-  public defaultSize: string;
   public activeSelectionMode: boolean;
+  public selectedPosition: string;
+  public selectedSize: string;
 
-  constructor(private taskService: TaskService,
+  constructor(private teacherService: TeacherService,
     private router: Router) { }
 
   ngOnInit() {
@@ -53,8 +54,6 @@ export class TeacherExerciseComponent implements OnInit {
     this.valueSizeConnection = 5;
     this.color = '#000000';
     this.canDelete = false;
-    this.defualtPosition = this.positionsImage[0];
-    this.defaultSize = this.sizeImage[0];
     this.activeSelectionMode = false;
 
     this.setUpNetwork();
@@ -89,15 +88,20 @@ export class TeacherExerciseComponent implements OnInit {
     let sourceCanvas = document.querySelector('canvas');
     sourceCanvas.style.backgroundImage = `url('${this.url}')`;
     sourceCanvas.style.backgroundRepeat = "no-repeat";
+    sourceCanvas.style.backgroundPosition =  this.positionsImage[0];
+    sourceCanvas.style.backgroundSize = this.sizeImage[0];
   }
 
   setPositionBackground(position: string): void {
     let sourceCanvas = document.querySelector('canvas');
     sourceCanvas.style.backgroundPosition = position;
+    this.selectedPosition = position;
   }
+  
   setSizeBackground(size: string): void {
     let sourceCanvas = document.querySelector('canvas');
     sourceCanvas.style.backgroundSize = size;
+    this.selectedSize = size;
   }
 
   addPointMode(): void {
@@ -133,11 +137,9 @@ export class TeacherExerciseComponent implements OnInit {
 
   exerciseDone(): void {
     let points = this.getPoints();
-    
     let exercise = new Exercise(this.titleExercise, this.descriptionExercise,
-    this.getConnections(points), points, this.getImage());
-    console.log(points);
-    this.taskService.addExerciseCurrentTaskByTeacher(exercise);
+    this.getConnections(points), points, this.getImage(),this.network.getSeed());
+    this.teacherService.addExerciseCurrentTask(exercise);
     this.router.navigateByUrl('/teacher/task/new');
   }
 
@@ -146,9 +148,7 @@ export class TeacherExerciseComponent implements OnInit {
   }
 
   getImage(): Image {
-    var position = 'center center';
-    var size = 'auto';
-    return new Image(this.url, position, size);
+    return new Image(this.url, this.selectedPosition, this.selectedSize);
   }
 
   private getConnections(points: Point[]): Connection[] {

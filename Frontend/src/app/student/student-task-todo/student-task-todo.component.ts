@@ -3,6 +3,7 @@ import { Task } from 'src/app/model/task';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { TaskService } from 'src/app/services/task.service';
 import { Router } from '@angular/router';
+import { StudentService } from 'src/app/services/student.service';
 
 @Component({
   selector: 'app-student-task-todo',
@@ -16,7 +17,7 @@ export class StudentTaskTodoComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private taskService: TaskService,
-    private router: Router) { }
+    private studentService: StudentService) { }
 
   ngOnInit() {
     this.getAssignedTasks(); 
@@ -35,7 +36,6 @@ export class StudentTaskTodoComponent implements OnInit {
   }
 
   try(task: Task): void {
-    console.log(`moving to resolve exercise page`);
-    this.taskService.setTaskToResolveByStudent(task);
+    this.studentService.setTaskToResolve(task);
   }
 }

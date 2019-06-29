@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TaskService } from 'src/app/services/task.service';
 import { Router } from '@angular/router';
 import { Exercise } from 'src/app/model/exercise';
+import { TeacherService } from 'src/app/services/teacher.service';
 
 @Component({
   selector: 'app-teacher-new-task',
@@ -14,22 +15,23 @@ export class TeacherNewTaskComponent implements OnInit {
   dataSource: any;
   
   constructor(private taskService: TaskService,
+    private teacherService: TeacherService,
     private router: Router) 
   { }
 
   ngOnInit() {
    this.displayedColumns = ['title', 'description', 'action'];
-   this.taskTitle = this.taskService.getCurrentTaskByTeacher().title;
-   this.dataSource = this.taskService.getExercisesOfCurrentTaskByTeacher();
+   this.taskTitle = this.teacherService.getCurrentTask().title;
+   this.dataSource = this.teacherService.getExercisesOfCurrentTask();
   }
 
   setTaskTitle(): void {
-    this.taskService.getCurrentTaskByTeacher().setTitle(this.taskTitle);
+    this.teacherService.getCurrentTask().setTitle(this.taskTitle);
   }
 
   addTask(): void {
     this.setTaskTitle();
-    this.taskService.addTask().subscribe(() => {
+    this.taskService.addTask(this.teacherService.getCurrentTask()).subscribe(() => {
         console.log(`New task Added`);
         this.router.navigateByUrl('/teacher');
       }
@@ -37,8 +39,8 @@ export class TeacherNewTaskComponent implements OnInit {
   }
 
   removeExercise(exercise: Exercise): void {
-    this.taskService.getCurrentTaskByTeacher().removeExercise(exercise);
-    this.dataSource = [...this.taskService.getExercisesOfCurrentTaskByTeacher()];
+    this.teacherService.getCurrentTask().removeExercise(exercise);
+    this.dataSource = [...this.teacherService.getExercisesOfCurrentTask()];
     console.log(`Removing exercise`);
   }
 }

@@ -47,10 +47,12 @@ public class Exercise {
 	@JsonIgnore
 	private Task task;
 	
+	private Long seed;
+	
 	public Exercise() { }
 
 	public Exercise(Long id, String title, String description, Set<Connection> 
-			connections, Set<Point> points, Image image) {
+			connections, Set<Point> points, Image image, Long seed) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -58,6 +60,7 @@ public class Exercise {
 		this.connections = connections;
 		this.points = points;
 		this.image = image;
+		this.seed = seed;
 	}
 
 	public Long getId() {
@@ -129,12 +132,20 @@ public class Exercise {
 		this.task = task;
 	}
 
+	public Long getSeed() {
+		return seed;
+	}
+
+	public void setSeed(Long seed) {
+		this.seed = seed;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((seed == null) ? 0 : seed.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
@@ -153,6 +164,11 @@ public class Exercise {
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
+		if (seed == null) {
+			if (other.seed != null)
+				return false;
+		} else if (!seed.equals(other.seed))
+			return false;
 		if (title == null) {
 			if (other.title != null)
 				return false;
@@ -160,6 +176,5 @@ public class Exercise {
 			return false;
 		return true;
 	}
-
 	
 }

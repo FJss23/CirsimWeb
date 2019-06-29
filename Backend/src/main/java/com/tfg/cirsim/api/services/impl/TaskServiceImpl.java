@@ -39,13 +39,15 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public Set<Task> getTasks() {
 		User authenticated = userService.getAuthenticatedUser();
+		Set<Task> taskToDo = new HashSet<Task>();
 		if(authenticated.getRole() == Role.STUDENT) {
-			return authenticated.getTaskToDo();
+			taskToDo = authenticated.getTaskToDo();
 		} 
 		if(authenticated.getRole() == Role.TEACHER) {
-			return authenticated.getTaskAuthor();
+			taskToDo = authenticated.getTaskAuthor();
 		}
-		return new HashSet<Task>();
+		imageUtil.setImagesInTask(taskToDo);
+		return taskToDo;
 	}
 
 	@Override

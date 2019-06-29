@@ -10,8 +10,6 @@ import { tap, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class TaskService {
-  taskCreated: Task;
-  taskToResolve: Task;
   httpOptions: { headers; observe; };
 
   constructor(private http: HttpClient) { 
@@ -22,39 +20,12 @@ export class TaskService {
         observe: 'response'
       };
   }
-
-  initTaskCreatedByTeacher(task: Task): void {
-    this.taskCreated = task;
-  }
-
-  addExerciseCurrentTaskByTeacher(exercise: Exercise): void {
-    if(!this.taskCreated){
-      this.taskCreated = new Task();
-    }
-    this.taskCreated.addExercise(exercise);
-  }
-
-  getCurrentTaskByTeacher(): Task {
-    return this.taskCreated;
-  }
-
-  getExercisesOfCurrentTaskByTeacher(): Exercise[] {
-    return this.taskCreated.exercises;
-  }
-
-  setTaskToResolveByStudent(task: Task): void {
-    this.taskToResolve = task;
-  }
-
-  getTaskToResolveByStudent(): Task {
-    return this. taskToResolve;
-  }
-
+  
   /**
    * TODO
    */
-  addTask(): Observable<any> {
-    return this.http.post<Task>(environment.task, this.taskCreated, this.httpOptions).pipe(
+  addTask(task: Task): Observable<any> {
+    return this.http.post<Task>(environment.task, task, this.httpOptions).pipe(
       tap(() => console.log(`Sending new task to backend`))
     );
   }

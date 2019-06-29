@@ -1,14 +1,22 @@
 package com.tfg.cirsim.api.services.utility;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Optional;
+import java.util.Set;
+
+import javax.imageio.ImageIO;
 
 import com.tfg.cirsim.api.entities.Exercise;
 import com.tfg.cirsim.api.entities.Image;
+import com.tfg.cirsim.api.entities.Task;
 
 public class ImageUtil {
 	
@@ -62,5 +70,45 @@ public class ImageUtil {
 	public void deleteImage(Image image) {
 		File file = new File(image.getImageb64());
 		file.delete();
+	}
+
+	public void setImagesInTask(Set<Task> taskToDo) {
+		taskToDo.forEach(task -> {
+			setImagesInExercise(task.getExercises());
+		});
+		
+	}
+	
+	private void setImagesInExercise(Set<Exercise> exercises) {
+		exercises.forEach(exercise -> {
+			String imageInCorrectaFormat = 
+					obtainImageStored(exercise.getImage().getImageb64());
+			exercise.getImage().setImageb64(imageInCorrectaFormat);
+		});
+	}
+	
+	private String obtainImageStored(String imagePath) {
+		File fileImage = new File(imagePath);
+		String b64 = null;
+		if(fileImage.exists()) {
+			try {
+				BufferedImage image = ImageIO.read(fileImage);
+				ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+				String imageFormat = getExtensionByStringHandling(imagePath).get();
+				ImageIO.write(image, imageFormat, outputStream);
+				b64 = "data:image/" + imageFormat + ";base64," + Base64.getEncoder().
+						encodeToString(outputStream.toByteArray());
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return b64;
+	}
+	
+	public Optional<String> getExtensionByStringHandling(String filename) {
+	    return Optional.ofNullable(filename)
+	      .filter(f -> f.contains("."))
+	      .map(f -> f.substring(filename.lastIndexOf(".") + 1));
 	}
 }
