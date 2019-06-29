@@ -26,6 +26,8 @@ export class StudentResolveExerciseComponent implements OnInit {
     this.currentInfoLabel = `Ejercicio ${this.studentService.obtainNumCurrentExercise()}
     /${this.studentService.obtainTotalExercises()}`;
     this.setUpNetwork();
+    console.log(`Escala: ${this.network.getScale()} Zoom:`);
+    console.log(this.network.getViewPosition());
   }
 
   setUpNetwork(): void  {
@@ -35,6 +37,9 @@ export class StudentResolveExerciseComponent implements OnInit {
     }
     let options = this.defineOptions();
     this.network = new Network(this.networkContainer.nativeElement, data, options);
+    this.network.moveTo({
+      position: {x: 0, y: 0}
+    });
     this.setBackground();
   }
 
@@ -93,9 +98,6 @@ export class StudentResolveExerciseComponent implements OnInit {
       height: "650px",
       width: "600px",
       clickToUse: true,
-      layout: {
-        randomSeed: this.exerciseToResolve.seed
-      },
       physics:{
         enabled: false,
       },
@@ -116,7 +118,11 @@ export class StudentResolveExerciseComponent implements OnInit {
         zoomView: false,
         multiselect: true,
         dragView: false
-      }  
+      },
+      manipulation: {
+        enabled: false,
+        initiallyActive: true,  
+      }
     }
   }
 

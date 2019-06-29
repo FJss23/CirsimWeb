@@ -11,11 +11,10 @@
           <mat-hint align="end">{{title.value.length}} / 50</mat-hint>
       </mat-form-field>
       <mat-form-field class="description">
-          <textarea matInput #description maxlength="256" placeholder="Descripción del ejercicio"
+          <textarea matInput #description maxlength="1000" placeholder="Descripción del ejercicio"
           [(ngModel)]="descriptionExercise"></textarea>
-          <mat-hint align="end">{{description.value.length}} / 256</mat-hint>
+          <mat-hint align="end">{{description.value.length}} / 1000</mat-hint>
       </mat-form-field>
-      <mat-checkbox>Añadir al repositorio</mat-checkbox>
     </div>
 
     <h2 class="second-title">2.- Añade una imagen</h2>
@@ -74,7 +73,7 @@
 
   </div>
   <div fxLayout="row" fxLayoutAlign="center center"  class="confirm">
-    <button mat-raised-button color="primary" (click)="goBack()">Atrás</button>
-    <button mat-raised-button color="primary" (click)="exerciseDone()" id="create-exercise">Añadir ejercicio</button>
+    <button mat-stroked-button color="primary" (click)="goBack()">Atrás</button>
+    <button mat-stroked-button color="primary" (click)="exerciseDone()" id="create-exercise">Añadir ejercicio</button>
   </div>
 </div>

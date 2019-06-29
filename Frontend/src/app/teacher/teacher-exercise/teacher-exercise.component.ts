@@ -136,9 +136,13 @@ export class TeacherExerciseComponent implements OnInit {
   }
 
   exerciseDone(): void {
+    console.log(`Escala: ${this.network.getScale()} Zoom:`);
+    console.log(this.network.getViewPosition());
+
+
     let points = this.getPoints();
     let exercise = new Exercise(this.titleExercise, this.descriptionExercise,
-    this.getConnections(points), points, this.getImage(),this.network.getSeed());
+    this.getConnections(points), points, this.getImage());
     this.teacherService.addExerciseCurrentTask(exercise);
     this.router.navigateByUrl('/teacher/task/new');
   }
