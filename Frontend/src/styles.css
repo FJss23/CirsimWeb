@@ -55,3 +55,7 @@ mat-toolbar{
   min-height:10vh;
   max-height:17vh;
 }
+
+.title-navbar {
+  font-size: 150% !important;
+}

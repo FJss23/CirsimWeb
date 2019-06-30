@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TaskService } from 'src/app/services/task.service';
+import { TaskServiceApi } from 'src/app/services/api/task-api.service';
 import { Router } from '@angular/router';
 import { Exercise } from 'src/app/model/exercise';
 import { TeacherService } from 'src/app/services/teacher.service';
@@ -14,7 +14,7 @@ export class TeacherNewTaskComponent implements OnInit {
   displayedColumns: string[];
   dataSource: any;
   
-  constructor(private taskService: TaskService,
+  constructor(private taskService: TaskServiceApi,
     private teacherService: TeacherService,
     private router: Router) 
   { }

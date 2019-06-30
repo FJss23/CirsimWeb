@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 import { AdminGuard } from '../guards/admin.guard';
+import { AdminAllUsersComponent } from './admin-all-users/admin-all-users.component';
 
 const routes: Routes = [
   {
@@ -9,7 +10,10 @@ const routes: Routes = [
     component: AdminComponent,
     canActivate: [AdminGuard],
     children: [
-      
+      {
+        path: '', 
+        component: AdminAllUsersComponent 
+      }
     ]
   }
 ];

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }      from '@angular/router';
-import { AuthService } from '../../services/auth.service';
-import { User } from 'src/app/model/user';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AuthServiceApi } from '../../services/api/auth-api.service';
 import { Role } from '../../model/role';
 
 
@@ -16,7 +14,7 @@ export class LoginComponent implements OnInit {
   password: string;
 
   constructor(
-    public authService: AuthService,
+    public authService: AuthServiceApi,
     public router: Router) { }
 
   ngOnInit() { 

@@ -24,9 +24,12 @@ export class StudentService {
     return this.taskToResolve;
   }
 
-  obtainNextExercise(): Exercise {
-    this.numCurrentExercise++;
-    return this.exercisesToResolved.shift();
+  obtainExerciseToResolve(): Exercise {
+    if(this.exercisesToResolved.length != 0){
+      this.numCurrentExercise++;
+      return this.exercisesToResolved.shift();
+    }
+    return null;
   }
 
   obtainCurrentTask(): Task {

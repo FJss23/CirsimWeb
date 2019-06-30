@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { AuthService } from '../services/auth.service';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { AuthServiceApi } from '../services/api/auth-api.service';
 import { Role } from '../model/role';
-import { routerNgProbeToken } from '@angular/router/src/router_module';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +9,7 @@ import { routerNgProbeToken } from '@angular/router/src/router_module';
 export class TeacherGuard implements CanActivate {
 
   constructor(
-    private authService: AuthService,
+    private authService: AuthServiceApi,
     private router: Router
   ){ }
 

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TaskService } from './task.service';
+import { TaskServiceApi } from './task-api.service';
 
-describe('TaskService', () => {
+describe('TaskServiceApi', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: TaskService = TestBed.get(TaskService);
+    const service: TaskServiceApi = TestBed.get(TaskServiceApi);
     expect(service).toBeTruthy();
   });
 });

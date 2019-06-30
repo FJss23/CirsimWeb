@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Network } from 'vis';
-import { TaskService } from 'src/app/services/task.service';
 import { Exercise } from 'src/app/model/exercise';
 import { Point } from 'src/app/model/point';
 import { Connection } from '../../model/connection';
@@ -145,7 +144,7 @@ export class TeacherExerciseComponent implements OnInit {
 
     let points = this.getPoints();
     let exercise = new Exercise(this.titleExercise, this.descriptionExercise,
-    this.getConnections(points), points, this.getImage());
+    this.getConnections(), points, this.getImage());
     this.teacherService.addExerciseCurrentTask(exercise);
     this.router.navigateByUrl('/teacher/task/new');
   }
@@ -158,7 +157,7 @@ export class TeacherExerciseComponent implements OnInit {
     return new Image(this.url, this.selectedPosition, this.selectedSize);
   }
 
-  private getConnections(points: Point[]): Connection[] {
+  private getConnections(): Connection[] {
     let connectionsNetwork = this.network.body.data.edges._data;
     let connections: Connection[] = [];
     for(let elem in connectionsNetwork){

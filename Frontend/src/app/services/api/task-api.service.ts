@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Task } from '../model/task';
-import { Exercise } from '../model/exercise';
+import { Task } from '../../model/task';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { tap, map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TaskService {
+export class TaskServiceApi {
   httpOptions: { headers; observe; };
 
   constructor(private http: HttpClient) { 

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TeacherRoutingModule } from './teacher-routing.module';
 import { TeacherSentTasksComponent } from './teacher-sent-tasks/teacher-sent-tasks.component';
 import { TeacherComponent } from './teacher/teacher.component';
-import { SharedModule } from '../modules/shared.module';
+import { SharedModule } from '../model/modules/shared.module';
 import { TeacherNewTaskComponent } from './teacher-new-task/teacher-new-task.component';
 import { TeacherExerciseComponent } from './teacher-exercise/teacher-exercise.component';
 import { FooterComponent } from '../footer/footer.component';

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TaskService } from 'src/app/services/task.service';
+import { TaskServiceApi } from 'src/app/services/api/task-api.service';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { Task } from 'src/app/model/task';
 import { TeacherService } from 'src/app/services/teacher.service';
@@ -15,7 +15,7 @@ export class TeacherSentTasksComponent implements OnInit {
   createdTasks: Task[];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private taskService: TaskService,
+  constructor(private taskService: TaskServiceApi,
     private teacherService: TeacherService) { }
 
   ngOnInit() {

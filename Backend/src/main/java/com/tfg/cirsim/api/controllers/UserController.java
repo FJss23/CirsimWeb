@@ -33,7 +33,7 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	@PreAuthorize("hasRole('ROLE_TEACHER') or hasRole('ROLE_ADMIN')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(value = "/user")
 	public Set<User> getUsers() {
 		return userService.getUsers();

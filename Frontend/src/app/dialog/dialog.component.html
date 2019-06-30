@@ -1,0 +1,14 @@
+<div fxLayout="column" fxLayoutAlign="space-around center">
+  <h1 mat-dialog-title>{{data.titleDialog}}</h1>
+  <div mat-dialog-content>{{data.messageDialog}}</div>
+  <div mat-dialog-actions class="btn" >
+    <div *ngIf="!data.canContinue" >
+      <button mat-stroked-button (click)="onNoClick()" color="primary">Sí</button>
+      <div class="divider"></div>
+      <button mat-stroked-button color="primary" (click)="nextExercise()">No</button>
+   </div>
+   <div *ngIf="data.canContinue" class="btn-continue">
+      <button mat-stroked-button color="primary" (click)="nextExercise()">Continuar</button>
+   </div>
+  </div>
+</div>

@@ -10,18 +10,9 @@ import com.tfg.cirsim.api.entities.Status;
  */
 public class StatusUserOnlyDto {
 	
-	private Long id;
 	private Status status;
 	
 	public StatusUserOnlyDto() { }
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public Status getStatus() {
 		return status;

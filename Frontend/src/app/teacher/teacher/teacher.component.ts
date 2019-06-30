@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthServiceApi } from 'src/app/services/api/auth-api.service';
 import { User } from 'src/app/model/user';
 
 @Component({
@@ -11,7 +11,7 @@ export class TeacherComponent implements OnInit {
   public currentUser: User;
 
   constructor(
-    private authService: AuthService
+    private authService: AuthServiceApi
   ) { }
 
   ngOnInit() {

@@ -1,11 +1,13 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { Task } from 'src/app/model/task';
 import { Point } from 'src/app/model/point';
 import { Network } from 'vis';
 import { StudentService } from 'src/app/services/student.service';
 import { Connection } from 'src/app/model/connection';
 import { Exercise } from 'src/app/model/exercise';
 import { environment } from 'src/environments/environment';
+import { MatDialog } from '@angular/material';
+import { DialogComponent } from '../../dialog/dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-student-resolve-exercise',
@@ -20,19 +22,33 @@ export class StudentResolveExerciseComponent implements OnInit {
   public network : Network;
   canDelete: boolean;
   config: any;
+  canContinue: boolean;
 
-  constructor(private studentService: StudentService) { }
+  constructor(private studentService: StudentService,
+    public dialog: MatDialog,
+    private router: Router) { }
 
   ngOnInit() {
+    this.canContinue = false;
     this.config = environment.configurationVis;
     this.taskTitle = this.studentService.obtainTaskTitle();
-    this.exerciseToResolve = this.studentService.obtainNextExercise();
+    this.setExerciseToResolve();
     this.currentInfoLabel = `Ejercicio ${this.studentService.obtainNumCurrentExercise()}
     /${this.studentService.obtainTotalExercises()}`;
-    this.canDelete = false;
-    this.setUpNetwork();
+    
   }
 
+  setExerciseToResolve() {
+    this.exerciseToResolve = this.studentService.obtainExerciseToResolve();
+    if(this.exerciseToResolve == null){
+      this.router.navigateByUrl('/student');
+    } else {
+      this.canDelete = false;
+      this.setUpNetwork();
+    }
+  }
+
+  
   setUpNetwork(): void  {
     let data = {
       nodes: this.obtainData(),
@@ -117,18 +133,44 @@ export class StudentResolveExerciseComponent implements OnInit {
 
           if((con.toVisId == responseTo 
             && con.fromVisId == responseFrom) || 
-            (con.toVisId == responseFrom)){
+            (con.toVisId == responseFrom &&
+              con.fromVisId == responseTo)){
               founded--;
+              console.log(founded);
               break;
           }
         }
       });
     } 
     if(founded != 0){
-      console.log(`tienes errores`);
+      this.canContinue = false
+    } else {
+      this.canContinue = true
     }
+    this.openDialog();
   }
   
+  openDialog(): void {
+    let messageDialog =  [`Se han encontrado errores en el ejercicio, ¿deseas continuar intentándolo?`, 
+    `Has resuelto el ejercicio correctamente`];
+    let titleDialog = [`¡Errores en el ejercicio!`, `¡Muy bien!`];
+
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '350px',
+      height: '200px',
+      data: {
+        messageDialog: messageDialog[this.canContinue ? 1: 0],
+        titleDialog: titleDialog[this.canContinue ? 1: 0],
+        canContinue: this.canContinue
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result === 'NEXT'){
+        this.ngOnInit();
+      }
+   })
+  }
 
   defineOptions(): any {
     return {
