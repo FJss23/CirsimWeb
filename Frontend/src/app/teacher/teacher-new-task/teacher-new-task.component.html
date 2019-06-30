@@ -4,7 +4,7 @@
 
   <div fxLayout="row" fxLayoutAlign="space-between center">
       <mat-form-field fxFlex="50">
-          <input [(ngModel)]="taskTitle" matInput #title maxlength="50" placeholder="Título de la tarea">
+          <input [(ngModel)]="taskTitle" matInput #title maxlength="50" placeholder="Título de la tarea" required>
           <mat-hint align="end">{{title.value.length}} / 50</mat-hint>
       </mat-form-field>
     <button mat-raised-button routerLink="simulation" color="accent" 

@@ -1,9 +1,9 @@
 <div class="content">
   <div fxLayout="row" fxLayoutAlign="space-between center">
-  <h1 class="pageTitle">{{taskTitle}}</h1>
-  <mat-chip-list>
-    <mat-chip>{{currentInfoLabel}}</mat-chip>
-  </mat-chip-list>
+    <h1 class="pageTitle">{{taskTitle}}</h1>
+    <mat-chip-list>
+      <mat-chip>{{currentInfoLabel}}</mat-chip>
+    </mat-chip-list>
   </div>
   <mat-divider></mat-divider>
   <div fxLayout="column" fxLayoutAlign="center center" id="network-editor">
@@ -11,7 +11,15 @@
       <h2>{{exerciseToResolve.title}}</h2>
       <div>{{exerciseToResolve.description}}</div>
     </div>
-    <div #networkContainer class="network"></div>
-    <button mat-raised-button color="primary" id="finish-btn">Terminar</button>
+    <div class="principal-editor">
+      <mat-button-toggle-group aria-label="Font Style">
+        <mat-button-toggle value="addPointMode"  fxFlex="50" (click)="addConnectionMode()">
+          Conexiones</mat-button-toggle>
+        <mat-button-toggle value="addConnectionMode" fxFlex="50" (click)="activateDelete()">
+          Borrar</mat-button-toggle>
+      </mat-button-toggle-group>
+      <div #networkContainer class="network"></div>
+    </div>
+    <button mat-raised-button color="primary" id="finish-btn" (click)="checkResponse()">Terminar</button>
   </div>
 </div>

@@ -5,4 +5,5 @@ export interface Connection {
     fromVisId: string;
     toVisId: string;
     width: number;
+    color: string;
 }

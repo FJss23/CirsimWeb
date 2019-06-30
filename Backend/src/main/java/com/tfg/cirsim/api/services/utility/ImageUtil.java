@@ -67,8 +67,10 @@ public class ImageUtil {
 	}
 
 	public void deleteImage(Image image) {
-		File file = new File(image.getImageb64());
-		file.delete();
+		if(image.getImageb64() != null) {
+			File file = new File(image.getImageb64());
+			file.delete();
+		}
 	}
 
 	public void setImagesInTask(Set<Task> taskToDo) {

@@ -7,6 +7,7 @@ import { Connection } from '../../model/connection';
 import { Image } from '../../model/image';
 import { Router } from '@angular/router';
 import { TeacherService } from 'src/app/services/teacher.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-teacher-exercise',
@@ -29,11 +30,13 @@ export class TeacherExerciseComponent implements OnInit {
   public activeSelectionMode: boolean;
   public selectedPosition: string;
   public selectedSize: string;
+  config: any;
 
   constructor(private teacherService: TeacherService,
     private router: Router) { }
 
   ngOnInit() {
+    this.config = environment.configurationVis;
     this.positionsImage = [
       'left top',
       'left center',
@@ -49,10 +52,10 @@ export class TeacherExerciseComponent implements OnInit {
       "auto",
       "contain"
     ];
-    this.valueName = '';
-    this.valueSizePoint = 10;
-    this.valueSizeConnection = 5;
-    this.color = '#000000';
+    this.valueName = this.config.defaultValueName;
+    this.valueSizePoint = this.config.defaultSizePoint;
+    this.valueSizeConnection = this.config.defaultSizeConnection;
+    this.color = this.config.defaultColor;
     this.canDelete = false;
     this.activeSelectionMode = false;
 
@@ -163,7 +166,8 @@ export class TeacherExerciseComponent implements OnInit {
         visId: connectionsNetwork[elem].id,
         fromVisId: connectionsNetwork[elem].from,
         toVisId: connectionsNetwork[elem].to,
-        width: connectionsNetwork[elem].width
+        width: connectionsNetwork[elem].width,
+        color: connectionsNetwork[elem].color.color
       }
       connections.push(connection);
     }
@@ -189,31 +193,27 @@ export class TeacherExerciseComponent implements OnInit {
   } 
 
   private defineOptions(): any {
+    const config = environment.configurationVis;
+
     return {
-      autoResize: true,
-      height: "650px",
-      width: "600px",
-      clickToUse: true,
-      physics:{
-        enabled: false,
-      },
+      autoResize: config.autoResize,
+      height: config.height,
+      width: config.width,
+      clickToUse: config.clickToUse,
+      physics: config.physics,
       edges: {
-        smooth: {
-          type: "cubicBezier",
-          forceDirection: "none",
-          roundness: 1
-        },
+        smooth: config.edges.smooth,
         chosen: {
           edge: (values: any, id: any, selected: any, hovering: any) => {
             values.color = '#5d8dc7';
           }
+        },
+        color: {
+          inherit: false
         }
       },
       nodes: {
-        font: {
-          strokeWidth: 6, 
-          strokeColor: '#ffffff'
-        },
+        font: config.nodes.font,
         chosen: {
           node: (values: any, id: any, selected: any, hovering: any) => {
             values.color = '#5d8dc7';
@@ -222,13 +222,14 @@ export class TeacherExerciseComponent implements OnInit {
         }
       },
       interaction: {
-        zoomView: false,
-        multiselect: true,
-        dragView: false
+        zoomView: this.config.interaction.zoomView,
+        multiselect: this.config.interaction.multiselect,
+        dragView: this.config.interaction.dragView,
+        dragNodes: false
       },
       manipulation: {
-        enabled: false,
-        initiallyActive: true,
+        enabled: config.manipulation.enabled,
+        initiallyActive: config.manipulation.initiallyActive,
         addNode: (nodeData: any, callback: any) => {
           nodeData.color = this.color;
           nodeData.label = this.valueName;
@@ -239,6 +240,7 @@ export class TeacherExerciseComponent implements OnInit {
         },
         addEdge: (nodeData: any, callback: any) => {
           nodeData.width = this.valueSizeConnection;
+          nodeData.color = { color: this.color };
           callback(nodeData);
           this.network.addEdgeMode();
         },

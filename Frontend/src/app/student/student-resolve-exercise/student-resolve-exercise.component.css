@@ -1,8 +1,14 @@
 .network {
     border:1px solid black;
-    margin-top: 2%;
+    margin-top: 1%;
 }
 
 #finish-btn {
     margin-top: 1%;
+}
+
+.principal-editor {
+    margin-top: 2%;
+    padding: 0.80%;
+    border: 1px solid grey;
 }

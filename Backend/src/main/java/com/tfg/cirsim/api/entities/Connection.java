@@ -35,16 +35,19 @@ public class Connection {
 	@JsonIgnore
 	private Exercise exercise;
 	
+	private String color;
+	
 	public Connection() { }
 
 	public Connection(Long id, String visId, String fromVisId, String toVisId,
-			int width) {
+			int width, String color) {
 		super();
 		this.id = id;
 		this.visId = visId;
 		this.fromVisId = fromVisId;
 		this.toVisId = toVisId;
 		this.width = width;
+		this.color = color;;
 	}
 
 	public Long getId() {
@@ -95,13 +98,21 @@ public class Connection {
 		this.exercise = exercise;
 	}
 
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((color == null) ? 0 : color.hashCode());
 		result = prime * result + ((fromVisId == null) ? 0 : fromVisId.hashCode());
 		result = prime * result + ((toVisId == null) ? 0 : toVisId.hashCode());
-		result = prime * result + ((visId == null) ? 0 : visId.hashCode());
 		result = prime * result + width;
 		return result;
 	}
@@ -115,6 +126,11 @@ public class Connection {
 		if (getClass() != obj.getClass())
 			return false;
 		Connection other = (Connection) obj;
+		if (color == null) {
+			if (other.color != null)
+				return false;
+		} else if (!color.equals(other.color))
+			return false;
 		if (fromVisId == null) {
 			if (other.fromVisId != null)
 				return false;
@@ -125,14 +141,8 @@ public class Connection {
 				return false;
 		} else if (!toVisId.equals(other.toVisId))
 			return false;
-		if (visId == null) {
-			if (other.visId != null)
-				return false;
-		} else if (!visId.equals(other.visId))
-			return false;
 		if (width != other.width)
 			return false;
 		return true;
 	}
-
 }
