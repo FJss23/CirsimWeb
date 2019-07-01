@@ -6,7 +6,7 @@ import { Connection } from 'src/app/model/connection';
 import { Exercise } from 'src/app/model/exercise';
 import { environment } from 'src/environments/environment';
 import { MatDialog } from '@angular/material';
-import { DialogComponent } from '../../dialog/dialog.component';
+import { DialogComponent } from '../dialog/dialog.component';
 import { Router } from '@angular/router';
 
 @Component({

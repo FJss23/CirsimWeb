@@ -44,7 +44,7 @@ export class AuthServiceApi {
         let decodeToken = jwt_decode(token);
         if(decodeToken.sub == username) {
           sessionStorage.setItem('token', token);
-          this.authenticatedUser = new User(username, password, decodeToken.scope, token);
+          this.authenticatedUser = new User(username, password, decodeToken.scope).setToken(token);
           this.isLoggedIn = true;
         }
       }));

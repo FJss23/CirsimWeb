@@ -31,4 +31,8 @@ public interface UserService {
 	Set<User> findByRole(Role role);
 	
 	User getAuthenticatedUser();
+
+	Set<User> addUsers(Set<User> users);
+
+	void deleteUsers();
 }

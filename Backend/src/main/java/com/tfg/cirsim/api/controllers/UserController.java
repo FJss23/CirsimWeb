@@ -46,6 +46,12 @@ public class UserController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PostMapping(value = "/users")
+	public Set<User> postUsers(@RequestBody Set<User> users) {
+		return userService.addUsers(users);	
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping(value = "/user/{id}")
 	public User getUser(@PathVariable Long id) {
 		return userService.getUser(id);
@@ -55,6 +61,12 @@ public class UserController {
 	@PutMapping(value = "/user/{id}")
 	public User putUser(@PathVariable Long id, @RequestBody User user) {
 		return userService.updateUser(id, user);
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@DeleteMapping(value = "/users")
+	public void deleteUsers() {
+		userService.deleteUsers();
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")

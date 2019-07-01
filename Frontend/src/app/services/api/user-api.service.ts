@@ -9,7 +9,6 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class UserApiService {
-
   httpOptions: { headers; observe; };
 
   constructor(private http: HttpClient) { 
@@ -26,7 +25,7 @@ export class UserApiService {
    * @param task 
    */
   addUsers(users: User[]): Observable<any> {
-    return this.http.post<User>(environment.user, users, this.httpOptions).pipe(
+    return this.http.post<User[]>(environment.user + `s`, users, this.httpOptions).pipe(
       tap(() => console.log(`Sending new users to backend`))
     );
   }
@@ -40,7 +39,22 @@ export class UserApiService {
     );
   }
 
-  partialUpdateUser({}): Observable<any> {
-    return null;
+  /**
+   * 
+   */
+  partialUpdateUser({status : value}, id: number): Observable<any> {
+    return this.http.patch(environment.user + `/${id}`,  { status : value }, 
+      this.httpOptions).pipe(
+      tap(() => console.log(`Updating user from backend`))
+    );
+  }
+
+  /**
+   * 
+   */
+  deleteAllUsers(): Observable<any> {
+    return this.http.delete(environment.user + `s`).pipe(
+      tap(() => console.log(`All users deleted`))
+    );
   }
 }

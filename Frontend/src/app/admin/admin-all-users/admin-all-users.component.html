@@ -1,3 +1,49 @@
-<p>
-  admin-all-users works!
-</p>
+<div class="content">
+  <h1 class="pageTitle">Gestión de usuarios</h1>
+  <mat-divider></mat-divider>
+  <input type="file" accept=".csv" (change)="onSelectFile($event)">
+  <div class="mat-elevation-z8" id="table">
+    <table mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef> Nombre de usuario </th>
+        <td mat-cell *matCellDef="let user"> {{user.username}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let user"> {{user.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="surname">
+        <th mat-header-cell *matHeaderCellDef> Apellido </th>
+        <td mat-cell *matCellDef="let user"> {{user.surname}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef> Rol </th>
+        <td mat-cell *matCellDef="let user"> {{user.role}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let user"> {{user.status}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="header-del"> Cambiar estado </th>
+        <td mat-cell *matCellDef="let user" class="cell-de"> 
+            <button mat-icon-button matTooltip="Click para resolver cambiar el estado" color="primary"
+            (click)="changeStatus(user)">
+              <mat-icon aria-label="Loop">autorenew</mat-icon>
+            </button> 
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

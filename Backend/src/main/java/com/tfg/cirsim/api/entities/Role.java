@@ -1,5 +1,7 @@
 package com.tfg.cirsim.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 /**
  * 
  * @author francisco.riedemann
@@ -20,4 +22,20 @@ public enum Role {
 	public String getText() {
 		return text;
 	}
+	
+	@Override 
+	public String toString() { 
+		return text; 
+	}
+	
+	@JsonCreator
+	public static Role fromText(String text){
+        for(Role r : Role.values()){
+            if(r.getText().equals(text)){
+                return r;
+            }
+        }
+        throw new IllegalArgumentException();
+    }
+	
 }

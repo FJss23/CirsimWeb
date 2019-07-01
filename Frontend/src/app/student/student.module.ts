@@ -5,7 +5,7 @@ import { StudentComponent } from './student/student.component';
 import { StudentTaskTodoComponent } from './student-task-todo/student-task-todo.component';
 import { SharedModule } from '../model/modules/shared.module';
 import { StudentResolveExerciseComponent } from './student-resolve-exercise/student-resolve-exercise.component';
-import { DialogComponent } from '../dialog/dialog.component';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
   declarations: [    
@@ -16,7 +16,7 @@ import { DialogComponent } from '../dialog/dialog.component';
   ],
   imports: [
     CommonModule,
-    StudentRoutingModule,
+    StudentRoutingModule, 
     SharedModule
   ],
   entryComponents: [DialogComponent]

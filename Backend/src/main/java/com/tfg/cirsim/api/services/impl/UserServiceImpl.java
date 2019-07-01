@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.tfg.cirsim.api.controllers.dto.StatusUserOnlyDto;
 import com.tfg.cirsim.api.entities.Role;
+import com.tfg.cirsim.api.entities.Status;
 import com.tfg.cirsim.api.entities.User;
 import com.tfg.cirsim.api.repository.UserRepository;
 import com.tfg.cirsim.api.services.UserService;
@@ -37,7 +38,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Set<User> getUsers() {
 		Set<User> users = new HashSet<User>();
-		userRepository.findAll().forEach(users::add);
+		userRepository.findAll().forEach(user -> {
+			if(user.getRole() != Role.ADMIN) {
+				users.add(user);
+			}
+		});
 		return users;
 	}
 
@@ -56,6 +61,7 @@ public class UserServiceImpl implements UserService {
 					oldUser.setRole(user.getRole());
 					oldUser.setSurname(user.getSurname());
 					oldUser.setUsername(user.getUsername());
+					oldUser.setStatus(user.getStatus());
 					return userRepository.save(oldUser);
 				}).orElseGet(() -> {
 					user.setId(id);
@@ -73,6 +79,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User addUser(User user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		if(user.getStatus() == null) {
+			user.setStatus(Status.ACTIVE);
+		}
 		return userRepository.save(user);
 	}
 
@@ -80,7 +89,8 @@ public class UserServiceImpl implements UserService {
 	public User partialUpdateStatus(StatusUserOnlyDto partialUpdate, Long id){
 		User updatedUser = userRepository.findById(id).get();
 		updatedUser.setStatus(partialUpdate.getStatus());
-		return updatedUser;
+
+		return userRepository.save(updatedUser);
 	}
 
 	@Override
@@ -93,5 +103,23 @@ public class UserServiceImpl implements UserService {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = (String)auth.getPrincipal();
 		return getUserByUsername(username);
+	}
+
+	@Override
+	public Set<User> addUsers(Set<User> users) {
+		users.forEach(user -> {
+			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+			if(user.getStatus() == null) {
+				user.setStatus(Status.ACTIVE);
+			}
+		});	
+		Set<User> usersSet = new HashSet<User>();
+		userRepository.saveAll(users).forEach(usersSet::add);
+		return usersSet;
+	}
+
+	@Override
+	public void deleteUsers() {
+		userRepository.deleteAllExceptAdmin();
 	}
 }
