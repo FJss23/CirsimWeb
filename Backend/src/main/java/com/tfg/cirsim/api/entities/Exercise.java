@@ -29,6 +29,8 @@ public class Exercise {
 	
 	private String title;
 	
+	private int orderEx;
+	
 	@Column(length = 1100)
 	private String description;
 	
@@ -49,12 +51,13 @@ public class Exercise {
 	
 	public Exercise() { }
 
-	public Exercise(Long id, String title, String description, Set<Connection> 
-			connections, Set<Point> points, Image image) {
+	public Exercise(Long id, String title, String description, int orderEx,
+			Set<Connection> connections, Set<Point> points, Image image) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
+		this.orderEx = orderEx;
 		this.connections = connections;
 		this.points = points;
 		this.image = image;
@@ -129,11 +132,20 @@ public class Exercise {
 		this.task = task;
 	}
 
+	public int getOrderEx() {
+		return orderEx;
+	}
+
+	public void setOrderEx(int orderEx) {
+		this.orderEx = orderEx;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + orderEx;
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
@@ -152,6 +164,8 @@ public class Exercise {
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
+		if (orderEx != other.orderEx)
+			return false;
 		if (title == null) {
 			if (other.title != null)
 				return false;
@@ -160,4 +174,5 @@ public class Exercise {
 		return true;
 	}
 
+	
 }

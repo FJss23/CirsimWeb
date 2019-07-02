@@ -8,6 +8,7 @@ export class Exercise {
     connections: Connection[];
     points: Point[];
     image: Image;
+    orderEx: number;
 
     constructor(title: string, description: string,
         connections: Connection[], points: Point[], image: Image){
@@ -17,5 +18,10 @@ export class Exercise {
         this.connections = connections;
         this.points = points;
         this.image = image;
+    }
+
+    setOrder(order: number): Exercise {
+        this.orderEx = order;
+        return this;
     }
 }

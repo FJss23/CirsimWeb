@@ -16,8 +16,15 @@ export class StudentService {
   setTaskToResolve(task: Task): void {
     this.taskToResolve = task;
     this.exercisesToResolved = task.exercises;
+    this.sortByOrderEx(this.exercisesToResolved);
     this.numTotalExercises = task.exercises.length;
     this.numCurrentExercise = 0;
+  }
+
+  sortByOrderEx(exercises: Exercise[]): void {
+    exercises.sort((a, b) => {
+      return a.orderEx - b.orderEx;
+    });
   }
 
   getTaskToResolve(): Task {

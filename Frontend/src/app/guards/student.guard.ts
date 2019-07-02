@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { AuthServiceApi } from '../services/api/auth-api.service';
 import { Role } from '../model/role';
+import { User } from '../model/user';
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +18,16 @@ export class StudentGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
 
-    if(this.authService.isLoggedIn){
-      let role = this.authService.getAuthenticatedUser().role;
-      if(role == Role.STUDENT){
+      
+    let user: User = this.authService.getAuthenticatedUser();
+    console.log(user);
+    if(user){
+      if(user.role == Role.STUDENT){
         return true;
       }
       return false;
     }
-    this.router.navigate(['/login']);
+    //this.router.navigate(['/login']);
     return false;
   }
   

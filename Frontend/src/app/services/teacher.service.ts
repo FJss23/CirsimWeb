@@ -7,18 +7,27 @@ import { Exercise } from '../model/exercise';
 })
 export class TeacherService {
   taskCreated: Task;
-  
-  constructor() { }
+  orderExercises: number;
+
+  constructor() { 
+    this.restartOrderExercise();
+  }
 
   initTask(task: Task): void {
     this.taskCreated = task;
+    this.restartOrderExercise();
   }
 
   addExerciseCurrentTask(exercise: Exercise): void {
     if(!this.taskCreated){
       this.taskCreated = new Task();
+      this.restartOrderExercise();
     }
-    this.taskCreated.addExercise(exercise);
+    this.taskCreated.addExercise(exercise.setOrder(this.orderExercises++));
+  }
+
+  restartOrderExercise(): void {
+    this.orderExercises = 0;
   }
 
   getCurrentTask(): Task {

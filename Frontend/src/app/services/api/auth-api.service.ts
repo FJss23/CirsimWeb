@@ -11,7 +11,6 @@ import * as jwt_decode from 'jwt-decode';
   providedIn: 'root'
 })
 export class AuthServiceApi {
-  public isLoggedIn: boolean;
   private authenticatedUser: User;
   private httpOptions: { headers; observe; };
 
@@ -26,7 +25,7 @@ export class AuthServiceApi {
       observe: 'response'
     };
 
-    this.isLoggedIn = false;
+    this.authenticatedUser = JSON.parse(localStorage.getItem('user'));
   }
 
   /**
@@ -43,9 +42,10 @@ export class AuthServiceApi {
         let token = tokenBearer.replace('Bearer ', '');
         let decodeToken = jwt_decode(token);
         if(decodeToken.sub == username) {
-          sessionStorage.setItem('token', token);
-          this.authenticatedUser = new User(username, password, decodeToken.scope).setToken(token);
-          this.isLoggedIn = true;
+          //sessionStorage.setItem('token', token);
+          let user: User = new User(username, null, decodeToken.scope).setToken(token);
+          sessionStorage.setItem('user', JSON.stringify(user));
+          this.authenticatedUser = user;
         }
       }));
   }
@@ -54,8 +54,8 @@ export class AuthServiceApi {
    * TODO
    */
   logout(): void {
-    sessionStorage.removeItem('token');
-    this.isLoggedIn = false;
+    //sessionStorage.removeItem('token');
+    sessionStorage.removeItem('user');
     this.authenticatedUser = null;
     this.router.navigate(['/login']);
   }
