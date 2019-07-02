@@ -3,6 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from
 import { AuthServiceApi } from '../services/api/auth-api.service';
 import { Role } from '../model/role';
 import { User } from '../model/user';
+import { tap, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,14 +19,13 @@ export class AdminGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
 
-    let user: User = this.authService.getAuthenticatedUser();
+    let user = this.authService.currentUserValue;
     console.log(user);
-    if(user){
-      if(user.role == Role.ADMIN){
-        return true;
-      }
-      return false;
-    }
+    if(user && user.role == Role.ADMIN){
+      return true;
+    } 
+    
+    // Navigate to the login page with extras
     this.router.navigate(['/login']);
     return false;
   }

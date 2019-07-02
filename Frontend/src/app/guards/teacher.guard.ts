@@ -17,15 +17,14 @@ export class TeacherGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
-
-    let user: User = this.authService.getAuthenticatedUser();
+    
+    let user = this.authService.currentUserValue;
     console.log(user);
-    if(user){
-      if(user.role == Role.TEACHER){
-        return true;
-      }
-      return false;
+    if(user && user.role == Role.TEACHER){
+      return true;
     }
+
+    // Navigate to the login page with extras
     this.router.navigate(['/login']);
     return false;
   }

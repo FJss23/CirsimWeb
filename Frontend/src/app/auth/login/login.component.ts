@@ -25,9 +25,7 @@ export class LoginComponent implements OnInit {
   login(): void {
     this.authService.login(this.username, this.password)
       .subscribe(() => {
-        let user: User = this.authService.getAuthenticatedUser();
-        console.log(`login ${user}`);
-        
+        const user = this.authService.currentUserValue;
         if(user)  {
           if(user.role == Role.ADMIN){
             this.router.navigateByUrl('/admin');

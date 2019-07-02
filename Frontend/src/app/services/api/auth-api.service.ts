@@ -11,8 +11,9 @@ import * as jwt_decode from 'jwt-decode';
   providedIn: 'root'
 })
 export class AuthServiceApi {
-  private authenticatedUser: User;
   private httpOptions: { headers; observe; };
+  private currentUserSubject: BehaviorSubject<User>;
+  public currentUser: Observable<User>;
 
   constructor(
     private http: HttpClient,
@@ -24,8 +25,12 @@ export class AuthServiceApi {
       }),
       observe: 'response'
     };
+    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
+    this.currentUser = this.currentUserSubject.asObservable();
+  }
 
-    this.authenticatedUser = JSON.parse(localStorage.getItem('user'));
+  public get currentUserValue() {
+    return this.currentUserSubject.value;
   }
 
   /**
@@ -42,10 +47,9 @@ export class AuthServiceApi {
         let token = tokenBearer.replace('Bearer ', '');
         let decodeToken = jwt_decode(token);
         if(decodeToken.sub == username) {
-          //sessionStorage.setItem('token', token);
           let user: User = new User(username, null, decodeToken.scope).setToken(token);
           sessionStorage.setItem('user', JSON.stringify(user));
-          this.authenticatedUser = user;
+          this.currentUserSubject.next(user);
         }
       }));
   }
@@ -54,14 +58,8 @@ export class AuthServiceApi {
    * TODO
    */
   logout(): void {
-    //sessionStorage.removeItem('token');
     sessionStorage.removeItem('user');
-    this.authenticatedUser = null;
+    this.currentUserSubject.next(null);
     this.router.navigate(['/login']);
   }
-
-  getAuthenticatedUser(): User {
-    return this.authenticatedUser;
-  }
-
 }

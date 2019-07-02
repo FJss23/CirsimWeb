@@ -18,16 +18,14 @@ export class StudentGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
 
-      
-    let user: User = this.authService.getAuthenticatedUser();
+    let user = this.authService.currentUserValue;
     console.log(user);
-    if(user){
-      if(user.role == Role.STUDENT){
-        return true;
-      }
-      return false;
+    if(user && user.role == Role.STUDENT){
+      return true;
     }
-    //this.router.navigate(['/login']);
+
+    // Navigate to the login page with extras
+    this.router.navigate(['/login']);
     return false;
   }
   

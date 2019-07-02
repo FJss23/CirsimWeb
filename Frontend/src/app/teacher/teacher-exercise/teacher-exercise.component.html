@@ -45,8 +45,8 @@
             <button mat-button *ngIf="valueName" matSuffix mat-icon-button aria-label="Clear" (click)="valueName=''">
               <mat-icon>close</mat-icon>
             </button> 
-         
           </mat-form-field>
+
           <div class="label-option"  fxLayout="column" fxLayoutAlign="center start"> 
             <label class= "label-campo">Tamaño puntos</label>  
             <mat-slider min="4" max="18" step="1" value="valueSizePoint" [(ngModel)]="valueSizePoint"></mat-slider> 
@@ -72,6 +72,9 @@
             </mat-select>
           </mat-form-field> 
 
+          <div class="campo">
+            <button [disabled]="!activeSelectionMode" mat-stroked-button color="warn" (click)="applyChanges()">Aplicar cambios</button>
+          </div>
         </div>
       </div>
     </div>

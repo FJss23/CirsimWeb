@@ -29,6 +29,8 @@ export class TeacherExerciseComponent implements OnInit {
   public activeSelectionMode: boolean;
   public selectedPosition: string;
   public selectedSize: string;
+  public canApplyChanges: boolean;
+  public canChange: boolean;
   config: any;
 
   constructor(private teacherService: TeacherService,
@@ -57,6 +59,7 @@ export class TeacherExerciseComponent implements OnInit {
     this.color = this.config.defaultColor;
     this.canDelete = false;
     this.activeSelectionMode = false;
+    this.canChange = false;
 
     this.setUpNetwork();
   }
@@ -79,10 +82,45 @@ export class TeacherExerciseComponent implements OnInit {
     this.network = new Network(this.networkContainer.nativeElement, data, options);
 
     this.network.on('select', (properties: any) => {
-      console.log(properties);
       if(this.canDelete){
         this.deleteSelected();
       } 
+    });
+
+    this.network.on('selectNode', (properties: any) => {
+      /*if(this.activeSelectionMode){
+        let points = this.network.body.data.nodes._data;
+        let numPointsSelected = Object.keys(properties.nodes).length;
+        if(numPointsSelected == 1){
+          let node = points[properties.nodes[0]];
+          this.network.body.data.nodes.update({
+            id: node.id, 
+            color: this.color,
+            label:this.valueName,
+            size: this.valueSizePoint
+          });
+          this.network.unselectAll();
+        }
+      }*/
+
+      if(this.activeSelectionMode){
+        let points = this.network.body.data.nodes._data;
+        let numPointsSelected = Object.keys(properties.nodes).length;
+        if(numPointsSelected == 1){
+          let node = points[properties.nodes[0]];
+          this.valueName = node.label;
+        }
+      }
+    });
+
+    this.network.on('deselectNode', (properties: any) => {
+      if(this.activeSelectionMode){
+        this.canChange = false;
+      }
+    });this.network.on('deselectNode', (properties: any) => {
+      if(this.activeSelectionMode){
+        this.canChange = false;
+      }
     });
   }
 
@@ -107,11 +145,13 @@ export class TeacherExerciseComponent implements OnInit {
   }
 
   addPointMode(): void {
+    this.activeSelectionMode = false;
     console.log(`Add point mode`);
     this.network.addNodeMode();
   } 
 
   addConnectionMode(): void {
+    this.activeSelectionMode = false;
     console.log(`Add connection mode`);
     this.deActivateDelete();
     this.network.addEdgeMode();
@@ -130,6 +170,7 @@ export class TeacherExerciseComponent implements OnInit {
   }
 
   activateDelete(): void {
+    this.activeSelectionMode = false;
     this.canDelete = true;
   }
 
@@ -138,10 +179,6 @@ export class TeacherExerciseComponent implements OnInit {
   }
 
   exerciseDone(): void {
-    console.log(`Escala: ${this.network.getScale()} Zoom:`);
-    console.log(this.network.getViewPosition());
-
-
     let points = this.getPoints();
     let exercise = new Exercise(this.titleExercise, this.descriptionExercise,
     this.getConnections(), points, this.getImage());
@@ -151,6 +188,29 @@ export class TeacherExerciseComponent implements OnInit {
 
   goBack(): void {
     this.router.navigateByUrl('/teacher/task/new');
+  }
+
+  applyChanges(): void {
+    let points = this.network.getSelectedNodes();
+    for(let point in points){
+      let pointInfo = points[point];
+
+      this.network.body.data.nodes.update({
+        id: pointInfo, 
+        color: this.color,
+        label:this.valueName,
+        size: this.valueSizePoint
+      });
+    }
+    let connections = this.network.getSelectedEdges();
+    for(let connection in connections){
+      let conInfo = connections[connection];
+      this.network.body.data.edges.update({
+        id: conInfo, 
+        color: this.color,
+        width: this.valueSizeConnection
+      });
+    }
   }
 
   getImage(): Image {
@@ -204,7 +264,11 @@ export class TeacherExerciseComponent implements OnInit {
         smooth: config.edges.smooth,
         chosen: {
           edge: (values: any, id: any, selected: any, hovering: any) => {
-            values.color = '#5d8dc7';
+            if(this.selectionMode){
+              this.color = values.color;
+              this.valueSizeConnection = values.width;
+              values.color = '#5d8dc7';
+            }
           }
         },
         color: {
@@ -215,8 +279,11 @@ export class TeacherExerciseComponent implements OnInit {
         font: config.nodes.font,
         chosen: {
           node: (values: any, id: any, selected: any, hovering: any) => {
-            values.color = '#5d8dc7';
-            values.label =  this.valueName;
+            if(this.selectionMode){
+              this.color = values.color;
+              this.valueSizePoint = values.size;
+              values.color = '#5d8dc7';
+            }
           }
         }
       },
@@ -224,7 +291,7 @@ export class TeacherExerciseComponent implements OnInit {
         zoomView: this.config.interaction.zoomView,
         multiselect: this.config.interaction.multiselect,
         dragView: this.config.interaction.dragView,
-        dragNodes: false
+        dragNodes: true
       },
       manipulation: {
         enabled: config.manipulation.enabled,
