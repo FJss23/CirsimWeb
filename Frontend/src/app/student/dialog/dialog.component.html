@@ -4,7 +4,7 @@
   <div mat-dialog-actions class="btn" >
     <div *ngIf="!data.canContinue" >
       <button mat-stroked-button (click)="onNoClick()" color="primary">Sí</button>
-      <div class="divider"></div>
+      <div class="divider-dialog"></div>
       <button mat-stroked-button color="primary" (click)="nextExercise()">No</button>
    </div>
    <div *ngIf="data.canContinue" class="btn-continue">

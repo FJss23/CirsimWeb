@@ -29,6 +29,7 @@ export class StudentTaskTodoComponent implements OnInit {
     this.taskService.getTasks().subscribe(
       (tasks) => {
         this.assignedTasks = tasks.body;
+        this.sortByDate(this.assignedTasks);
         this.dataSource.data = this.assignedTasks;
       }
     );
@@ -36,5 +37,11 @@ export class StudentTaskTodoComponent implements OnInit {
 
   try(task: Task): void {
     this.studentService.setTaskToResolve(task);
+  }
+
+  sortByDate(tasks: Task[]): void {
+    tasks.sort((a: Task, b: Task) => {
+      return +new Date(b.openDate) - +new Date(a.openDate);
+    });
   }
 }

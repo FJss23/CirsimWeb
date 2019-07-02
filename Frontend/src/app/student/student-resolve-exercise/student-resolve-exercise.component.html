@@ -7,15 +7,15 @@
   </div>
   <mat-divider></mat-divider>
   <div fxLayout="column" fxLayoutAlign="center center" id="network-editor">
-    <div class="information"  fxLayout="column" fxLayoutAlign="start center">
+    <div class="information" fxLayout="column" fxLayoutAlign="start center">
       <h2>{{exerciseToResolve.title}}</h2>
       <div>{{exerciseToResolve.description}}</div>
     </div>
     <div class="principal-editor">
       <mat-button-toggle-group aria-label="Font Style">
-        <mat-button-toggle value="addPointMode"  fxFlex="50" (click)="addConnectionMode()">
+        <mat-button-toggle value="addPointMode" #connection fxFlex="50" (click)="addConnectionMode()">
           Conexiones</mat-button-toggle>
-        <mat-button-toggle value="addConnectionMode" fxFlex="50" (click)="activateDelete()">
+        <mat-button-toggle value="addConnectionMode" #delete fxFlex="50" (click)="activateDelete()">
           Borrar</mat-button-toggle>
       </mat-button-toggle-group>
       <div #networkContainer class="network"></div>

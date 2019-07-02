@@ -34,7 +34,7 @@ export class TeacherSentTasksComponent implements OnInit {
     this.taskService.getTasks().subscribe(
       (tasks) => {
         this.createdTasks = tasks.body;
-        console.log(this.createdTasks);
+        this.sortByDate(this.createdTasks);
         this.dataSource.data = this.createdTasks;
       }
     );
@@ -44,6 +44,12 @@ export class TeacherSentTasksComponent implements OnInit {
     this.taskService.deleteTask(task).subscribe();
     this.createdTasks = this.createdTasks.filter(t => t !== task);
     this.dataSource.data = [...this.createdTasks];
+  }
+
+  sortByDate(tasks: Task[]): void {
+    tasks.sort((a: Task, b: Task) => {
+        return +new Date(b.openDate) - +new Date(a.openDate);
+    });
   }
   
 }

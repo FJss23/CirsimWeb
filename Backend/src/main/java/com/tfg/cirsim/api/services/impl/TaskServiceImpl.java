@@ -115,6 +115,17 @@ public class TaskServiceImpl implements TaskService {
 		});
 	}
 
+	@Override
+	@Transactional
+	public void deleteAll() {
+		taskRepository.findAll().forEach(task -> {
+			task.getExercises().forEach(exercise -> {
+				imageUtil.deleteImage(exercise.getImage());
+			});
+		});
+		taskRepository.deleteAll();
+	}
+
 
 
 }

@@ -45,6 +45,7 @@ public class TokenUtil {
 	 * @return String JWT serialize
 	 */
 	public String generateToken(Authentication auth) {
+		
 		String username = ((org.springframework.security.core.userdetails.User)auth.getPrincipal())
 				.getUsername();
 		

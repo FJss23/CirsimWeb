@@ -59,3 +59,13 @@ mat-toolbar{
 .title-navbar {
   font-size: 150% !important;
 }
+
+.divider-dialog {
+  width:5px;
+  height:auto;
+  display:inline-block;
+}
+
+.mat-tooltip {
+  font-size: 120%;
+}

@@ -1,0 +1,11 @@
+<div fxLayout="column" fxLayoutAlign="space-around center">
+  <h1 mat-dialog-title>{{data.titleDialog}}</h1>
+  <div mat-dialog-content>{{data.messageDialog}}</div>
+  <div mat-dialog-actions class="btn" >
+    <div fxLayout="row">
+      <button mat-stroked-button (click)="onNoClick()" color="primary">Cancelar</button>
+      <div class="divider-dialog"></div>
+      <button mat-stroked-button color="primary" (click)="continue()">Continuar</button>
+    </div>
+  </div>
+</div>

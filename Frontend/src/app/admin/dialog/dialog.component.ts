@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { DialogData } from '../../model/dialogDataStudent';
+import { DialogData } from 'src/app/model/dialogDataAdmin';
 
 @Component({
   selector: 'app-dialog',
@@ -22,8 +22,7 @@ export class DialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  nextExercise(): void {
+  continue(): void {
     this.dialogRef.close('NEXT');
   }
-
 }

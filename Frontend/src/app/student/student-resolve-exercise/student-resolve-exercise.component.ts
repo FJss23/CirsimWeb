@@ -5,9 +5,10 @@ import { StudentService } from 'src/app/services/student.service';
 import { Connection } from 'src/app/model/connection';
 import { Exercise } from 'src/app/model/exercise';
 import { environment } from 'src/environments/environment';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatButtonToggle } from '@angular/material';
 import { DialogComponent } from '../dialog/dialog.component';
 import { Router } from '@angular/router';
+import { FocusMonitor } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-student-resolve-exercise',
@@ -16,6 +17,8 @@ import { Router } from '@angular/router';
 })
 export class StudentResolveExerciseComponent implements OnInit {
   @ViewChild('networkContainer') networkContainer: ElementRef;
+  @ViewChild('connection') btnConnection: MatButtonToggle;
+  @ViewChild('delete') btnDelete: MatButtonToggle;
   taskTitle: string;
   exerciseToResolve: Exercise;
   currentInfoLabel: string;
@@ -35,8 +38,10 @@ export class StudentResolveExerciseComponent implements OnInit {
     this.setExerciseToResolve();
     this.currentInfoLabel = `Ejercicio ${this.studentService.obtainNumCurrentExercise()}
     /${this.studentService.obtainTotalExercises()}`;
-    
+
+    this.loseFocus();
   }
+
 
   setExerciseToResolve() {
     this.exerciseToResolve = this.studentService.obtainExerciseToResolve();
@@ -118,6 +123,11 @@ export class StudentResolveExerciseComponent implements OnInit {
   deleteSelected(): void {
     this.network.deleteSelected();
     console.log(`Delete mode`);
+  }
+
+  loseFocus() {
+    this.btnDelete.checked = false;
+    this.btnConnection.checked = false;
   }
 
   checkResponse(): void {

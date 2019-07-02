@@ -15,7 +15,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tfg.cirsim.api.entities.Status;
 import com.tfg.cirsim.api.entities.User;
+import com.tfg.cirsim.api.repository.UserRepository;
 import com.tfg.cirsim.api.security.utility.TokenUtil;
 
 /**
@@ -27,10 +29,15 @@ import com.tfg.cirsim.api.security.utility.TokenUtil;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 		
 	private AuthenticationManager authenticationManager;
+	private UserRepository userRepository;
 	private TokenUtil tokenUtil;
 	
-	public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+	public JwtAuthenticationFilter(AuthenticationManager authenticationManager,
+			UserRepository userRepository) {
+		
 		this.authenticationManager = authenticationManager;
+		this.userRepository = userRepository;
+		
 		tokenUtil = TokenUtil.getInstance();
 	}
 	
@@ -42,12 +49,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			
 			User credentials = new ObjectMapper()
 			        .readValue(request.getInputStream(), User.class);
+			String username = credentials.getUsername();
+			String password = credentials.getPassword();
+			
+			User completeUser = userRepository.findByUsername(credentials.getUsername());
+			if(completeUser != null) {
+				if(completeUser.getStatus() == Status.INACTIVE) {
+					username = null;
+					password = null;
+				}
+			}
 			
 			UsernamePasswordAuthenticationToken userToken = 
-					new UsernamePasswordAuthenticationToken(credentials.getUsername(), 
-							credentials.getPassword(),new ArrayList<>());
+					new UsernamePasswordAuthenticationToken(username, password,
+							new ArrayList<>());
 			
-			//TODO: add log
 			System.out.println("Access attempt " + credentials.getUsername() + " " + 
 					credentials.getPassword());
 			return authenticationManager.authenticate(userToken);

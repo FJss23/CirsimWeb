@@ -14,6 +14,7 @@ import com.tfg.cirsim.api.entities.Role;
 import com.tfg.cirsim.api.entities.Status;
 import com.tfg.cirsim.api.entities.User;
 import com.tfg.cirsim.api.repository.UserRepository;
+import com.tfg.cirsim.api.services.TaskService;
 import com.tfg.cirsim.api.services.UserService;
 
 /**
@@ -26,6 +27,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	TaskService taskService;
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -120,6 +124,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void deleteUsers() {
+		taskService.deleteAll();
 		userRepository.deleteAllExceptAdmin();
 	}
 }

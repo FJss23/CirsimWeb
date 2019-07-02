@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { User } from 'src/app/model/user';
-import { MatPaginator, MatTableDataSource, Sort } from '@angular/material';
+import { MatPaginator, MatTableDataSource, Sort, MatDialog } from '@angular/material';
 import { UserApiService } from 'src/app/services/api/user-api.service';
 import { Status } from 'src/app/model/status';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-admin-all-users',
@@ -16,8 +17,10 @@ export class AdminAllUsersComponent implements OnInit {
   csvContent: string;
   parsedCsv: string[][];
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('myInput') myInputVariable: ElementRef;
 
-  constructor(private userService: UserApiService) { }
+  constructor(private userService: UserApiService,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.getUsers();
@@ -30,15 +33,7 @@ export class AdminAllUsersComponent implements OnInit {
   onSelectFile(event: any): void { 
     const files = event.target.files;
     if (files && files.length) {
-      const fileToRead = files[0];
-      const fileReader = new FileReader();
-      fileReader.onload = () => {
-        this.csvContent = fileReader.result.toString();
-        console.log();
-        this.onFileLoad();
-        this.createUserObject();
-      } 
-      fileReader.readAsText(fileToRead, "UTF-8");
+      this.openDialog(files);
     }
   }
   
@@ -63,11 +58,11 @@ export class AdminAllUsersComponent implements OnInit {
 
   asignUsersAndSort(users: any): void {
     this.users = users.body;
-    this.sortData(this.users);
+    this.sortByUserName(this.users);
     this.dataSource.data = this.users;
   }
 
-  sortData(users: User[]) {
+  sortByUserName(users: User[]) {
     users.sort((a, b) => {
       return (a.username < b.username ? -1 : 1);
     });
@@ -134,4 +129,35 @@ export class AdminAllUsersComponent implements OnInit {
     );
   }
 
+  openDialog(files: any): void {
+
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '350px',
+      height: '210px',
+      data: {
+        messageDialog: `La carga de usuarios elimina los usuarios existentes y las tareas
+        activas, ¿está seguro de que desea continuar?`,
+        titleDialog: `Carga de nuevos usuarios`,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result === 'NEXT'){
+        const fileToRead = files[0];
+        const fileReader = new FileReader();
+        fileReader.onload = () => {
+          this.csvContent = fileReader.result.toString();
+          console.log();
+          this.onFileLoad();
+          this.createUserObject();
+        } 
+        fileReader.readAsText(fileToRead, "UTF-8");
+      }
+      this.resetInput();
+   })
+  }
+
+  resetInput(): void {
+    this.myInputVariable.nativeElement.value = "";
+  }
 }

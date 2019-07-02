@@ -17,6 +17,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.tfg.cirsim.api.repository.UserRepository;
+
 /**
  * 
  * @author francisco.riedemann
@@ -29,6 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Autowired
 	public ApiAuthenticationEntryPoint authenticationEntryPoint;
@@ -85,7 +90,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
          .antMatchers(HttpMethod.POST, "/login").permitAll()
          .anyRequest().authenticated()
          .and()
-         .addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), JwtAuthenticationFilter.class)
+         .addFilterBefore(new JwtAuthenticationFilter(authenticationManager(), userRepository), JwtAuthenticationFilter.class)
          .addFilterBefore(new JwtAuthorizationFilter(authenticationManager(), getApplicationContext()), JwtAuthorizationFilter.class)
          .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
          .and()  
