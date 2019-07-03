@@ -11,13 +11,14 @@ import { DialogComponent } from '../dialog/dialog.component';
   styleUrls: ['./admin-all-users.component.css']
 })
 export class AdminAllUsersComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('myInput') myInputVariable: ElementRef;
+
   displayedColumns: string[];
   dataSource: any;
   users: User[];
   csvContent: string;
   parsedCsv: string[][];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild('myInput') myInputVariable: ElementRef;
 
   constructor(private userService: UserApiService,
     public dialog: MatDialog) { }
@@ -29,14 +30,50 @@ export class AdminAllUsersComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-
+  /**
+   * check if a file has been added and open a dialog
+   */
   onSelectFile(event: any): void { 
     const files = event.target.files;
     if (files && files.length) {
       this.openDialog(files);
     }
   }
-  
+
+  /**
+   * open a dialog to confirm the continuation of the loader process
+   */
+  openDialog(files: any): void {
+
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '350px',
+      height: '210px',
+      data: {
+        messageDialog: `La carga de usuarios elimina los usuarios existentes y las tareas
+        activas, ¿está seguro de que desea continuar?`,
+        titleDialog: `Carga de nuevos usuarios`,
+      }
+    });
+
+    // If the user wants to continue, I believe the users
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result === 'NEXT'){
+        const fileToRead = files[0];
+        const fileReader = new FileReader();
+        fileReader.onload = () => {
+          this.csvContent = fileReader.result.toString();
+          this.onFileLoad();
+          this.createUserObject();
+        } 
+        fileReader.readAsText(fileToRead, "UTF-8");
+      }
+      this.resetInput();
+   })
+  }
+   
+  /**
+   * get the different sections of the csv
+   */
   onFileLoad(): void {
     const csvSeparator = ';';
     const txt = this.csvContent;
@@ -54,6 +91,13 @@ export class AdminAllUsersComponent implements OnInit {
       }
     });
     this.parsedCsv = csv;
+  }
+
+  /**
+   * restart the html input
+   */
+  resetInput(): void {
+    this.myInputVariable.nativeElement.value = "";
   }
 
   asignUsersAndSort(users: any): void {
@@ -85,8 +129,7 @@ export class AdminAllUsersComponent implements OnInit {
   }
 
   /**
-   * 
-   * @param users 
+   * removes existing users and adds new ones that are passed as a parameter
    */
   deleteOldUsersAndCreateNews(users: User[]): void {
     this.userService.deleteAllUsers().subscribe(
@@ -94,13 +137,12 @@ export class AdminAllUsersComponent implements OnInit {
         this.userService.addUsers(users).subscribe(
           (createdUsers: any) => {
             this.asignUsersAndSort(createdUsers);
-          });
+        });
     });
-    
   }
 
   /**
-   * TODO
+   * get a list of users and order them
    */
   getUsers(): void {
     this.userService.getUsers().subscribe(
@@ -111,7 +153,7 @@ export class AdminAllUsersComponent implements OnInit {
   }
 
   /**
-   *  TODO
+   * changes the state of the user that is passed as a parameter
    */
   changeStatus(user: User): void {
     let newStatus = (`STATUS_${user.status}` == Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE);
@@ -121,43 +163,11 @@ export class AdminAllUsersComponent implements OnInit {
   }
 
   /**
-   * 
+   * Remove all users
    */
   deleteAllUser(): void {
     this.userService.deleteAllUsers().subscribe(
       () => console.log(`All users deleted`)
     );
-  }
-
-  openDialog(files: any): void {
-
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '350px',
-      height: '210px',
-      data: {
-        messageDialog: `La carga de usuarios elimina los usuarios existentes y las tareas
-        activas, ¿está seguro de que desea continuar?`,
-        titleDialog: `Carga de nuevos usuarios`,
-      }
-    });
-
-    dialogRef.afterClosed().subscribe((result: any) => {
-      if (result === 'NEXT'){
-        const fileToRead = files[0];
-        const fileReader = new FileReader();
-        fileReader.onload = () => {
-          this.csvContent = fileReader.result.toString();
-          console.log();
-          this.onFileLoad();
-          this.createUserObject();
-        } 
-        fileReader.readAsText(fileToRead, "UTF-8");
-      }
-      this.resetInput();
-   })
-  }
-
-  resetInput(): void {
-    this.myInputVariable.nativeElement.value = "";
   }
 }

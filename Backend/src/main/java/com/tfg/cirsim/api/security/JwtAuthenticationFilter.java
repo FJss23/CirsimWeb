@@ -85,8 +85,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		if (token == null)
 			return;
 		
-		//TODO: add log
-		
 		System.out.println("Attemp success");
 		response = tokenUtil.completeHeaderWithToken(response, token);
 	}

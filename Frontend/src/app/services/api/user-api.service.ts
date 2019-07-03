@@ -21,8 +21,7 @@ export class UserApiService {
   }
 
   /**
-   * 
-   * @param task 
+   * add a list of users
    */
   addUsers(users: User[]): Observable<any> {
     return this.http.post<User[]>(environment.user + `s`, users, this.httpOptions).pipe(
@@ -31,7 +30,7 @@ export class UserApiService {
   }
 
   /**
-   * 
+   * get all the users of the application
    */
   getUsers(): Observable<any> {
     return this.http.get<User[]>(environment.user, this.httpOptions).pipe(
@@ -40,7 +39,7 @@ export class UserApiService {
   }
 
   /**
-   * 
+   * change a user's status
    */
   partialUpdateUser({status : value}, id: number): Observable<any> {
     return this.http.patch(environment.user + `/${id}`,  { status : value }, 
@@ -50,7 +49,7 @@ export class UserApiService {
   }
 
   /**
-   * 
+   * Remove all users of the application
    */
   deleteAllUsers(): Observable<any> {
     return this.http.delete(environment.user + `s`).pipe(

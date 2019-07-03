@@ -8,7 +8,6 @@ import { environment } from 'src/environments/environment';
 import { MatDialog, MatButtonToggle } from '@angular/material';
 import { DialogComponent } from '../dialog/dialog.component';
 import { Router } from '@angular/router';
-import { FocusMonitor } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-student-resolve-exercise',
@@ -17,14 +16,20 @@ import { FocusMonitor } from '@angular/cdk/a11y';
 })
 export class StudentResolveExerciseComponent implements OnInit {
   @ViewChild('networkContainer') networkContainer: ElementRef;
+  network : Network;
+  config: any;
+
+  // editor buttons
   @ViewChild('connection') btnConnection: MatButtonToggle;
   @ViewChild('delete') btnDelete: MatButtonToggle;
+
+  // exercise infromation
   taskTitle: string;
   exerciseToResolve: Exercise;
   currentInfoLabel: string;
-  public network : Network;
+
+  // button config
   canDelete: boolean;
-  config: any;
   canContinue: boolean;
 
   constructor(private studentService: StudentService,
@@ -32,17 +37,20 @@ export class StudentResolveExerciseComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.canContinue = false;
     this.config = environment.configurationVis;
+    this.canContinue = false;
     this.taskTitle = this.studentService.obtainTaskTitle();
     this.setExerciseToResolve();
     this.currentInfoLabel = `Ejercicio ${this.studentService.obtainNumCurrentExercise()}
     /${this.studentService.obtainTotalExercises()}`;
 
+    // loses the focus of the buttons, passing from one exercise to another
     this.loseFocus();
   }
 
-
+  /**
+   * get the exercise to solve, in case there is no redirect left to the main page
+   */
   setExerciseToResolve() {
     this.exerciseToResolve = this.studentService.obtainExerciseToResolve();
     if(this.exerciseToResolve == null){
@@ -53,19 +61,29 @@ export class StudentResolveExerciseComponent implements OnInit {
     }
   }
 
-  
+  /**
+   * initializes the network with a series of options and starting data. 
+   * Includes vis.js events for the selection of a point or connection
+   */
   setUpNetwork(): void  {
+    // only points are obtained
     let data = {
       nodes: this.obtainData(),
       edges: []
     }
     let options = this.defineOptions();
     this.network = new Network(this.networkContainer.nativeElement, data, options);
+
+    // the zoom/scale appears center at the position of the first node added, 
+    // it must be centered at the origin
     this.network.moveTo({
       position: {x: 0, y: 0}
     });
+
     this.setBackground();
 
+    // event that jumps when a point or connection is selected, if the delete 
+    // button is active it will erase the selection
     this.network.on('select', (properties: any) => {
       console.log(properties);
       if(this.canDelete){
@@ -74,6 +92,9 @@ export class StudentResolveExerciseComponent implements OnInit {
     });
   }
 
+  /**
+   * get the information of the points
+   */
   obtainData(): any {
     let points: Point[] = this.exerciseToResolve.points;
     let nodes = [];
@@ -93,6 +114,9 @@ export class StudentResolveExerciseComponent implements OnInit {
     return nodes;
   }
 
+  /**
+   * add the fund according to the set configuration
+   */
   setBackground(): void {
     let url = this.exerciseToResolve.image.imageb64;
     let position = this.exerciseToResolve.image.position;
@@ -105,31 +129,32 @@ export class StudentResolveExerciseComponent implements OnInit {
     sourceCanvas.style.backgroundSize = size;
   }
 
+  /**
+   * activate the add connections mode
+   */
   addConnectionMode(): void {
-    console.log(`Add connection mode`);
     this.deActivateDelete();
     this.network.addEdgeMode();
   }
 
+  /**
+   * allows you to activate the delete selection mode
+   */
   activateDelete(): void {
     this.network.disableEditMode();
     this.canDelete = true;
   }
 
-  deActivateDelete(): void {
-    this.canDelete = false;
-  }
-
+  /**
+   * activate the delete selection mode
+   */
   deleteSelected(): void {
     this.network.deleteSelected();
-    console.log(`Delete mode`);
   }
 
-  loseFocus() {
-    this.btnDelete.checked = false;
-    this.btnConnection.checked = false;
-  }
-
+  /**
+   * check the connection made by the student with the correct
+   */
   checkResponse(): void {
     let connectionsNetwork = this.network.body.data.edges._data;
     let connections: Connection[] = this.exerciseToResolve.connections;
@@ -160,6 +185,10 @@ export class StudentResolveExerciseComponent implements OnInit {
     this.openDialog();
   }
   
+  /**
+   * opens the confirmation dialog that allows you to continue or 
+   * continue with the following exercises
+   */
   openDialog(): void {
     let messageDialog =  [`Se han encontrado errores en el ejercicio, ¿deseas continuar intentándolo?`, 
     `Has resuelto el ejercicio correctamente`];
@@ -182,6 +211,9 @@ export class StudentResolveExerciseComponent implements OnInit {
    })
   }
 
+  /**
+  * global network options
+  */
   defineOptions(): any {
     return {
       autoResize: this.config.autoResize,
@@ -207,6 +239,8 @@ export class StudentResolveExerciseComponent implements OnInit {
       manipulation: {
         enabled: this.config.manipulation.enabled,
         initiallyActive: this.config.manipulation.initiallyActive,
+        // it activates the add connections and in case of being a correct connection, 
+        // it controls that the color is the same as that of the solution
         addEdge: (nodeData: any, callback: any) => {  
           nodeData.width = this.config.defaultSizeConnection;
           nodeData.color = { color: this.randomColor() };
@@ -232,18 +266,30 @@ export class StudentResolveExerciseComponent implements OnInit {
           }
         },
         deleteNode: (nodeData: any, callback: any) => {
-          console.log(`Nothing to delete`);
+          // not applicable
         },
         editNode: (nodeData: any, callback: any) => {
-          console.log(`Nothing to delete`);
+          // not applicable
         }
       }
     }
   }
 
-  private randomColor(): String {
+  /**
+  * loses the focus of the buttons
+  */
+  loseFocus() {
+    this.btnDelete.checked = false;
+    this.btnConnection.checked = false;
+  }
+
+  randomColor(): String {
     return ['#660066', '#000000', '#ff0000',
     '#0000ff', '#daa520','#008000'][Math.random()*6|0];
+  }
+
+  deActivateDelete(): void {
+    this.canDelete = false;
   }
 
 }

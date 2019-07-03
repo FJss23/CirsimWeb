@@ -122,8 +122,11 @@ public class UserServiceImpl implements UserService {
 		return usersSet;
 	}
 
+	/**
+	 * Deletes all system users except the administrator and removes all tasks
+	 */
 	@Override
-	public void deleteUsers() {
+	public void deleteUsersAndTask() {
 		taskService.deleteAll();
 		userRepository.deleteAllExceptAdmin();
 	}

@@ -46,15 +46,13 @@ public class TaskController {
 	@PreAuthorize("hasRole('ROLE_TEACHER')")
 	@GetMapping(value = "/task/{id}")
 	public Task getTask(@PathVariable Long id) {
-		//TODO
-		return null;
+		return taskService.getTask(id);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_TEACHER')")
 	@PutMapping(value = "/task/{id}")
 	public Task putTask(@PathVariable Long id, @RequestBody Task task) {
-		//TODO
-		return null;
+		return taskService.updateTask(id, task);
 	}
 	
 	@PreAuthorize("hasRole('ROLE_TEACHER')")

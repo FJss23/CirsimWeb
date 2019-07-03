@@ -66,7 +66,7 @@ public class UserController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping(value = "/users")
 	public void deleteUsers() {
-		userService.deleteUsers();
+		userService.deleteUsersAndTask();
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")

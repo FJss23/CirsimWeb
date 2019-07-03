@@ -10,11 +10,11 @@ import { TeacherService } from 'src/app/services/teacher.service';
   styleUrls: ['./teacher-sent-tasks.component.css']
 })
 export class TeacherSentTasksComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedColumns: string[];
   dataSource: any;
   createdTasks: Task[];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-
+  
   constructor(private taskService: TaskServiceApi,
     private teacherService: TeacherService) { }
 

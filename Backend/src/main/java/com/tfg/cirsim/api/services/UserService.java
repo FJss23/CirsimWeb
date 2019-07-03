@@ -34,5 +34,5 @@ public interface UserService {
 
 	Set<User> addUsers(Set<User> users);
 
-	void deleteUsers();
+	void deleteUsersAndTask();
 }

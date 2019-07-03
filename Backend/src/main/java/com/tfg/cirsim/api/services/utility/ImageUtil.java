@@ -30,6 +30,13 @@ public class ImageUtil {
 	    return instance;
     }
 
+	/**
+	 * creates an image in the appropriate format and assigns it a name, in the 
+	 * property where the image comes in base64 it saves the location of the 
+	 * new file
+	 * @param image with base64 content
+	 * @param exercise
+	 */
 	public void addImage(Image image, Exercise exercise) {
 		image.setExercise(exercise);
 		
@@ -53,6 +60,12 @@ public class ImageUtil {
 		}
 	}
 
+	/**
+	 * delete part of the base64 text format
+	 * @param image with base64 content
+	 * @param image format
+	 * @return returns the decoded image
+	 */
 	private byte[] removeFormatParts(Image image, String format) {
 		String partToDelete = "data:image/" + format + ";base64,";
 		String correctB64 = image.getImageb64().replace(partToDelete, "");
@@ -60,6 +73,11 @@ public class ImageUtil {
 		return data;
 	}
 
+	/**
+	 * get the format of the base64 text image
+	 * @param almostB64
+	 * @return format
+	 */
 	private String obtaingFormat(String almostB64) {
 		int startIndex = almostB64.indexOf("data:image/") + 10;
 	    int endIndex = almostB64.indexOf(";base64,");
@@ -80,6 +98,10 @@ public class ImageUtil {
 		
 	}
 	
+	/**
+	 * add image b64 to the image object
+	 * @param exercises exercises to which to add image
+	 */
 	private void setImagesInExercise(Set<Exercise> exercises) {
 		exercises.forEach(exercise -> {
 			String imageInCorrectaFormat = "";
@@ -91,6 +113,11 @@ public class ImageUtil {
 		});
 	}
 	
+	/**
+	 * obtains the image stored in the folder /imagenes and encodes it to base64
+	 * @param imagePath image path
+	 * @return string b64
+	 */
 	private String obtainImageStored(String imagePath) {
 		String b64 = null;
 		try {
@@ -108,7 +135,7 @@ public class ImageUtil {
 		return b64;
 	}
 	
-	public Optional<String> getExtensionByStringHandling(String filename) {
+	private Optional<String> getExtensionByStringHandling(String filename) {
 	    return Optional.ofNullable(filename)
 	      .filter(f -> f.contains("."))
 	      .map(f -> f.substring(filename.lastIndexOf(".") + 1));

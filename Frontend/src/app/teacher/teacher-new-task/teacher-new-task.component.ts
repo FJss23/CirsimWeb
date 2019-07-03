@@ -10,7 +10,7 @@ import { TeacherService } from 'src/app/services/teacher.service';
   styleUrls: ['./teacher-new-task.component.css']
 })
 export class TeacherNewTaskComponent implements OnInit {
-  public taskTitle: string;
+  taskTitle: string;
   displayedColumns: string[];
   dataSource: any;
   
@@ -29,18 +29,23 @@ export class TeacherNewTaskComponent implements OnInit {
     this.teacherService.getCurrentTask().setTitle(this.taskTitle);
   }
 
+  /**
+   * create the task
+   */
   addTask(): void {
     this.setTaskTitle();
     this.taskService.addTask(this.teacherService.getCurrentTask()).subscribe(() => {
-        console.log(`New task Added`);
         this.router.navigateByUrl('/teacher');
       }
     );
   }
 
+  /**
+   * Deletes an exercise from the current task
+   */
   removeExercise(exercise: Exercise): void {
     this.teacherService.getCurrentTask().removeExercise(exercise);
     this.dataSource = [...this.teacherService.getExercisesOfCurrentTask()];
-    console.log(`Removing exercise`);
+
   }
 }

@@ -6,15 +6,13 @@ import { TeacherComponent } from './teacher/teacher.component';
 import { SharedModule } from '../model/modules/shared.module';
 import { TeacherNewTaskComponent } from './teacher-new-task/teacher-new-task.component';
 import { TeacherExerciseComponent } from './teacher-exercise/teacher-exercise.component';
-import { FooterComponent } from '../footer/footer.component';
 
 @NgModule({
   declarations: [
     TeacherSentTasksComponent,
     TeacherComponent,
     TeacherNewTaskComponent,
-    TeacherExerciseComponent,
-    FooterComponent
+    TeacherExerciseComponent
   ],
   imports: [
     CommonModule,

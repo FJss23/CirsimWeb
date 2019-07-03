@@ -10,10 +10,10 @@ import { StudentService } from 'src/app/services/student.service';
   styleUrls: ['./student-task-todo.component.css']
 })
 export class StudentTaskTodoComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedColumns: string[];
   dataSource: any;
   assignedTasks: Task[];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private taskService: TaskServiceApi,
     private studentService: StudentService) { }
@@ -35,6 +35,9 @@ export class StudentTaskTodoComponent implements OnInit {
     );
   }
 
+  /**
+   * Assign a selected task to solve
+   */
   try(task: Task): void {
     this.studentService.setTaskToResolve(task);
   }

@@ -36,6 +36,10 @@ public class TaskServiceImpl implements TaskService {
 	@Autowired
 	UserService userService;
 	
+	/**
+	 * if the authenticated user has a student role, it returns the assigned 
+	 * tasks, if the user has a teacher role, it returns the tares created
+	 */
 	@Override
 	public Set<Task> getTasks() {
 		User authenticated = userService.getAuthenticatedUser();
@@ -52,16 +56,30 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public Task getTask(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return taskRepository.findById(id).get();
 	}
 
 	@Override
 	public Task updateTask(Long id, Task task) {
-		// TODO Auto-generated method stub
-		return null;
+		return taskRepository.findById(id)
+				.map(oldTask-> {
+					oldTask.setId(id);
+					oldTask.setAuthor(task.getAuthor());
+					oldTask.setStudents(task.getStudents());
+					oldTask.setTitle(task.getTitle());
+					oldTask.setOpenDate(task.getOpenDate());
+					oldTask.setExercises(task.getExercises());
+					return taskRepository.save(oldTask);
+				}).orElseGet(() -> {
+					task.setId(id);
+					return taskRepository.save(task);
+				});
 	}
 
+	/**
+	 * eliminates a task and additionally the images associated with 
+	 * the exercises
+	 */
 	@Override
 	@Transactional
 	public void deleteTask(Long id) {
@@ -115,6 +133,9 @@ public class TaskServiceImpl implements TaskService {
 		});
 	}
 
+	/**
+	 * eliminates all tasks and additionally the images of each exercise
+	 */
 	@Override
 	@Transactional
 	public void deleteAll() {

@@ -34,9 +34,8 @@ export class AuthServiceApi {
   }
 
   /**
-   * TODO
-   * @param username 
-   * @param password 
+   * post request to authenticate the user, if done correctly, 
+   * get the token and decode it to save it in the browser session
    */
   login(username: string, password: string): Observable<any> {
     let body = { "username": username, "password": password }
@@ -54,9 +53,6 @@ export class AuthServiceApi {
       }));
   }
 
-  /**
-   * TODO
-   */
   logout(): void {
     sessionStorage.removeItem('user');
     this.currentUserSubject.next(null);

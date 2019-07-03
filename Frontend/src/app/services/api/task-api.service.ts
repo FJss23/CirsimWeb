@@ -21,7 +21,7 @@ export class TaskServiceApi {
   }
   
   /**
-   * TODO
+   * add a task and save it to the server
    */
   addTask(task: Task): Observable<any> {
     return this.http.post<Task>(environment.task, task, this.httpOptions).pipe(
@@ -40,8 +40,7 @@ export class TaskServiceApi {
   }
 
   /**
-   * 
-   * @param task 
+   * Deletes a task from the server
    */
   deleteTask(task: Task): Observable<any> {
     return this.http.delete<Task>(environment.task + `/${task.id}`, this.httpOptions).pipe(

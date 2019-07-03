@@ -15,23 +15,29 @@ import { environment } from 'src/environments/environment';
 })
 export class TeacherExerciseComponent implements OnInit {
   @ViewChild('networkContainer') networkContainer: ElementRef;
-  public titleExercise: string;
-  public descriptionExercise: string;
-  public url: any;
-  public network : Network;
-  public valueName: string;
-  public valueSizePoint: number;
-  public valueSizeConnection: number;
-  public positionsImage: string[];
-  public sizeImage: string[];
-  public color: string;
-  public canDelete: boolean;
-  public activeSelectionMode: boolean;
-  public selectedPosition: string;
-  public selectedSize: string;
-  public canApplyChanges: boolean;
-  public canChange: boolean;
+  network : Network;
   config: any;
+
+  // exercise information
+  titleExercise: string;
+  descriptionExercise: string;
+  imageUrl: any;
+
+  // exercise configuration
+  selectedPositionImage: string;
+  selectedSizeImage: string;
+  color: string;
+  valueNamePoint: string;
+  valueSizePoint: number;
+  valueSizeConnection: number;
+
+  // information to select
+  positionsImage: string[];
+  sizeImage: string[];
+
+  // button config
+  canDelete: boolean;
+  activeSelectionMode: boolean;
 
   constructor(private teacherService: TeacherService,
     private router: Router) { }
@@ -49,135 +55,142 @@ export class TeacherExerciseComponent implements OnInit {
       'center center',
       'center bottom',
     ];
+    this.selectedPositionImage = this.positionsImage[0];
     this.sizeImage = [
       "auto",
       "contain"
     ];
-    this.valueName = this.config.defaultValueName;
+    this.selectedSizeImage = this.sizeImage[0];
+    this.canDelete = false;
+    this.activeSelectionMode = false;
+    
+    this.valueNamePoint = this.config.defaultValueName;
     this.valueSizePoint = this.config.defaultSizePoint;
     this.valueSizeConnection = this.config.defaultSizeConnection;
     this.color = this.config.defaultColor;
-    this.canDelete = false;
-    this.activeSelectionMode = false;
-    this.canChange = false;
 
     this.setUpNetwork();
   }
 
+  /**
+   * load the selected image by the user to put it in the background
+   */
   onSelectFile(event: any): void { 
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = () => { 
-        this.url = reader.result; 
-        console.log(this.url);
+        this.imageUrl = reader.result; 
+        console.log(this.imageUrl);
         this.setBackgroundImage();
       }
     }
   }
 
+  /**
+   * initializes the network with a series of options and starting data. 
+   * Includes vis.js events for the selection of a point or connection
+   */
   setUpNetwork(): void  {
     let data = { };
     let options = this.defineOptions();
     this.network = new Network(this.networkContainer.nativeElement, data, options);
 
+    // event that jumps when a point or connection is selected, if the delete 
+    // button is active it will erase the selection
     this.network.on('select', (properties: any) => {
       if(this.canDelete){
         this.deleteSelected();
       } 
     });
 
+    // event that jumps when selecting a point, it is used only to add the 
+    // name of the point in the corresponding input
     this.network.on('selectNode', (properties: any) => {
-      /*if(this.activeSelectionMode){
-        let points = this.network.body.data.nodes._data;
-        let numPointsSelected = Object.keys(properties.nodes).length;
-        if(numPointsSelected == 1){
-          let node = points[properties.nodes[0]];
-          this.network.body.data.nodes.update({
-            id: node.id, 
-            color: this.color,
-            label:this.valueName,
-            size: this.valueSizePoint
-          });
-          this.network.unselectAll();
-        }
-      }*/
-
       if(this.activeSelectionMode){
         let points = this.network.body.data.nodes._data;
         let numPointsSelected = Object.keys(properties.nodes).length;
         if(numPointsSelected == 1){
           let node = points[properties.nodes[0]];
-          this.valueName = node.label;
+          this.valueNamePoint = node.label;
         }
-      }
-    });
-
-    this.network.on('deselectNode', (properties: any) => {
-      if(this.activeSelectionMode){
-        this.canChange = false;
-      }
-    });this.network.on('deselectNode', (properties: any) => {
-      if(this.activeSelectionMode){
-        this.canChange = false;
       }
     });
   }
 
+  /**
+   * place the selected image as a background
+   */
   setBackgroundImage(): void {
     let sourceCanvas = document.querySelector('canvas');
-    sourceCanvas.style.backgroundImage = `url('${this.url}')`;
+    sourceCanvas.style.backgroundImage = `url('${this.imageUrl}')`;
     sourceCanvas.style.backgroundRepeat = "no-repeat";
     sourceCanvas.style.backgroundPosition =  this.positionsImage[0];
     sourceCanvas.style.backgroundSize = this.sizeImage[0];
   }
 
+  /**
+   * place the image in the position that is passed as a parameter, 
+   * the options are available by css backgroundPosition
+   */
   setPositionBackground(position: string): void {
     let sourceCanvas = document.querySelector('canvas');
     sourceCanvas.style.backgroundPosition = position;
-    this.selectedPosition = position;
+    this.selectedPositionImage = position;
   }
   
+  /**
+   *  place the image with the size that is passed as a parameter, 
+   *  the options are available by css backgroundSize
+   */
   setSizeBackground(size: string): void {
     let sourceCanvas = document.querySelector('canvas');
     sourceCanvas.style.backgroundSize = size;
-    this.selectedSize = size;
+    this.selectedSizeImage = size;
   }
 
+  /**
+   * activate the add points mode
+   */
   addPointMode(): void {
-    this.activeSelectionMode = false;
-    console.log(`Add point mode`);
+    this.deActivateEdit();
     this.network.addNodeMode();
   } 
 
+  /**
+   * activate the add connections mode
+   */
   addConnectionMode(): void {
-    this.activeSelectionMode = false;
-    console.log(`Add connection mode`);
+    this.deActivateEdit();
     this.deActivateDelete();
     this.network.addEdgeMode();
   }
 
-  deleteSelected(): void {
-    this.network.deleteSelected();
-    console.log(`Delete mode`);
+   /**
+   * activates the erase mode, to later allow deleting the selected element
+   */
+  activateDelete(): void {
+    this.deActivateEdit();
+    this.canDelete = true;
   }
 
+ 
+  deleteSelected(): void {
+    this.network.deleteSelected();
+  }
+
+  /**
+   * activate the edit mode
+   */
   selectionMode(): void {
-    console.log(`Selection mode`);
-    this.activeSelectionMode = true;
+    this.activateEdit();
     this.deActivateDelete();
     this.network.enableEditMode();
   }
 
-  activateDelete(): void {
-    this.activeSelectionMode = false;
-    this.canDelete = true;
-  }
-
-  deActivateDelete(): void {
-    this.canDelete = false;
-  }
-
+  /**
+   * create the exercise with the added information and redirect
+   */
   exerciseDone(): void {
     let points = this.getPoints();
     let exercise = new Exercise(this.titleExercise, this.descriptionExercise,
@@ -186,10 +199,17 @@ export class TeacherExerciseComponent implements OnInit {
     this.router.navigateByUrl('/teacher/task/new');
   }
 
+  /**
+   * redirect to the task creation window
+   */
   goBack(): void {
     this.router.navigateByUrl('/teacher/task/new');
   }
 
+  /**
+   * called by the "Apply changes" button adds all changes to the selected 
+   * point or connection
+   */
   applyChanges(): void {
     let points = this.network.getSelectedNodes();
     for(let point in points){
@@ -198,7 +218,7 @@ export class TeacherExerciseComponent implements OnInit {
       this.network.body.data.nodes.update({
         id: pointInfo, 
         color: this.color,
-        label:this.valueName,
+        label:this.valueNamePoint,
         size: this.valueSizePoint
       });
     }
@@ -213,10 +233,17 @@ export class TeacherExerciseComponent implements OnInit {
     }
   }
 
+  /**
+   * returns the image created with the added information, 
+   * contains the image in Base64
+   */
   getImage(): Image {
-    return new Image(this.url, this.selectedPosition, this.selectedSize);
+    return new Image(this.imageUrl, this.selectedPositionImage, this.selectedSizeImage);
   }
 
+  /**
+   * get all the connections added in the exercise
+   */
   private getConnections(): Connection[] {
     let connectionsNetwork = this.network.body.data.edges._data;
     let connections: Connection[] = [];
@@ -233,6 +260,9 @@ export class TeacherExerciseComponent implements OnInit {
     return connections;
   }
  
+  /**
+   * get all the points added in the exercise
+   */
   private getPoints(): Point[] {
     let pointNetwork = this.network.body.data.nodes._data;
     let points: Point[] = [];
@@ -251,6 +281,9 @@ export class TeacherExerciseComponent implements OnInit {
     return points;
   } 
 
+  /**
+   * global network options
+   */
   private defineOptions(): any {
     const config = environment.configurationVis;
 
@@ -263,6 +296,8 @@ export class TeacherExerciseComponent implements OnInit {
       edges: {
         smooth: config.edges.smooth,
         chosen: {
+          // is activated when selecting a connection and adds 
+          // the information in the editor options...
           edge: (values: any, id: any, selected: any, hovering: any) => {
             if(this.selectionMode){
               this.color = values.color;
@@ -278,6 +313,8 @@ export class TeacherExerciseComponent implements OnInit {
       nodes: {
         font: config.nodes.font,
         chosen: {
+          // is activated by selecting a point and adds the 
+          // information in the editor options
           node: (values: any, id: any, selected: any, hovering: any) => {
             if(this.selectionMode){
               this.color = values.color;
@@ -296,25 +333,33 @@ export class TeacherExerciseComponent implements OnInit {
       manipulation: {
         enabled: config.manipulation.enabled,
         initiallyActive: config.manipulation.initiallyActive,
+        // is activated when you add a point and create it 
+        //with the selected options
         addNode: (nodeData: any, callback: any) => {
           nodeData.color = this.color;
-          nodeData.label = this.valueName;
+          nodeData.label = this.valueNamePoint;
           nodeData.shape = 'dot';
           nodeData.size = this.valueSizePoint;
           callback(nodeData);
           this.network.addNodeMode();
         },
+        // is activated when you add a connection and create 
+        // it with the selected options
         addEdge: (nodeData: any, callback: any) => {
           nodeData.width = this.valueSizeConnection;
           nodeData.color = { color: this.color };
           callback(nodeData);
           this.network.addEdgeMode();
         },
+        // it is activated when a point is deleted, if the erase mode 
+        // is not activated, it is not deleted
         deleteNode: (nodeData: any, callback: any) => {
           if(this.canDelete){
             callback(nodeData);
           }
         },
+        // it is activated when a connection is deleted, if the erase mode 
+        // is not activated, it is not deleted
         deleteEdge: (nodeData: any, callback: any) => {
           if(this.canDelete){
             callback(nodeData);
@@ -322,6 +367,18 @@ export class TeacherExerciseComponent implements OnInit {
         },
       }  
     }
+  }
+
+  deActivateDelete(): void {
+    this.canDelete = false; 
+  }
+
+  activateEdit(): void {
+    this.activeSelectionMode = true;
+  }
+
+  deActivateEdit(): void {
+    this.activeSelectionMode = false;
   }
 
 }
