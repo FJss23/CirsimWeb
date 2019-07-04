@@ -20,7 +20,6 @@ export class Task {
         this.exercises.forEach( (item, index) => {
             if(item === exercise) { 
                 this.exercises.splice(index,1);
-                console.log(`removed`);
             }
         });
     }

@@ -85,7 +85,6 @@ export class StudentResolveExerciseComponent implements OnInit {
     // event that jumps when a point or connection is selected, if the delete 
     // button is active it will erase the selection
     this.network.on('select', (properties: any) => {
-      console.log(properties);
       if(this.canDelete){
         this.deleteSelected();
       } 
@@ -171,7 +170,6 @@ export class StudentResolveExerciseComponent implements OnInit {
             (con.toVisId == responseFrom &&
               con.fromVisId == responseTo)){
               founded--;
-              console.log(founded);
               break;
           }
         }

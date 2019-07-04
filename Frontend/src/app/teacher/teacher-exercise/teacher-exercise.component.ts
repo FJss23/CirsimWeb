@@ -81,7 +81,6 @@ export class TeacherExerciseComponent implements OnInit {
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = () => { 
         this.imageUrl = reader.result; 
-        console.log(this.imageUrl);
         this.setBackgroundImage();
       }
     }

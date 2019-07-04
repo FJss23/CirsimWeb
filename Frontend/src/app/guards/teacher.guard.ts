@@ -19,7 +19,6 @@ export class TeacherGuard implements CanActivate {
     state: RouterStateSnapshot): boolean {
     
     let user = this.authService.currentUserValue;
-    console.log(user);
     if(user && user.role == Role.TEACHER){
       return true;
     }

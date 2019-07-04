@@ -19,7 +19,6 @@ export class StudentGuard implements CanActivate {
     state: RouterStateSnapshot): boolean {
 
     let user = this.authService.currentUserValue;
-    console.log(user);
     if(user && user.role == Role.STUDENT){
       return true;
     }
