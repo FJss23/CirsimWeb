@@ -1,0 +1,1564 @@
+/*C2*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$UB0yOf9SYGlG7OsF0Sk0PueazdQjuSIPwGvVLLHYlllSQ06O.rKCK','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$/KD8R1NzomqvTc8pKgVmwuBYL1vgunRKeU2HKVjt8.x0s.1UhsBBy','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$ZGDqu1zMmQPErl2/MWbzyOEsv3dFoP0N5IQcyZEGzeeC7oYX.K6Xa','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$bNHVyZa3E4DPIncVaZClyO/P72Wi0RtcH24hG90Ueh0lmgLAR5nl2','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$37uD5m6AAiafKV19zRcMsOz7DHRIwGskw/8n0OeXqbdVC5LSfOXK6','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$ngQaBAxxlp5MKMgwOhnXBO5Y4Z9PbyJlj.P91oi6ytkZwnjwt2sB.','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C3*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C4*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C5*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C6*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C7*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C8*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C10*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C9*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C11*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C12*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$KUHANMhSFTEnjAf7A31WMeTAJeC9KwHfNm89dbIVgS.JV1whHGyHm','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$uEC6AA9NokCcGZ.yI0PRnO7ZZl1NaViTbOtZo2IqkXZKl7zkXt7ka','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$YWXnH/3fd3M4S9TvoXK/WOoq7tUeJATeMUtIeQ6ofAEt/ZRrYJmhq','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$jMxtLMq72yw56SrvtYHv0OBT3r.iVk399BgCo9BW5zNugRNNzirXe','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$.hGBI0tP7EkJPFDqN1esc.FjstGRzbG6FVycBqzFywq3y76/XbLxa','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$bBHfqmfyfB5vhMFIQ/Kf8u6bNSrJ8vn22uSVyIS1eV9LBy/LaIcui','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C13*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C14*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C15*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C16*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C17*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C18*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C19*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C20*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C21*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C22*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$FRYGqs3qQRTvMts274bFyuFhUaN/xH0l3QnRS8Cb.uS4.cNDwu.M6','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$NOnZLV5kDSvTEjL/6w7lf.uNqGa7e8IlqbG5SBNC8vf9QrY92Efte','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$gFoNfCMo37Ih5yvAIwd4Wu9MuCrMEGUfQOhhRq3/jjUvb8ztEuYiW','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$AuXKQChne6vTP68s.dCtVOW1UFUH9TezKwZsdirvlbeW6E/5nxe0y','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$CcyNrPa5/Ebkw1OBy3T3Q.3XkTHQY4Vg4UJPjloExlrVumYL8nP9C','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$avIxm2F/43s6UOjyl68Ou.befaPQTltP7y4n36hIAPeIcYpSo9HnW','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C23*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C24*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C25*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C26*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C27*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C28*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C29*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C30*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C31*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C32*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$xiO4TS/iUV3oGezSBSt8meEAGJLDVwMauNjG0N4q4FEiqZqti6vca','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$B8ruek/sXCUwM4yStbLSAebE3AOzGS45Q80UgOz/5nzTqo1Q.lwT6','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$gjBCGcfqHht0ep1Gje8MyuDHxUYYIKdjW5KwmZ232RxbrbWjs8.q.','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$p.jLeALqB2a7KfSRe8YSCuqmKHAaXtzW6S5HC5i1t62z6.SX4wcVW','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$fLMvP6BEnVGd9a91kBrEzOSk3EpltNps7t90.NCcSX1qsjuEaTtsm','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$8tGLkVHGP1HGHSBdoF0zkOkRkAaZIWQE.rUGErqwpGi9A4ECdqKSC','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C33*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C34*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C35*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C36*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C37*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C38*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C39*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C40*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C41*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C42*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$c3pTF1/ilUfOfzs8fCjlNuY3zjuW3fzPz62YJEVLg3dsN87m8SJjC','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$Knbq82PUHqFinXe6H5B5v.hmDl4LK/Wb2ipHbpLCa1CEoUOR/rVk6','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$v.gQD9wBhDKdzZOWTz6MqeiPO9aTLAMN1uYZM3FGn3WzSlbxsi91G','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$iwPSWToLsKzdb57t9Mivy.qlZZVNJsI0QOBIr8iabFE1oWz4M/Nrm','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$0eB1DKPCLVSivl6WMYmUvOcpTAYv5JBWPu/BWmamcuY94JiBbu7V2','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$/A5WwuoFoDOHOAb9sQZpAOXxCNGW4wOtPxaGQAVneL2E1skhGNDym','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C43*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C44*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C45*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C46*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C47*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C48*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C49*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C51*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C50*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C52*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$HaMfx9Ref7LqkI4S1Mb0seElUB8ApSpRbr0keyW3cidyvx8mhWpoe','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$XpIyN8fkogI1EEGafT7ZIOMdNThS2IrmMxvpWcGo0Z0z6p0bxSm9W','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$tGAl8KD.qbr3w3euCx.US.tXpVKHabbtCjlKBY3Vf93oHe.sUqAUC','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$Pk/T/5eAT/qLy8w1Zpo8ZOyEBfB651tTFiUWvnubWdMl/PsYKQ3qm','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$WRFNevBpluyEUS4Gmh4pvefjbREFlP2vkcZlvflhGEKFwpUqN4TcC','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$AatCyewHkweZxRwDwfYgg.H048xEVFpdWigqZUBRnXJvEt690l/qO','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C53*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C54*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C55*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C56*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C57*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C58*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C59*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C60*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C61*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C62*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$xrZTYK0JJCKGPMUs5/pS8umytg0a0olVMYKHuAxcHQ6UWr784JTSi','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$V2hlbjvumIfl9ienyAvsIOW33EQJuy1ofxrJw5m4/AXYlq77PsTlS','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$8udWXICFjIePxu8EjscZAej0xNeDv4/Dbjjrw3TvLIMOF4I8FuDYq','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$zzh4ZtQg4ixEwLbwqAWITO4wjsIfHMaz3SagSxui39m9/DAK.nxvS','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$ub1K/1Fb0yLtRjVPUAH9YewMsaswtTgvkGGN2tSo4UzbmAu.tYUBW','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$GFkMfhiWzG/eSz5tCXowsOomMFKRhzNUdfPnmMp3uQPmVzTv2DFGO','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C63*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C64*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C65*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C66*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C67*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C68*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C69*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C70*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C71*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C72*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$4aWTD9f4gpI7WLOu0d/H8uAwJVwKBkVbRAn5fYTzMNW0/Uje7Ebd.','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$qAXF7tGYe4l0y7QgY9WYOuf46XHjXTsI8Rs6ZyK9UAPTfLiXlhhlu','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$.j4mFIHPuBGdczrZEJ582ulx1HNJH2qaA0UVmIWjCDBG5m5Up6fQO','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$mWWvdRnBjC980gvdvoszxukHScf61C35EKBhKM4WsS6fIegFjXaae','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$Kob.IT3xkkAc3SzALaaS8OtsnIuXbCsRUlymPhIPZ1e4qENmyppH.','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$HqpH3K0o6MeEQTu0bhUKr.AhRQRC6DSxn0gK.nJiL3kPue637COfy','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C73*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C74*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C75*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C76*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C77*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C78*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C79*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C80*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C81*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C82*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$H7qXzsgqij/GHVtw7gEfLuNTRDq5tccPn3g5YUq8c2WozeEczwhw2','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$Klb6NXSung63t92q1Q1LoeGh7AhkcWa6w2ziQKgDUNZ/IVzF/ONFm','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$KzIz2lB.2yLzjZdI.CN4BupwNZKgfr9wduOCK5qUGiAg70v/MmQi6','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$rNpgUDpcoRSxce6iVgJFs.js9xAbXbrTEIF2XjrqW1f2dpEsfK99G','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$Tz0qkQtV.oxqW1KayVohlOnPuhJg/jWPAIPa5PYt9dZiI2bwDsR/a','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$y8SYrF2jSoSBsZxFouZzTuvdainnoUcw0cua1amjQB.m7vagcLE0S','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C83*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C84*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C85*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C86*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C87*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C88*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C89*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C90*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C91*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C94*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$3En/ix4WbolOx7sMgfVLeu0u/xaYUE90CwSeDgVwdb1M8mTzG8h4W','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$jzGA6tGWlBRUJ/S9C2jEIOJjGiZ9OMkHombleb5nELHlHrlZS2LPW','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$Szrjqn1A9cMjDovNXEnNJ.NsKEplX6nqf9nW7h/ao4f0enJOJQhW2','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$pWUkRAmCW3BH9CKbSOzINe4.uBtb6MLoR0qbQM/4iXeIISpaWqzcG','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$i3Vmr.rIzmHXi0iTfdF1FOb0WO1hSvlmIoEfiG4XaXJ350VLuxt8y','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$5bHhraNnFzLr5FKywus2Xuj2Nq45Z0KmYjY8hu/3ERzxWLSQ/xw4a','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C95*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C96*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C97*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C98*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C99*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C100*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C101*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C102*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C103*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C104*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$QJzUE.CtKXlVIK2.1vcdUe95pa10snn3tZoTjlNZFTEawJC4Dky7e','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$02nVU5SkSEXu0WEWpZztReNit9./4rD4ov8rK6/t8..3nG3wlVzWK','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$96U3VjXZ0f8LxAZEJkRhueOw2ai6aAVcPZTQISrWjeXJfj/LFPZ36','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$yT48rbokxyYiuCA9JhegVOMBTVjdrWhgPX3J/fNjlQu24cM4w0Ss6','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$yq3IjuPXHvXSyfpOwc6T1OrnifNXSTf7VclOHuMpsvwDK.2ukKvki','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$9Yc7pQkHr9sqaeDlHdFkXux0Rv0DDsZYOu0O.Y/t6Mnd0RY0bf31K','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C105*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C106*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C107*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C108*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C109*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C110*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C111*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C112*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C113*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C114*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$z2cB9f3jmBprv8FpuLqmC.LBApthVHy7ynEgIH.ea6ncVG6QzWbHC','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$9WbwAgXTn2SHCM66UuFAQeppVRpvFqruUsoleHoH6YzzbrdrvQ0Vq','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$Y95iwcTkgIsVp64jkTUS.OTxbTVQe.3YLDFsSwDKRc.553zjDnUGi','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$ckmv2wWoyYiQhAG1Cu1xPuHGQPCnKks1y4n3q3oczGt3QQwvW86Ui','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$r/sDEu77M.YlDjVOzxEbQeI3Q/M2YWMIOa9kRAAB3jlafopVB0.T6','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$nPsHO94NSf2EKYsM4eXobOkAyxuci9K3H02JDDh.dwMKqeQ8tdEcC','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C115*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C116*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C117*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C118*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C119*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C120*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C121*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C122*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C123*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C124*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$gq21tVVC..qeLZmNlW6f5.2vO7GegRS/8KJNg/Sy5gH.YXG2kWN5K','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$.anv3P2mvKnni237T7uHlegczAgg4YBH.NnPNJwlAr/yaHHfNGVGa','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$BRiOrYOxvjeOMgSh97F15.ux.wJhufJJN1EwsQIjSnGcQMKkaUoAm','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$HP8e0P.34T3RSn.1.BZyK.7VLDnJXoWkUG9gQsTvP8glokUSRIm/i','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$lg4tbOZZYQ6oic4PZxAZoOYcayOfNQSIlLKONuQLo7zFYd0PBSDyu','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$PR7Ky8sGkyKuVJ.FdpGXIen/VLF0c3tJ1GahaNMI.kSv/CIL2KFmC','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C125*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C126*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C127*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C128*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C129*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C130*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C131*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C132*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C133*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C134*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$HQXYK2RqsGAz1kar1udafeHCocsbWrk83F3rVMttugSLuTU3xQ4Bq','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$QF/TRigO1HqNRo6hr4qpPOvHdxCy0gLj9h.Do1bkJoZgaca0LqQDW','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$P9U91GXH/ob/0NAAjQp/L.KxBJTyRqW8/SNCbLpWireQ1QfUtVQKy','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$ZqNulQvQGdDmzx7ciziv2OsbYX0NvGIXeKyh.CkVjeGMs5zVMZKAu','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$AjJqnVHOzQAuIFnN8cQJB.sebaVUt2Mr3ZH1tiFSTIlLHo0/.QM0y','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$a6QLf99/oEoW/CRQzQqRW.40ZJ/Rr6VFo9lLsYdztGCnAyeeHGh2.','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C135*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C136*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C137*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C138*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C139*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C140*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C141*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C142*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C143*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C144*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$Ic8GGC9T.yLtc27UrpIebeUnreorSjg8Wj0z6GgCHwegIWYQD8GdG','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$.3PZEQg56d4ZwrqYKJJECejXFWRq0PO49iUffXFGrbjp4tS/gKiDi','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$FW93Tv7AA6.YIH5d7UIR9OP.mTrxzhei0OXKApI13Bq9QdM.32qVy','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$qeg83anxnAYZ/owPmwTa3e6DGeMrmG6/XoUlV/UULOHavTy6Ltjv6','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$0FavSNaWCAVcXHGh.iQTduizbF2lxYNbebKqu7NUMShLA.kKFDUwO','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$L7l0311HceMxPthYG0FiSemiXS5tlINVQYbUeQTwYKKATDnyhRHnC','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C145*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C146*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C147*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C148*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C149*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C150*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C151*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C152*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C153*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C154*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$Yxqk7rCqb1svKS6oqSuM6uWzzT8Sx6KW6ns3s/lRw0ie9a.chXFXy','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$DyGVHungptFqJS54IOsz5eOHXkioEsulQNfR4ai2h5WDvWPlvpdTy','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$lzWzeXYX35ybq3.0OkZ7c.IT4Nr8za.fyDlai18LCCqJF0UJmdNre','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$kW/wYE0aK6/lERH2MGuppeRonryAplaUQo4r.nmq3ez8VvGr2dLhe','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$mTSvMDQXVazT3VEhB5BQFu0eLPMrif3TWc5z2K1ka8VkOZQ8aSOy.','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$yAyHLvizlCgMlcotIB7pm.TL1KIANmO1ZhMssCJ/ks1oxyQglmd4S','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C155*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C156*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C157*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C158*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C159*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C160*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C161*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C162*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C163*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C164*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$/9ST7Z.QSLr5eIdJ.rF9MOn9TcNDGx8f0S7yReTw9TY4Q7.0UfcCe','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$dDfztp/qzxaFsRD.lRjBfOVvBE43huizuTyVUe69pFHe4Tpg2RkT6','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$1zSTgHv0bFMK38h8OzgN.eNjZu.Hw6nBVMsV/hgpQ6fvipEcKN8Tq','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$adBiKFoO7RKz3GbuskVPs.kXStijFTf2ib10KKuUvkvG4FZiPzX9y','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$wQ.lgWhxexHoYnzdXSWCAeyUvBc5zzOnl0AIvIakmttG9vae9.7pW','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$t.qRq/QnmLL8IJFm511H2ust445u5ET.4FN6qPqflT6lYqUPkn.Cq','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C165*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C166*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C167*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C168*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C169*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C170*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C171*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C172*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C173*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C174*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$Sh8uIbkv4/hRqB8xHQZ9/ef9uM9aRU8/4cW/RgjYXjr./ElTmDbb6','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$rTfkKDtgs1LBhHiCNcN5ROLou5xcD8PdBnHCrcnRwCxFGNIwOKDVq','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$OoBPYIYLPZqysDZuZqcLaeSz0XkROqHg9sTjPPVyJGQPZJ6I75hf6','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$vQ18DUNCFgnUJx0.LO/GTuXctzQWQVO992T.qP9Z1MSFXSu54tCey','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$hHP1W4mlXUTkNo9UA5G/NOapAZknfZEUJv4PX3iyTcuuin5huI3Tu','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$D6cZj53Wpvl3Qz6N7aeRquNJIq4/E89/asWqcIUA6nw/le5JgEmNG','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C175*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C176*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C177*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C178*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C179*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C180*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C181*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C182*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C183*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C184*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$EMH3/umKAcassSfQktOqCOoeqh/DD9lEYizMalvaoeZxl3tE0xwWW','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$edBiG8NZ19wIlD0o4SG3Ge39lz0RtdRhum5xn.3AXpehUZ64oxOM2','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$KwbiBm3gXsIXbs//nY0e4OhqY5oSedr0RnM/YvfzD3ss4d83Hjc1e','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$eapZ/fl24c6ThcXiuAxb6umWOIviXA4hNwdVtSd9DeS/As9h6Ycw2','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$qaNQmrB3NHQ1Hufc/CdYfuLH2wFvsG/.4pWlnFrKsieO/SWlk.gdq','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$1vdQPGAJ.Jw5dwLC3g0So.ZY4IvKhYWRf4LGgNE/qjeil6ZqNWVgu','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C185*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C186*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C187*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C188*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C189*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C190*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C191*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C192*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C193*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C194*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$g211CwOj5EkwqZ/DOdYL8etYUftlco.CVxmXDG7VOWYnarCBE16Xq','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$ZEoFixuwv11RWKl4.WlxuOMcbElPCi47oda/bELfwcaVQW60ztYqq','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$e2E./DcwIyanm4xc/S6OI.i.FyqmhMcsLAW2mr29QXm0ki516LFBC','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$p6IhDDo7JGfizQZ/E4bDz.jsj9tn7n8U3.ffDHz2jt3XiD4i6h5ZC','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$VU7X3.wORBpdvLjUvE7uYuFrnY3IWXu7YPt4fnc0ZaItABao.9B.y','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$BwqzausVNwWDaQZW.DPMg./NKKGEndUBUNIWLI9bcKjYg85dSMDXW','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C195*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C196*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C197*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C198*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C199*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C200*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C201*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C202*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C203*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C204*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$Wj5WSucvjSAFAvR6aSO75.uxt2P5YFOzkkHuXyU/Z996L8uFaW4y2','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$xYIrd6KFTL8yJktTFbS/guzO25A9Z1W.rTmPKrM8qWaD6HTIutHEe','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$RBMVg7oSPXM0sxuOd4qXXektPeP3hoTH.PzvyUDN6IdefjZpeWmoK','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$OAZlO2vtbh9QLcqEGgGNJuOLCK0whyDckhhXVr6WHWJN0XBbSgfQq','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$ktvWQnsd4BMSZpX5M0gXZOi.IFhWE/TS21EZJmHDD9kAPRLxsf1Bu','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$VSj4si6VyhPYnerwu2jWS.dY5VzkeZ6yieWWdfxqoTpYsXRKyDHHa','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C213*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C212*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C211*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C210*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C209*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C208*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C207*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C206*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C205*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C214*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$OlPpE5O1hiXnTWNvJatcuuTV/UWs4fc5uWt9Rk.Sw7Nr13wz9NuOK','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$1e0QM.RBPSVOiiStsvSci.dmQ6x9EQXm5/bakhUq1O42cw5GgA4ae','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$ANt0ICg6vfmCL7Z75BDcb.T8SNKWSJ1S7Ry01gBTbda3k4geGiYP6','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$SkERx.1RcZCkT4x2Y.8XTOPFeUHpTvaD0lUCTCsiPCoVHSH1aN2o2','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$/c3nM24/WpsyDW0oR62hhux7cy3JfZ3qVQyxdCit3lXWt/99ljP6e','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$kMTFWHSUqn257xxeZPf6fuRoPMnA.Mn.Sd7UsizyhHd54kuJBDj..','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C215*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C216*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C217*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C218*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C219*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C220*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C221*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C222*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C223*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C224*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$Vcq/fiNTFIOxDKvGQivOV.MOa0Q0ikgzFVSJUiQZI55a4JW4iE8UG','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$Z3VJT2OcKRg6jOav8UYWDu/HnHDszheV6HkhwgQmO8zQhmfY5LcmW','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$/FrF/5SYgWuUjnhWt3hUL.KzuQGLZf5d5ig.4RyvwXcgP1KWd.gO6','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$TRFCW4MB.QO/.0X9QXWOVePRbYJjBc/KTnCKnYgJmcgCC036z0466','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$S1jq2U/AVUL0GlYRd0inmuYAmP.r7mVDYpdUm.FMg33Tx0L1MgIQe','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$Pg.3aOkzXzaxQ3d/wtypDe/guqBw1j/yGcl36ObT9KNhsLHxRwNDa','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C225*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C226*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C227*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C228*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C229*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C230*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C231*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C232*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C233*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C234*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$jeDwM4XsSkkoTmnTojBrq.jaxrsKpjbMdlN5xZ1Qau8CyjeeBkpF6','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$621jzLgb4Vc3EZjIdF8xAekYuY9nwDm8oQBjABAn1xzoaS2It2jDq','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$bCODkeqXFKtIhdxbImwWS.n6bOyMtdu.GxrGKCDKpbLY8VUmqiM/y','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$r3ZyyuWWvUQnivJyPgV/dOYk4U3.EprvYpElda5TnRiUuEzhghgGq','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$x0i8rm0Qa3sMwitA6SD6POgv5Mbhx1OFmefVQRYjhhQUzFkUPnkLW','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$s/4iqsFxTbz0zvbcmAcGM.P4R7UShPduTittVIEjvMK2Da6s4b1OW','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+DISCONNECT
+/*C235*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C236*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C237*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C238*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C239*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C240*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C241*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C242*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C243*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C244*/SET SCHEMA PUBLIC
+drop table if exists tconnection CASCADE 
+drop table if exists texercise CASCADE 
+drop table if exists timage CASCADE 
+drop table if exists tpoint CASCADE 
+drop table if exists ttask CASCADE 
+drop table if exists ttask_asigned_to CASCADE 
+drop table if exists tuser CASCADE 
+drop sequence hibernate_sequence if exists
+create sequence hibernate_sequence start with 1 increment by 1
+create table tconnection (id bigint not null, color varchar(255), from_vis_id varchar(255), to_vis_id varchar(255), vis_id varchar(255), width integer not null, exercise_id bigint, primary key (id))
+create table texercise (id bigint not null, description varchar(1100), order_ex integer not null, title varchar(255), task_id bigint, primary key (id))
+create table timage (id bigint not null, imageb64 varchar(255), position varchar(255), size varchar(255), exercise_id bigint, primary key (id))
+create table tpoint (id bigint not null, color varchar(255), label varchar(255), position_x varchar(255), position_y varchar(255), shape varchar(255), size integer not null, vis_id varchar(255), exercise_id bigint, primary key (id))
+create table ttask (id bigint not null, open_date timestamp, title varchar(255), author_id bigint, primary key (id))
+create table ttask_asigned_to (task_id bigint not null, user_id bigint not null, primary key (task_id, user_id))
+create table tuser (id bigint not null, name varchar(255), password varchar(255) not null, role varchar(255), status varchar(255), surname varchar(255), username varchar(255) not null, primary key (id))
+alter table tuser add constraint UK_xxl9n3wsxbg2270iajq25g12 unique (username)
+alter table tconnection add constraint FK22vcgw7gd87ir47xor5ki7hf8 foreign key (exercise_id) references texercise
+alter table texercise add constraint FKqoye3egw3559lubkk52rh5ric foreign key (task_id) references ttask
+alter table timage add constraint FKl4bxn4u86rk0uhiqvw3bkbix foreign key (exercise_id) references texercise
+alter table tpoint add constraint FK7bbl485vulh0afs7f4na0rgxw foreign key (exercise_id) references texercise
+alter table ttask add constraint FKiyjc05g0myney5u5789lsk8y5 foreign key (author_id) references tuser
+alter table ttask_asigned_to add constraint FK2a7gguprffgjctv7td47g1nw1 foreign key (user_id) references tuser
+alter table ttask_asigned_to add constraint FKjj8p04jecxo6swk1mvy8yd0wr foreign key (task_id) references ttask
+INSERT INTO TUSER VALUES(1,'nombre1','$2a$10$XeNzDZFqPBmabibSpC7oDeL78Jv.d.eMxRKEMFqWNbESMmY.m2.Vu','ADMIN','ACTIVE','apellido1','user1')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 2
+COMMIT
+INSERT INTO TUSER VALUES(2,'nombre2','$2a$10$byPPgCWTwKKPmlNoTQ.d4.Avcwb8.NsYRMtPHTmjmbjzUKvYxGFz6','STUDENT','ACTIVE','apellido2','user2')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 3
+COMMIT
+INSERT INTO TUSER VALUES(3,'nombre3','$2a$10$pFRSAKacEXgA18271Vha6eR9.DqsNv63ms5ptRjkrG/Dqi64ydMuu','TEACHER','ACTIVE','apellido3','user3')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 4
+COMMIT
+INSERT INTO TUSER VALUES(4,'nombre4','$2a$10$UltTg9slhYQcuYQZ0TkQMOuqyph2wfewNwg1PtTXmCtaD1MlmBpka','STUDENT','ACTIVE','apellido4','user4')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 5
+COMMIT
+INSERT INTO TUSER VALUES(5,'nombre5','$2a$10$TRmpsQ9bzTyZNnEPzKmjZemGaE6sZlzfUeJQ5Fwk.EUf0gWrmyei2','STUDENT','ACTIVE','apellido5','user5')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 6
+COMMIT
+INSERT INTO TUSER VALUES(6,'nombre6','$2a$10$JHLFqkWpUHlKAzepDALFlOZ6FFI7Jr2VxS8gc4k/q2JwShyf6c25m','STUDENT','ACTIVE','apellido6','user6')
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 7
+COMMIT
+INSERT INTO TTASK VALUES(7,'2019-07-04 13:55:23.722000','123',3)
+INSERT INTO TEXERCISE VALUES(8,'123',0,'123',7)
+INSERT INTO TCONNECTION VALUES(9,'#000000','462cc80a-0289-46ac-8753-7fb05f2314d3','bd7b437a-9520-4f8f-a0fb-3303b6cbcf12','fba70959-66f4-44a0-b8f5-98df55e27454',6,8)
+INSERT INTO TCONNECTION VALUES(10,'#000000','bd7b437a-9520-4f8f-a0fb-3303b6cbcf12','fdcad345-4f9e-4bd5-9f91-ef6cf7004e15','9272799b-20d5-405f-a267-a6c833d84564',6,8)
+INSERT INTO TPOINT VALUES(11,'#000000','','-125','-306.0625','dot',11,'462cc80a-0289-46ac-8753-7fb05f2314d3',8)
+INSERT INTO TPOINT VALUES(12,'#000000','','-225','-301.0625','dot',11,'fdcad345-4f9e-4bd5-9f91-ef6cf7004e15',8)
+INSERT INTO TPOINT VALUES(13,'#000000','','-179','-349.0625','dot',11,'bd7b437a-9520-4f8f-a0fb-3303b6cbcf12',8)
+INSERT INTO TIMAGE VALUES(14,'src/main/resources/images/2019-07-04 13:55:49.621.jpeg','left top','auto',8)
+INSERT INTO TTASK_ASIGNED_TO VALUES(7,2)
+INSERT INTO TTASK_ASIGNED_TO VALUES(7,4)
+INSERT INTO TTASK_ASIGNED_TO VALUES(7,5)
+INSERT INTO TTASK_ASIGNED_TO VALUES(7,6)
+ALTER SEQUENCE PUBLIC.HIBERNATE_SEQUENCE RESTART WITH 15
+COMMIT
+DISCONNECT
+/*C245*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C246*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C247*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C248*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C249*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C250*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C251*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C252*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C253*/SET SCHEMA PUBLIC
+DISCONNECT
