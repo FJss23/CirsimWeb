@@ -3,9 +3,14 @@
   <mat-divider></mat-divider>
 
   <div fxLayout="row" fxLayoutAlign="space-between center">
-      <mat-form-field fxFlex="50">
-          <input [(ngModel)]="taskTitle" matInput #title maxlength="50" placeholder="Título de la tarea" required>
-          <mat-hint align="end">{{title.value.length}} / 50</mat-hint>
+      <mat-form-field fxFlex="50" [formGroup]="taskForm">
+          <input matInput #maxLengthTitle maxlength="50" placeholder="Título de la tarea" 
+          formControlName="title" required [errorStateMatcher]="matcher"
+          [value]="taskForm.get('title').value == undefined ? '' : taskForm.get('title').value">
+          <mat-error *ngIf="taskForm.get('title').errors?.required">
+              EL título de la tarea es <strong>obligatorio</strong>
+          </mat-error>
+          <mat-hint align="end">{{maxLengthTitle.value.length}} / 50</mat-hint>
       </mat-form-field>
     <button mat-raised-button routerLink="simulation" color="accent" 
     matTooltip="Click para añadir un nuevo ejercicio a la tarea"
@@ -38,6 +43,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
   <div fxLayout="row" fxLayoutAlign="center center"  class="confirm">
-    <button mat-stroked-button color="primary" (click)="addTask()" id="create-task">Crear tarea</button>
+    <button mat-stroked-button color="primary" (click)="addTask()" id="create-task"
+    [disabled]="taskForm.get('title').errors?.required || 1 > numCreatedEx">Crear tarea</button>
   </div>
 </div>

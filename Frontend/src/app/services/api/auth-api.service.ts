@@ -4,7 +4,7 @@ import { map, tap, catchError } from 'rxjs/operators';
 import { User } from '../../model/user';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, ActivatedRouteSnapshot } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
 
 @Injectable({
@@ -13,7 +13,7 @@ import * as jwt_decode from 'jwt-decode';
 export class AuthServiceApi {
   private httpOptions: { headers; observe; };
   private currentUserSubject: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
+  currentUser: Observable<User>;
 
   constructor(
     private http: HttpClient,
@@ -27,6 +27,7 @@ export class AuthServiceApi {
     };
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
     this.currentUser = this.currentUserSubject.asObservable();
+    
   }
 
   public get currentUserValue() {
@@ -41,7 +42,8 @@ export class AuthServiceApi {
     let body = { "username": username, "password": password }
 
     return this.http.post<any>(environment.login, body, this.httpOptions)
-      .pipe(tap((res: HttpResponse<any>) => {
+      .pipe(
+        tap((res: HttpResponse<any>) => {
         let tokenBearer = res.headers.get(`Authorization`);
         let token = tokenBearer.replace('Bearer ', '');
         let decodeToken = jwt_decode(token);
@@ -50,7 +52,8 @@ export class AuthServiceApi {
           sessionStorage.setItem('user', JSON.stringify(user));
           this.currentUserSubject.next(user);
         }
-      }));
+      })
+    );
   }
 
   logout(): void {

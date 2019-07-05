@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router }      from '@angular/router';
 import { AuthServiceApi } from '../../services/api/auth-api.service';
 import { Role } from '../../model/role';
-import { User } from 'src/app/model/user';
-
+import { FormBuilder, FormGroup, Validators } from  '@angular/forms';
+import { MyErrorStateMatcher } from 'src/app/model/errors/myErrorStateMatcher';
 
 @Component({
   selector: 'app-login',
@@ -11,19 +11,37 @@ import { User } from 'src/app/model/user';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  username: string;
-  password: string;
+  loginForm: FormGroup;
+  matcher: MyErrorStateMatcher;
+  error: string;
 
   constructor(
     public authService: AuthServiceApi,
-    public router: Router) { }
+    public router: Router,
+    private formBuilder: FormBuilder) {
+
+    }
 
   ngOnInit() { 
+    this.loginForm  =  this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+    this.matcher = new MyErrorStateMatcher();
+    this.error = sessionStorage.getItem('credentials');
+    sessionStorage.removeItem('credentials');
+  }
 
+  get formControls() { 
+    return this.loginForm.controls; 
   }
 
   login(): void {
-    this.authService.login(this.username, this.password)
+    if(this.loginForm.invalid){
+      return;
+    }
+
+    this.authService.login(this.loginForm.value.username, this.loginForm.value.password)
       .subscribe(() => {
         const user = this.authService.currentUserValue;
         if(user)  {
@@ -39,7 +57,7 @@ export class LoginComponent implements OnInit {
         }
       },
       error => {
-        console.log('ONLY TEACHER USERs');
+        this.error = error;
       });
   }
 }
