@@ -1,90 +1,102 @@
 <div class="content">
   <h1 class="pageTitle">Nueva tarea > Nuevo ejercicio</h1>
   <mat-divider></mat-divider>
-  <div fxLayout="column">
-
+    <div fxLayout="column">
     <h2 class="second-title">1.- Añade información general</h2>
 
-    <div fxLayout="column" class="form">
-      <mat-form-field>
-          <input matInput #title maxlength="50" placeholder="Título del ejercicio" [(ngModel)]="titleExercise" required>
-          <mat-hint align="end">{{title.value.length}} / 50</mat-hint>
-      </mat-form-field>
-      <mat-form-field class="description">
-          <textarea matInput #description maxlength="1000" placeholder="Descripción del ejercicio"
-          [(ngModel)]="descriptionExercise" required></textarea>
-          <mat-hint align="end">{{description.value.length}} / 1000</mat-hint>
-      </mat-form-field>
-    </div>
+    <form (ngSubmit)="exerciseDone()" [formGroup]="exerciseForm" #documentEditForm="ngForm">
+      <div fxLayout="column" class="form">
+        <mat-form-field>
+            <input matInput #titleText maxlength="50" placeholder="Título del ejercicio" formControlName="title" 
+            required>
 
-    <h2 class="second-title">2.- Añade una imagen</h2>
+            <mat-error *ngIf="exerciseForm.get('title').errors?.required">
+              El título del ejercicio es <strong>obligatorio</strong>
+            </mat-error>
 
-    <div class="form">
-      <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event)">
-    </div>
+            <mat-hint align="end">{{titleText.value.length}} / 50</mat-hint>
+        </mat-form-field>
+        <mat-form-field class="description">
+            <textarea matInput #descriptionText maxlength="1000" placeholder="Descripción del ejercicio"
+             required formControlName="description"></textarea>
 
-    <h2 class="second-title">3.- Realiza la conexión</h2>
-    
-    <div id="editor">
-      <div class="buttons">
-        <mat-button-toggle-group aria-label="Font Style">
-          <mat-button-toggle value="addPointMode" (click)="addPointMode()" fxFlex="25">
-            Puntos</mat-button-toggle>
-          <mat-button-toggle value="addConnectionMode" (click)="addConnectionMode()" fxFlex="25">
-            Conexiones</mat-button-toggle>
-          <mat-button-toggle value="selectionMode" (click)="selectionMode()" fxFlex="25">
-            Editar</mat-button-toggle>
-          <mat-button-toggle value="removeMode" fxFlex="25" (click)="activateDelete()">
-            Borrar</mat-button-toggle>
-        </mat-button-toggle-group>
+             <mat-error *ngIf="exerciseForm.get('description').errors?.required">
+              La descripción del ejercicio <strong>obligatorio</strong>
+            </mat-error>
+
+            <mat-hint align="end">{{descriptionText.value.length}} / 1000</mat-hint>
+        </mat-form-field>
       </div>
-      <div fxLayout="row"  fxLayoutGap="20px">
-        <div #networkContainer class="network"></div>
-        <div class="options" fxFlex="30" fxLayout="column">
-          <span [cpToggle]="true" [cpDialogDisplay]="'inline'"[(colorPicker)]="color" [cpDisableInput]="false"></span>
-         
-          <mat-form-field class="campo" id="top-from-field">
-            <input matInput type="text" placeholder="Etiqueta punto" [(ngModel)]="valueNamePoint">
-            <button mat-button *ngIf="valueNamePoint" matSuffix mat-icon-button aria-label="Clear" (click)="valueNamePoint=''">
-              <mat-icon>close</mat-icon>
-            </button> 
-          </mat-form-field>
+    </form>
+      <h2 class="second-title">2.- Añade una imagen</h2>
 
-          <div class="label-option"  fxLayout="column" fxLayoutAlign="center start"> 
-            <label class= "label-campo">Tamaño puntos</label>  
-            <mat-slider min="4" max="18" step="1" value="valueSizePoint" [(ngModel)]="valueSizePoint"></mat-slider> 
-            <label class="label-campo">Tamaño conexiones</label>  
-            <mat-slider min="1" max="11" step="1" value="valueSizeConnection" [(ngModel)]="valueSizeConnection"></mat-slider>   
-          </div>
+      <div class="form">
+        <input type="file" accept=".png, .jpg, .jpeg" (change)="onSelectFile($event)">
+      </div>
 
-          <mat-form-field class="campo">
-            <mat-label>Posición fondo</mat-label>
-            <mat-select [(value)]="selectedPositionImage">
-              <mat-option *ngFor="let pos of positionsImage" [value]="pos" (click)="setPositionBackground(pos)">
-                {{pos}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field> 
+      <h2 class="second-title">3.- Realiza la conexión</h2>
+      
+      <div id="editor">
+        <div class="buttons">
+          <mat-button-toggle-group aria-label="Font Style">
+            <mat-button-toggle value="addPointMode" (click)="addPointMode()" fxFlex="25">
+              Puntos</mat-button-toggle>
+            <mat-button-toggle value="addConnectionMode" (click)="addConnectionMode()" fxFlex="25">
+              Conexiones</mat-button-toggle>
+            <mat-button-toggle value="selectionMode" (click)="selectionMode()" fxFlex="25">
+              Editar</mat-button-toggle>
+            <mat-button-toggle value="removeMode" fxFlex="25" (click)="activateDelete()">
+              Borrar</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <div fxLayout="row"  fxLayoutGap="20px">
+          <div #networkContainer class="network"></div>
+          <div class="options" fxFlex="30" fxLayout="column">
+            <span [cpToggle]="true" [cpDialogDisplay]="'inline'"[(colorPicker)]="color" [cpDisableInput]="false"></span>
+          
+            <mat-form-field class="campo" id="top-from-field">
+              <input matInput type="text" placeholder="Etiqueta punto" [(ngModel)]="valueNamePoint">
+              <button mat-button *ngIf="valueNamePoint" matSuffix mat-icon-button aria-label="Clear" (click)="valueNamePoint=''">
+                <mat-icon>close</mat-icon>
+              </button> 
+            </mat-form-field>
 
-          <mat-form-field class="campo">
-            <mat-label>Tamaño imagen</mat-label>
-            <mat-select [(value)]="selectedSizeImage">
-              <mat-option *ngFor="let elem of sizeImage" [value]="elem" (click)="setSizeBackground(elem)">
-                {{elem}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field> 
+            <div class="label-option"  fxLayout="column" fxLayoutAlign="center start"> 
+              <label class= "label-campo">Tamaño puntos</label>  
+              <mat-slider min="4" max="18" step="1" value="valueSizePoint" [(ngModel)]="valueSizePoint"></mat-slider> 
+              <label class="label-campo">Tamaño conexiones</label>  
+              <mat-slider min="1" max="11" step="1" value="valueSizeConnection" [(ngModel)]="valueSizeConnection"></mat-slider>   
+            </div>
 
-          <div class="campo">
-            <button [disabled]="!activeSelectionMode" mat-stroked-button color="warn" (click)="applyChanges()">Aplicar cambios</button>
+            <mat-form-field class="campo">
+              <mat-label>Posición fondo</mat-label>
+              <mat-select [(value)]="selectedPositionImage">
+                <mat-option *ngFor="let pos of positionsImage" [value]="pos" (click)="setPositionBackground(pos)">
+                  {{pos}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field> 
+
+            <mat-form-field class="campo">
+              <mat-label>Tamaño imagen</mat-label>
+              <mat-select [(value)]="selectedSizeImage">
+                <mat-option *ngFor="let elem of sizeImage" [value]="elem" (click)="setSizeBackground(elem)">
+                  {{elem}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field> 
+
+            <div class="campo">
+              <button [disabled]="!activeSelectionMode" mat-stroked-button color="warn" (click)="applyChanges()">Aplicar cambios</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-  </div>
-  <div fxLayout="row" fxLayoutAlign="center center"  class="confirm">
-    <button mat-stroked-button color="primary" (click)="goBack()">Atrás</button>
-    <button mat-stroked-button color="primary" (click)="exerciseDone()" id="create-exercise">Añadir ejercicio</button>
-  </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center"  class="confirm">
+      <button mat-stroked-button color="primary" (click)="goBack()" type="button">Atrás</button>
+      <button mat-stroked-button color="primary"type="submit" id="create-exercise"
+      (click)="documentEditForm.ngSubmit.emit()">Añadir ejercicio</button>
+    </div>
 </div>

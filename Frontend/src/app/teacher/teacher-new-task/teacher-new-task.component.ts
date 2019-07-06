@@ -38,10 +38,10 @@ export class TeacherNewTaskComponent implements OnInit {
    this.matcher = new MyErrorStateMatcher();
   }
 
-  setTaskTitle(): void {
+  adjustTaskTitle(): void {
     this.errorMaxEx = this.teacherService.getExercisesOfCurrentTask().length == 10;
     if(!this.errorMaxEx){
-      this.teacherService.getCurrentTask().setTitle(this.taskForm.value.title);
+      this.setTitle();
       this.router.navigateByUrl('teacher/task/new/simulation');
     }
   }
@@ -52,10 +52,15 @@ export class TeacherNewTaskComponent implements OnInit {
   addTask(): void {
     this.errorMinEx = this.teacherService.getExercisesOfCurrentTask().length == 0;
     if(!this.taskForm.invalid && !this.errorMinEx){
+      this.setTitle();
       this.taskService.addTask(this.teacherService.getCurrentTask()).subscribe(() => {
         this.router.navigateByUrl('/teacher');
       });
     }
+  }
+
+  setTitle(): void {
+    this.teacherService.getCurrentTask().setTitle(this.taskForm.value.title);
   }
 
   /**

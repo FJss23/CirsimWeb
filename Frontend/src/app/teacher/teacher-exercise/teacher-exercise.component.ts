@@ -7,6 +7,8 @@ import { Image } from '../../model/image';
 import { Router } from '@angular/router';
 import { TeacherService } from 'src/app/services/teacher.service';
 import { environment } from 'src/environments/environment';
+import { FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
+import { MyErrorStateMatcher } from 'src/app/model/errors/myErrorStateMatcher';
 
 @Component({
   selector: 'app-teacher-exercise',
@@ -19,8 +21,6 @@ export class TeacherExerciseComponent implements OnInit {
   config: any;
 
   // exercise information
-  titleExercise: string;
-  descriptionExercise: string;
   imageUrl: any;
 
   // exercise configuration
@@ -36,13 +36,22 @@ export class TeacherExerciseComponent implements OnInit {
   sizeImage: string[];
 
   // button config
+  @ViewChild('documentEditForm') documentEditForm: FormGroupDirective; 
   canDelete: boolean;
   activeSelectionMode: boolean;
+  exerciseForm: FormGroup;
+  matcher: MyErrorStateMatcher;
 
   constructor(private teacherService: TeacherService,
-    private router: Router) { }
+    private router: Router,
+    private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.exerciseForm  =  this.formBuilder.group({
+      title: ['', Validators.required],
+      description: ['', Validators.required]
+    });
+    this.matcher = new MyErrorStateMatcher();
     this.config = environment.configurationVis;
     this.positionsImage = [
       'left top',
@@ -191,8 +200,14 @@ export class TeacherExerciseComponent implements OnInit {
    * create the exercise with the added information and redirect
    */
   exerciseDone(): void {
+    if(this.exerciseForm.invalid){
+      this.exerciseForm.get('title').markAsTouched();
+      this.exerciseForm.get('description').markAsTouched();
+      return
+    }
     let points = this.getPoints();
-    let exercise = new Exercise(this.titleExercise, this.descriptionExercise,
+    let exercise = new Exercise(this.exerciseForm.value.title, 
+      this.exerciseForm.value.description,
     this.getConnections(), points, this.getImage());
     this.teacherService.addExerciseCurrentTask(exercise);
     this.router.navigateByUrl('/teacher/task/new');
