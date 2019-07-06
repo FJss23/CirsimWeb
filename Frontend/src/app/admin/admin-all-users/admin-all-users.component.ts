@@ -4,6 +4,7 @@ import { MatPaginator, MatTableDataSource, Sort, MatDialog } from '@angular/mate
 import { UserApiService } from 'src/app/services/api/user-api.service';
 import { Status } from 'src/app/model/status';
 import { DialogComponent } from '../dialog/dialog.component';
+import { Role } from 'src/app/model/role';
 
 @Component({
   selector: 'app-admin-all-users',
@@ -19,6 +20,15 @@ export class AdminAllUsersComponent implements OnInit {
   users: User[];
   csvContent: string;
   parsedCsv: string[][];
+  errorMessage: string[];
+
+  // csv properties
+  usernamePos: number;
+  passwordPos: number;
+  namePos: number;
+  surnamePos: number;
+  rolPos:number;
+  totalParams: number;
 
   constructor(private userService: UserApiService,
     public dialog: MatDialog) { }
@@ -28,6 +38,13 @@ export class AdminAllUsersComponent implements OnInit {
     this.displayedColumns = ['username','name', 'surname', 'role', 'status','actions'];
     this.dataSource = new MatTableDataSource<User>(this.users);
     this.dataSource.paginator = this.paginator;
+    this.usernamePos = 0;
+    this.passwordPos = 1;
+    this.namePos = 2;
+    this.surnamePos = 3;
+    this.rolPos = 4;
+    this.totalParams = 5
+    this.errorMessage = [];
   }
 
   /**
@@ -55,15 +72,15 @@ export class AdminAllUsersComponent implements OnInit {
       }
     });
 
-    // If the user wants to continue, I believe the users
+    // If the user wants to continue, create the users
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result === 'NEXT'){
         const fileToRead = files[0];
         const fileReader = new FileReader();
         fileReader.onload = () => {
           this.csvContent = fileReader.result.toString();
+          this.errorMessage = [];
           this.onFileLoad();
-          this.createUserObject();
         } 
         fileReader.readAsText(fileToRead, "UTF-8");
       }
@@ -78,19 +95,30 @@ export class AdminAllUsersComponent implements OnInit {
     const csvSeparator = ';';
     const txt = this.csvContent;
     const csv = [];
-    const lines = txt.split('\n');
-
-    lines.forEach((element: any) => {
+    let lines = txt.split('\n');
+    lines.forEach((element, index) => {
       let cols: string[] = element.split(csvSeparator);
-      cols.forEach((ele, index) => {
-        cols[index] = cols[index].trim();
-      });
-
-      if(cols.length >= 5){
+      if(cols.length == 1){
+        lines.splice(index, 1);
+      } else {
+        for(let i = 0; i < cols.length; i++){
+          cols[i] = cols[i].trim();
+          if(i == this.rolPos && cols[i] != Role.STUDENT && cols[i] != Role.TEACHER){
+            this.errorMessage.push(`La línea ${index + 1} contiene un rol no permitido`);
+            console.log(cols[i]);
+          }
+        }
+        if(cols.length < this.totalParams){
+          this.errorMessage.push(`La línea ${index + 1} tiene menos parámetros de los requeridos`);
+        }
         csv.push(cols);
       }
     });
+    console.log(csv);
     this.parsedCsv = csv;
+    if(this.errorMessage.length == 0){
+      this.createUserObject();
+    }
   }
 
   /**
@@ -115,11 +143,11 @@ export class AdminAllUsersComponent implements OnInit {
   createUserObject(): void {
     let users: User[] = [];
     this.parsedCsv.forEach((line) => {
-      let username = line[0];
-      let password = line[1];
-      let name = line[2];
-      let surname = line[3];
-      let role = line[4];
+      let username = line[this.usernamePos];
+      let password = line[this.passwordPos];
+      let name = line[this.namePos];
+      let surname = line[this.surnamePos];
+      let role = line[this.rolPos];
 
       users.push(new User(username, password, role).setName(name).setSurName(surname));
     });

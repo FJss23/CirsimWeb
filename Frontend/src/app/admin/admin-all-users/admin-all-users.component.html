@@ -5,8 +5,12 @@
   <div fxLayout="column">
     <label>Admite ficheros en formato csv de la forma:</label>
     <p class="explanation">nombre-de-usuario;contraseña;nombre;apellidos;rol;</p>
-    <div>
+    <label>Los roles permitidos son ROLE_STUDENT o ROLE_TEACHER</label>
+    <div class="input-csv">
       <input #myInput type="file" accept=".csv" (change)="onSelectFile($event)">
+    </div>
+    <div class="error">
+      <div *ngFor="let error of errorMessage">{{error}}</div>
     </div>
   </div>
   <h2>Usuarios del sistema</h2>
