@@ -19,3 +19,8 @@ th:nth-child(1) {
 th:nth-child(3) {
     width: 2%;
 }
+
+.error {
+    text-align: center;
+    color: red;
+}

@@ -5,6 +5,7 @@ import { Exercise } from 'src/app/model/exercise';
 import { TeacherService } from 'src/app/services/teacher.service';
 import { MyErrorStateMatcher } from 'src/app/model/errors/myErrorStateMatcher';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Task } from 'src/app/model/task';
 
 @Component({
   selector: 'app-teacher-new-task',
@@ -14,9 +15,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class TeacherNewTaskComponent implements OnInit {
   displayedColumns: string[];
   dataSource: any;
-  numCreatedEx: number;
   taskForm: FormGroup;
   matcher: MyErrorStateMatcher;
+  errorMinEx: boolean;
+  errorMaxEx: boolean;
   
   constructor(private taskService: TaskServiceApi,
     private teacherService: TeacherService,
@@ -29,26 +31,31 @@ export class TeacherNewTaskComponent implements OnInit {
       title: ['', Validators.required]
     });
    this.displayedColumns = ['title', 'description', 'action'];
-   this.taskForm.value.title = this.teacherService.getCurrentTask().title;
    this.dataSource = this.teacherService.getExercisesOfCurrentTask();
    this.taskForm.get('title').setValue(this.teacherService.getCurrentTask().title);
-   this.numCreatedEx = this.teacherService.orderExercises;
-   console.log(this.numCreatedEx);
+   this.errorMinEx = false;
+   this.errorMaxEx = false;
+   this.matcher = new MyErrorStateMatcher();
   }
 
   setTaskTitle(): void {
-    this.teacherService.getCurrentTask().setTitle(this.taskForm.value.title);
+    this.errorMaxEx = this.teacherService.getExercisesOfCurrentTask().length == 10;
+    if(!this.errorMaxEx){
+      this.teacherService.getCurrentTask().setTitle(this.taskForm.value.title);
+      this.router.navigateByUrl('teacher/task/new/simulation');
+    }
   }
 
   /**
    * create the task
    */
   addTask(): void {
-    this.setTaskTitle();
-    this.taskService.addTask(this.teacherService.getCurrentTask()).subscribe(() => {
+    this.errorMinEx = this.teacherService.getExercisesOfCurrentTask().length == 0;
+    if(!this.taskForm.invalid && !this.errorMinEx){
+      this.taskService.addTask(this.teacherService.getCurrentTask()).subscribe(() => {
         this.router.navigateByUrl('/teacher');
-      }
-    );
+      });
+    }
   }
 
   /**
@@ -57,6 +64,5 @@ export class TeacherNewTaskComponent implements OnInit {
   removeExercise(exercise: Exercise): void {
     this.teacherService.getCurrentTask().removeExercise(exercise);
     this.dataSource = [...this.teacherService.getExercisesOfCurrentTask()];
-
   }
 }

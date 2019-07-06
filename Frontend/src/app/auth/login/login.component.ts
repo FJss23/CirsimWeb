@@ -32,10 +32,6 @@ export class LoginComponent implements OnInit {
     sessionStorage.removeItem('credentials');
   }
 
-  get formControls() { 
-    return this.loginForm.controls; 
-  }
-
   login(): void {
     if(this.loginForm.invalid){
       return;
@@ -55,9 +51,6 @@ export class LoginComponent implements OnInit {
             this.router.navigateByUrl('/teacher');
           }
         }
-      },
-      error => {
-        this.error = error;
       });
   }
 }
