@@ -27,14 +27,14 @@ export class JwtInterceptor implements HttpInterceptor {
 
         return next.handle(req).pipe(
             catchError((error: HttpErrorResponse) => {
-                if([403,401].indexOf(error.status) !== -1){
+                if([403,401,0].indexOf(error.status) !== -1){
                     this.authService.logout();
-                    sessionStorage.setItem('credentials','Credenciales incorrectas');
+                    error.status === 0 ? sessionStorage.setItem('credentials',`Servidor inactivo`):
+                    sessionStorage.setItem('credentials',`Credenciales incorrectas`);
                     location.reload(true);
                 } 
                 return throwError(error.error.message || error.statusText);
             })
         );
     }
-    
 }

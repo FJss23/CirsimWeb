@@ -23,11 +23,9 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	User findByUsername(String username);
 
 	Set<User> findByRole(Role role);
-	
-	User findTopByOrderByIdDesc();
 
-	 @Transactional
-	 @Modifying
+	@Transactional
+	@Modifying
 	@Query("DELETE FROM TUSER u WHERE u.role <> 'ADMIN'")
 	void deleteAllExceptAdmin();
 }

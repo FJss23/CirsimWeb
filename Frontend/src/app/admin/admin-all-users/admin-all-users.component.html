@@ -4,7 +4,7 @@
   <h2>Selecciona un fichero para la carga de usuarios</h2>
   <div fxLayout="column">
     <label>Admite ficheros en formato csv de la forma:</label>
-    <p class="explanation">nombre-de-usuario;contraseña;nombre;apellidos;rol;</p>
+    <p class="explanation">nombre-de-usuario;contraseña;nombre;apellidos;rol</p>
     <label>Los roles permitidos son ROLE_STUDENT o ROLE_TEACHER</label>
     <div class="input-csv">
       <input #myInput type="file" accept=".csv" (change)="onSelectFile($event)">

@@ -114,10 +114,23 @@ export class AdminAllUsersComponent implements OnInit {
         csv.push(cols);
       }
     });
-    console.log(csv);
+    this.checkUserNames(csv);
     this.parsedCsv = csv;
     if(this.errorMessage.length == 0){
       this.createUserObject();
+    }
+  }
+
+  checkUserNames(csv: any[]) {
+    let usernames = [];
+    csv.forEach(cols => {
+      usernames.push(cols[0]);
+    });
+    let unique = usernames.filter((elem, index, self) => 
+      index === self.indexOf(elem));
+    
+    if(unique.length != usernames.length){
+      this.errorMessage.push(`El fichero contiene nombres de usuario repetidos`);
     }
   }
 

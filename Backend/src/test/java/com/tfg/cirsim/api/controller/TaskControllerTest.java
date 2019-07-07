@@ -1,8 +1,8 @@
-package com.tfg.cirsim.api;
+package com.tfg.cirsim.api.controller;
 
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class UserControllerTest {
+public class TaskControllerTest {
 
 }

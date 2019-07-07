@@ -52,7 +52,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			String username = credentials.getUsername();
 			String password = credentials.getPassword();
 			
-			User completeUser = userRepository.findByUsername(credentials.getUsername());
+			User completeUser = userRepository.findByUsername(credentials
+					.getUsername());
 			if(completeUser != null) {
 				if(completeUser.getStatus() == Status.INACTIVE) {
 					username = null;
@@ -64,8 +65,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 					new UsernamePasswordAuthenticationToken(username, password,
 							new ArrayList<>());
 			
-			System.out.println("Access attempt " + credentials.getUsername() + " " + 
-					credentials.getPassword());
+			System.out.println("Access attempt " + credentials.getUsername() + 
+					" " + credentials.getPassword());
 			return authenticationManager.authenticate(userToken);
 
 		} catch (IOException e) {
