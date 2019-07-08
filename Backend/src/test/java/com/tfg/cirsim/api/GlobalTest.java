@@ -141,7 +141,7 @@ public class GlobalTest {
 
     @Test
 	@Transactional
-    public void whenFindAll_thenReturnAll() {
+    public void whenFindAllTask_thenReturnAll() {
         Task task = new Task();
         entityManager.persist(task);
         entityManager.flush();
@@ -154,7 +154,7 @@ public class GlobalTest {
     }
     
     @Test
-    public void whenDeleteAll_thenNoReturn() {
+    public void whenDeleteAllTask_thenNoReturn() {
     	Task task = new Task();
         entityManager.persist(task);
         Task secondTask = new Task();

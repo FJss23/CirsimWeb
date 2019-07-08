@@ -23,12 +23,12 @@ public class InsertSampleDataService {
 	
 	@PostConstruct
 	public void init() {
-		User user1 = new User("user1", "123", "nombre1", "apellido1", Role.ADMIN);
-		User user2 = new User("user2", "123", "nombre2", "apellido2", Role.STUDENT);
-		User user3 = new User("user3", "123", "nombre3", "apellido3", Role.TEACHER);
-		User user4 = new User("user4", "123", "nombre4", "apellido4", Role.STUDENT);
-		User user5 = new User("user5", "123", "nombre5", "apellido5", Role.STUDENT);
-		User user6 = new User("user6", "123", "nombre6", "apellido6", Role.STUDENT);
+		User user1 = new User("admin", "123", "nombre1", "apellido1", Role.ADMIN);
+		User user3 = new User("profesor", "123", "nombre3", "apellido3", Role.TEACHER);
+		User user2 = new User("alumno1", "123", "nombre2", "apellido2", Role.STUDENT);
+		User user4 = new User("alumno2", "123", "nombre4", "apellido4", Role.STUDENT);
+		User user5 = new User("alumno3", "123", "nombre5", "apellido5", Role.STUDENT);
+		User user6 = new User("alumno4", "123", "nombre6", "apellido6", Role.STUDENT);
 		
 		userService.addUser(user1);
 		userService.addUser(user2);

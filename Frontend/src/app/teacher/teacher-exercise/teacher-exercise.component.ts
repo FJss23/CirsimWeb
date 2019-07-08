@@ -130,6 +130,7 @@ export class TeacherExerciseComponent implements OnInit {
    * place the selected image as a background
    */
   setBackgroundImage(): void {
+    console.log(this.imageUrl);
     let sourceCanvas = document.querySelector('canvas');
     sourceCanvas.style.backgroundImage = `url('${this.imageUrl}')`;
     sourceCanvas.style.backgroundRepeat = "no-repeat";
@@ -225,7 +226,14 @@ export class TeacherExerciseComponent implements OnInit {
    * point or connection
    */
   applyChanges(): void {
+    let pointsPriority = false;
     let points = this.network.getSelectedNodes();
+    let connections = this.network.getSelectedEdges();
+    
+    if(points.length > 0 && connections.length > 0){
+      pointsPriority = true
+    }
+
     for(let point in points){
       let pointInfo = points[point];
 
@@ -236,14 +244,16 @@ export class TeacherExerciseComponent implements OnInit {
         size: this.valueSizePoint
       });
     }
-    let connections = this.network.getSelectedEdges();
-    for(let connection in connections){
-      let conInfo = connections[connection];
-      this.network.body.data.edges.update({
-        id: conInfo, 
-        color: this.color,
-        width: this.valueSizeConnection
-      });
+
+    if(!pointsPriority){
+      for(let connection in connections){
+        let conInfo = connections[connection];
+        this.network.body.data.edges.update({
+          id: conInfo, 
+          color: { color: this.color },
+          width: this.valueSizeConnection
+        });
+      }
     }
   }
 

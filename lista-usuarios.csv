@@ -1,10 +1,8 @@
  JMorales;123;José;Morales Alonso;ROLE_TEACHER   
 PPerez;123;Pedro;Perez Perez;ROLE_TEACHER
 UO111111;123;Francisco;Riedemann Wistuba;ROLE_STUDENT
-UO111111 ;123;Diego;Aguirre Benito;ROLE_STUDENT
 UO333333;123;Urko;Cáceres Cabrera;ROLE_STUDENT
 UO444444;123;Fernando;Esteve Gallart;ROLE_STUDENT
 UO555555;123;Jon;Gutiérrez Jara;ROLE_STUDENT
 UO666666;123;Iñigo;Luque Marín;ROLE_STUDENT
-UO777777;123;Felipe;Otero Perea;ROLE_STUDENT
-UO888888;123;Marcos;Cases Delgado;ROLE_STUDENT
+
