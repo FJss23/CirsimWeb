@@ -62,7 +62,7 @@ public class TokenUtil {
 					.setExpiration(calculateExpirationTime())
 					.compact();
 		} catch(JwtException | IllegalArgumentException e) {
-			//TODO: add log
+			System.err.println("Ha ocurrido un error al generar el token");
 		}
 		return null;
 	}
