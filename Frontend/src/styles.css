@@ -75,3 +75,12 @@ mat-toolbar{
 .mat-tooltip {
   font-size: 120%;
 }
+
+.network-view {
+  border:1px solid black;
+  margin-top: 1%;
+}
+
+.finish-btn {
+  margin-top: 1% !important;
+}

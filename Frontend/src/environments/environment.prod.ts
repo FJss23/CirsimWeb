@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
-  login: 'http://localhost:8081/login',
-  user: 'http://localhost:8081/api/cirsim/user',
-  task: 'http://localhost:8081/api/cirsim/task',
+  login: 'https://sheltered-everglades-46626.herokuapp.com/login',
+  user:  'https://sheltered-everglades-46626.herokuapp.com/api/cirsim/user',
+  task: 'https://sheltered-everglades-46626.herokuapp.com/api/cirsim/task',
   configurationVis: {
     autoResize: true,
     height: "900px",

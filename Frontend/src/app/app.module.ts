@@ -11,14 +11,15 @@ import { AdminModule } from './admin/admin.module';
 import { StudentModule } from './student/student.module';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FooterComponent } from './footer/footer.component';
+import localeES from "@angular/common/locales/es";
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(localeES, "es");
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    PageNotFoundComponent,
     FooterComponent
   ],
   imports: [

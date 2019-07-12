@@ -12,18 +12,6 @@ export class Task {
         this.exercises = [];
     }
 
-    addExercise(exercise: Exercise): void {
-        this.exercises.push(exercise);
-    }
-
-    removeExercise(exercise: Exercise): void {
-        this.exercises.forEach( (item, index) => {
-            if(item === exercise) { 
-                this.exercises.splice(index,1);
-            }
-        });
-    }
-
     setTitle(name: string): Task {
         this.title = name;
         return this;

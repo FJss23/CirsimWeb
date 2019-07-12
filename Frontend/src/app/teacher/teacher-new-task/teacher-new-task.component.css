@@ -25,3 +25,11 @@ th:nth-child(3) {
     text-align: center;
     color: red;
 }
+.calendar {
+    width: 30%;
+}
+
+.error-calendar {
+    color: red;
+    margin-bottom: 1%;
+}

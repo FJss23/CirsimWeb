@@ -5,6 +5,7 @@ import { TeacherSentTasksComponent } from './teacher-sent-tasks/teacher-sent-tas
 import { TeacherGuard } from '../guards/teacher.guard';
 import { TeacherNewTaskComponent } from './teacher-new-task/teacher-new-task.component';
 import { TeacherExerciseComponent } from './teacher-exercise/teacher-exercise.component';
+import { TeacherViewExercisesComponent } from './teacher-view-exercises/teacher-view-exercises.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
       {
         path: 'task/new/simulation',
         component: TeacherExerciseComponent
+      },
+      {
+        path: 'task/view',
+        component: TeacherViewExercisesComponent
       }
     ]
   }

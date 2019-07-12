@@ -9,6 +9,7 @@ import { TeacherService } from 'src/app/services/teacher.service';
 import { environment } from 'src/environments/environment';
 import { FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
 import { MyErrorStateMatcher } from 'src/app/model/errors/myErrorStateMatcher';
+import { ExerciseService } from 'src/app/services/exercise.service';
 
 @Component({
   selector: 'app-teacher-exercise',
@@ -42,9 +43,12 @@ export class TeacherExerciseComponent implements OnInit {
   exerciseForm: FormGroup;
   matcher: MyErrorStateMatcher;
 
+  exerciseToEdit: Exercise;
+
   constructor(private teacherService: TeacherService,
     private router: Router,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private exerciseService: ExerciseService) { }
 
   ngOnInit() {
     this.exerciseForm  =  this.formBuilder.group({
@@ -69,16 +73,42 @@ export class TeacherExerciseComponent implements OnInit {
       "auto",
       "contain"
     ];
-    this.selectedSizeImage = this.sizeImage[0];
     this.canDelete = false;
     this.activeSelectionMode = false;
-    
     this.valueNamePoint = this.config.defaultValueName;
     this.valueSizePoint = this.config.defaultSizePoint;
     this.valueSizeConnection = this.config.defaultSizeConnection;
     this.color = this.config.defaultColor;
+    this.exerciseToEdit = this.teacherService.exerciseToEditValue;
 
+    if(this.exerciseToEdit){
+      this.setUpEditExercise();
+    } else {
+      this.setUpNewExercise();
+    }
+  }
+
+  ngAfterViewInit(){
+    if(this.exerciseToEdit && this.exerciseToEdit.image && this.exerciseToEdit.image.imageb64){
+      let image = this.exerciseToEdit.image;
+      this.setBackgroundImage(image.imageb64, image.position, image.size);
+    } 
+  }
+
+  setUpNewExercise(): void {
     this.setUpNetwork();
+    this.selectedPositionImage = this.positionsImage[0];
+    this.selectedSizeImage = this.sizeImage[0];
+  }
+
+  setUpEditExercise(): void {
+    this.setUpNetwork(this.setUpExercise(this.exerciseToEdit))
+    if(this.exerciseToEdit.image != null){
+      this.selectedPositionImage = this.exerciseToEdit.image.position;
+      this.selectedSizeImage =  this.exerciseToEdit.image.size;
+      this.imageUrl = this.exerciseToEdit.image.imageb64;
+    }
+    this.selectionMode();
   }
 
   /**
@@ -99,9 +129,11 @@ export class TeacherExerciseComponent implements OnInit {
    * initializes the network with a series of options and starting data. 
    * Includes vis.js events for the selection of a point or connection
    */
-  setUpNetwork(): void  {
-    let data = { };
+  setUpNetwork(editData?: any): void  {
+    let data = (editData) ? editData : {};
     let options = this.defineOptions();
+    console.log('data to import');
+    console.log(data);
     this.network = new Network(this.networkContainer.nativeElement, data, options);
 
     // event that jumps when a point or connection is selected, if the delete 
@@ -110,6 +142,9 @@ export class TeacherExerciseComponent implements OnInit {
       if(this.canDelete){
         this.deleteSelected();
       } 
+      if(!this.activeSelectionMode){
+        this.network.unselectAll();
+      }
     });
 
     // event that jumps when selecting a point, it is used only to add the 
@@ -124,18 +159,44 @@ export class TeacherExerciseComponent implements OnInit {
         }
       }
     });
+
+    this.network.on('dragEnd', (properties: any) => {
+      if(this.exerciseToEdit && this.activeSelectionMode){
+        console.log('active dragend')
+        let points: Point [] = this.getPoints()
+        for(let elem in properties.nodes){
+          points.forEach(point => {
+            if(properties.nodes[elem] == point.visId){
+              this.network.body.data.nodes.update({
+                id: point.visId, 
+                color: point.color,
+                label: point.label,
+                size: point.size,
+                x: properties.pointer.canvas.x,
+                y: properties.pointer.canvas.y
+              });
+            }
+          });
+        }
+      }
+    });
+
+    // the zoom/scale appears center at the position of the first node added, 
+    // it must be centered at the origin
+    this.network.moveTo({
+      position: {x: 0, y: 0}
+    });
   }
 
   /**
    * place the selected image as a background
    */
-  setBackgroundImage(): void {
-    console.log(this.imageUrl);
+  setBackgroundImage(image?: string, pos?: string, size?: string): void {
     let sourceCanvas = document.querySelector('canvas');
-    sourceCanvas.style.backgroundImage = `url('${this.imageUrl}')`;
+    sourceCanvas.style.backgroundImage = `url('${(image) ? image : this.imageUrl}')`;
     sourceCanvas.style.backgroundRepeat = "no-repeat";
-    sourceCanvas.style.backgroundPosition =  this.positionsImage[0];
-    sourceCanvas.style.backgroundSize = this.sizeImage[0];
+    sourceCanvas.style.backgroundPosition =  (pos) ? pos : this.positionsImage[0];
+    sourceCanvas.style.backgroundSize = (size) ? size : this.sizeImage[0];
   }
 
   /**
@@ -207,10 +268,25 @@ export class TeacherExerciseComponent implements OnInit {
       return
     }
     let points = this.getPoints();
-    let exercise = new Exercise(this.exerciseForm.value.title, 
-      this.exerciseForm.value.description,
-    this.getConnections(), points, this.getImage());
-    this.teacherService.addExerciseCurrentTask(exercise);
+    let connections = this.getConnections();
+    let image = this.getImage();
+    let title = this.exerciseForm.value.title;
+    let description = this.exerciseForm.value.description;
+
+    console.log(points)
+
+    if(this.exerciseToEdit){
+      this.exerciseToEdit.points = points;
+      this.exerciseToEdit.connections = connections;
+      this.exerciseToEdit.image = image;
+      this.exerciseToEdit.title = title;
+      this.exerciseToEdit.description = description;
+      this.teacherService.applyEditionExercise(this.exerciseToEdit);
+    } else {
+      let exercise = new Exercise(title, description,
+        connections, points, image);
+      this.teacherService.addExerciseCurrentTask(exercise);
+    }
     this.router.navigateByUrl('/teacher/task/new');
   }
 
@@ -308,9 +384,8 @@ export class TeacherExerciseComponent implements OnInit {
   /**
    * global network options
    */
-  private defineOptions(): any {
+  private defineOptions(dragNodes?: boolean): any {
     const config = environment.configurationVis;
-
     return {
       autoResize: config.autoResize,
       height: config.height,
@@ -352,7 +427,7 @@ export class TeacherExerciseComponent implements OnInit {
         zoomView: this.config.interaction.zoomView,
         multiselect: this.config.interaction.multiselect,
         dragView: this.config.interaction.dragView,
-        dragNodes: true
+        dragNodes: (dragNodes != null)?dragNodes:true
       },
       manipulation: {
         enabled: config.manipulation.enabled,
@@ -399,10 +474,22 @@ export class TeacherExerciseComponent implements OnInit {
 
   activateEdit(): void {
     this.activeSelectionMode = true;
+    this.network.setOptions(this.defineOptions(true));
   }
 
   deActivateEdit(): void {
     this.activeSelectionMode = false;
+    this.network.setOptions(this.defineOptions(false));
+    this.network.unselectAll();
   }
 
+  setUpExercise(exerciseEdit: Exercise): any {
+    let data = { 
+      nodes: this.exerciseService.obtainPoints(exerciseEdit),
+      edges: this.exerciseService.obtainConnections(exerciseEdit),
+    }
+    this.exerciseForm.get('title').setValue(exerciseEdit.title);
+    this.exerciseForm.get('description').setValue(exerciseEdit.description);
+    return data;
+  }
 }

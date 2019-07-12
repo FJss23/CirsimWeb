@@ -61,19 +61,8 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public Task updateTask(Long id, Task task) {
-		return taskRepository.findById(id)
-				.map(oldTask-> {
-					oldTask.setId(id);
-					oldTask.setAuthor(task.getAuthor());
-					oldTask.setStudents(task.getStudents());
-					oldTask.setTitle(task.getTitle());
-					oldTask.setOpenDate(task.getOpenDate());
-					oldTask.setExercises(task.getExercises());
-					return taskRepository.save(oldTask);
-				}).orElseGet(() -> {
-					task.setId(id);
-					return taskRepository.save(task);
-				});
+		taskRepository.deleteById(id);
+		return addTask(task);
 	}
 
 	/**
@@ -92,6 +81,13 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public Task addTask(Task task) {
+		makingLinks(task);
+		
+		// saving the father causes saving the children
+		return taskRepository.save(task);
+	}
+
+	private void makingLinks(Task task) {
 		User author = userService.getAuthenticatedUser();
 		Set<User> students = userService.findByRole(Role.STUDENT);
 		
@@ -103,9 +99,6 @@ public class TaskServiceImpl implements TaskService {
 		setChildExercise(task.getExercises(), task);
 		author.getTaskAuthor().add(task);
 		students.forEach(student -> student.getTaskToDo().add(task));
-		
-		// saving the father causes saving the children
-		return taskRepository.save(task);
 	}
 	
 	private void setChildExercise(Set<Exercise> exercises, Task task) {
@@ -118,7 +111,10 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	private void setChildImage(Image image, Exercise exercise) {
-		imageUtil.addImage(image, exercise);
+		if(image != null) {
+			image.setExercise(exercise);
+			imageUtil.addImage(image, exercise);
+		}
 	}
 
 	private void setChildConnection(Set<Connection> connections, Exercise exercise) {

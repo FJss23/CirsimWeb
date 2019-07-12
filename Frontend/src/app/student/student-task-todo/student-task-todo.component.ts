@@ -28,7 +28,12 @@ export class StudentTaskTodoComponent implements OnInit {
   getAssignedTasks(): void {
     this.taskService.getTasks().subscribe(
       (tasks) => {
-        this.assignedTasks = tasks.body;
+        let allTasks: Task[] = tasks.body
+         this.assignedTasks = allTasks.filter((task: Task) => {
+           if(new Date(task.openDate) < new Date()){
+            return task;
+           }
+        });
         this.sortByDate(this.assignedTasks);
         this.dataSource.data = this.assignedTasks;
       }

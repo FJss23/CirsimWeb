@@ -47,4 +47,10 @@ export class TaskServiceApi {
       tap(() => console.log(`Sending the delete petition`))
     )
   }
+
+  editTask(task: Task): Observable<any> {
+    return this.http.put<Task>(environment.task + `/${task.id}`, task, this.httpOptions).pipe(
+      tap(() => console.log(`Updating task to backend`))
+    );
+  }
 }

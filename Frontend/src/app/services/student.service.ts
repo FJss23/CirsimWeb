@@ -1,34 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Task } from '../model/task';
 import { Exercise } from '../model/exercise';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ExerciseService } from './exercise.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StudentService {
-  taskToResolve: Task;
+  private taskToResolveSubject: BehaviorSubject<Task>;
+  taskToResolve: Observable<Task>;
+  
   exercisesToResolved: Exercise[];
   numCurrentExercise: number;
   numTotalExercises: number;
 
-  constructor() { }
+  constructor(private exerciseService: ExerciseService) { }
 
   setTaskToResolve(task: Task): void {
-    this.taskToResolve = task;
+    this.taskToResolveSubject = new BehaviorSubject<Task>(task);
+    this.taskToResolve = this.taskToResolveSubject.asObservable();
     this.exercisesToResolved = task.exercises;
-    this.sortByOrderEx(this.exercisesToResolved);
+    this.exerciseService.sortByOrderEx(this.exercisesToResolved);
     this.numTotalExercises = task.exercises.length;
     this.numCurrentExercise = 0;
   }
 
-  sortByOrderEx(exercises: Exercise[]): void {
-    exercises.sort((a, b) => {
-      return a.orderEx - b.orderEx;
-    });
-  }
-
-  getTaskToResolve(): Task {
-    return this.taskToResolve;
+  public get taskToResolveValue() {
+    return this.taskToResolveSubject.value;
   }
 
   obtainExerciseToResolve(): Exercise {
@@ -39,10 +38,6 @@ export class StudentService {
     return null;
   }
 
-  obtainCurrentTask(): Task {
-    return this.taskToResolve;
-  }
-
   obtainNumCurrentExercise(): number {
     return this.numCurrentExercise;
   }
@@ -51,7 +46,4 @@ export class StudentService {
     return this.numTotalExercises;
   }
 
-  obtainTaskTitle(): string {
-    return this.taskToResolve.title;
-  }
 }

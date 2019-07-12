@@ -33,6 +33,14 @@
           (click)="deleteTask(task)">
             <mat-icon aria-label="Delete">delete</mat-icon>
           </button> 
+          <button mat-icon-button matTooltip="Click para editar" class="iconbutton" color="primary"
+          (click)="editTask(task)" routerLink="task/new">
+            <mat-icon aria-label="Edit">edit</mat-icon>
+          </button> 
+          <button mat-icon-button matTooltip="Click para ver" class="iconbutton" color="primary"
+          (click)="viewTask(task)">
+            <mat-icon aria-label="See">play_circle_filled</mat-icon>
+          </button> 
         </td>
       </ng-container>
 

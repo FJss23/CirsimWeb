@@ -1,8 +1,8 @@
 <div class="content">
   <h1 class="pageTitle">Nueva tarea</h1>
   <mat-divider></mat-divider>
-<form (ngSubmit)="addTask()" [formGroup]="taskForm">
-  <div fxLayout="row" fxLayoutAlign="space-between center">
+  <form (ngSubmit)="actionTask()" [formGroup]="taskForm">
+    <div fxLayout="row" fxLayoutAlign="space-between center">
       <mat-form-field fxFlex="50" >
           <input matInput #maxLengthTitle maxlength="50" placeholder="Título de la tarea" 
           formControlName="title" required [errorStateMatcher]="matcher"
@@ -14,40 +14,55 @@
           
           <mat-hint align="end">{{maxLengthTitle.value.length}} / 50</mat-hint>
       </mat-form-field>
-    <button mat-raised-button color="accent" 
-    matTooltip="Click para añadir un nuevo ejercicio a la tarea"
-    class="btn-new-exercise" (click)="adjustTaskTitle()" type="button">
-      <mat-icon >add_circle</mat-icon> EJERCICIO</button>
-  </div>
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-    <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef> Título </th>
-      <td mat-cell *matCellDef="let exercise"> {{exercise.title}} </td>xº
-    </ng-container>
-  
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef> Descripción </th>
-      <td mat-cell *matCellDef="let exercise"> {{exercise.description}} </td>
-    </ng-container>
+      <button mat-raised-button color="accent" 
+      matTooltip="Click para añadir un nuevo ejercicio a la tarea"
+      class="btn-new-exercise" (click)="adjustTaskParams()" type="button">
+        <mat-icon >add_circle</mat-icon> EJERCICIO</button>
+    </div>
 
-    <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef> Eliminar </th>
-      <td mat-cell *matCellDef="let exercise"> 
-        <button mat-icon-button matTooltip="Click para eliminar" class="iconbutton" color="warn"
-        (click)="removeExercise(exercise)">
-          <mat-icon aria-label="Delete">delete</mat-icon>
-        </button> 
-      </td>
-    </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-  <div *ngIf="errorMinEx" class="error">*La creación de tareas requiere como mínimo 1 ejercicio.</div>
-  <div *ngIf="errorMaxEx" class="error">*La creación de tarea permite un máximo de 10 ejercicios.</div>
-  <div fxLayout="row" fxLayoutAlign="center center"  class="confirm">
-    <button mat-stroked-button color="primary" type="submit" id="create-task">Crear tarea</button>
-  </div>
-</form>
+    <mat-form-field class="calendar">
+      <input matInput type="datetime-local" placeholder="Fecha de apertura" [value]="date" 
+      (change)="date=$event.target.value" min="date"
+      max="3000-12-1T00:00"required> 
+    </mat-form-field>  
+
+    <div *ngIf="openNow()" class="error-calendar">La tarea se abrirá inmediatamente</div>
+    <div *ngIf="validDate()" class="error-calendar">La fecha es obligatoria</div>
+     
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Título </th>
+        <td mat-cell *matCellDef="let exercise"> {{exercise.title}} </td>xº
+      </ng-container>
+    
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Descripción </th>
+        <td mat-cell *matCellDef="let exercise"> {{exercise.description}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <td mat-cell *matCellDef="let exercise"> 
+          <button mat-icon-button matTooltip="Click para eliminar" class="iconbutton" color="warn"
+          (click)="removeExercise(exercise)">
+            <mat-icon aria-label="Delete">delete</mat-icon>
+          </button> 
+          <button mat-icon-button matTooltip="Click para editar" class="iconbutton" color="primary"
+          (click)="editExercise(exercise)">
+            <mat-icon aria-label="Edit">edit</mat-icon>
+          </button> 
+        </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <div *ngIf="errorMinEx" class="error">*La creación de tareas requiere como mínimo 1 ejercicio.</div>
+    <div *ngIf="errorMaxEx" class="error">*La creación de tarea permite un máximo de 10 ejercicios.</div>
+    <div fxLayout="row" fxLayoutAlign="center center"  class="confirm">
+      <button mat-stroked-button color="primary" type="submit" id="create-task">Crear tarea</button>
+    </div>
+  </form>
 </div>

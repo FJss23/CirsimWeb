@@ -15,6 +15,8 @@ public enum Role {
 	
 	private String text;
 	
+	Role() { }
+	
 	Role(String text){
 		this.text = text;
 	}
@@ -31,7 +33,8 @@ public enum Role {
 	@JsonCreator
 	public static Role fromText(String text){
         for(Role r : Role.values()){
-            if(r.getText().equals(text)){
+        	String alternative = r.getText().substring(5);
+            if(r.getText().equals(text) || alternative.equals(text)){
                 return r;
             }
         }

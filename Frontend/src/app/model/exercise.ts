@@ -3,6 +3,7 @@ import { Connection } from './connection';
 import { Image } from './image';
 
 export class Exercise { 
+    id: number;
     title: string;
     description: string;
     connections: Connection[];

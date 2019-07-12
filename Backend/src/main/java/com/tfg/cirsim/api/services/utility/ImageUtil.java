@@ -37,9 +37,7 @@ public class ImageUtil {
 	 * @param image with base64 content
 	 * @param exercise
 	 */
-	public void addImage(Image image, Exercise exercise) {
-		image.setExercise(exercise);
-		
+	public void addImage(Image image, Exercise exercise) {		
 		if(image.getImageb64() != null) {
 			String imageFormat = obtaingFormat(image.getImageb64());
 			
@@ -85,9 +83,11 @@ public class ImageUtil {
 	}
 
 	public void deleteImage(Image image) {
-		if(image.getImageb64() != null) {
-			File file = new File(image.getImageb64());
-			file.delete();
+		if(image != null) {
+			if(image.getImageb64() != null) {
+				File file = new File(image.getImageb64());
+				file.delete();
+			}
 		}
 	}
 
@@ -105,11 +105,13 @@ public class ImageUtil {
 	private void setImagesInExercise(Set<Exercise> exercises) {
 		exercises.forEach(exercise -> {
 			String imageInCorrectaFormat = "";
-			if(exercise.getImage().getImageb64() !=  null) {
-				imageInCorrectaFormat = 
-						obtainImageStored(exercise.getImage().getImageb64());
+			if(exercise.getImage() !=  null) {
+				if(exercise.getImage().getImageb64() !=  null) {
+					imageInCorrectaFormat = 
+							obtainImageStored(exercise.getImage().getImageb64());
+					exercise.getImage().setImageb64(imageInCorrectaFormat);
+				}
 			}
-			exercise.getImage().setImageb64(imageInCorrectaFormat);
 		});
 	}
 	

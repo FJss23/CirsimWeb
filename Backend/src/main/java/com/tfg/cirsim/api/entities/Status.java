@@ -14,6 +14,8 @@ public enum Status {
 	
 	private String text;
 	
+	Status() { }
+	
 	Status(String text){
 		this.text = text;
 	}
@@ -30,7 +32,8 @@ public enum Status {
 	@JsonCreator
 	public static Status fromText(String text){
         for(Status r : Status.values()){
-            if(r.getText().equals(text)){
+        	String alternative = r.getText().substring(7);
+            if(r.getText().equals(text) || alternative.equals(text)){
                 return r;
             }
         }

@@ -3,6 +3,7 @@ import { TaskServiceApi } from 'src/app/services/api/task-api.service';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { Task } from 'src/app/model/task';
 import { TeacherService } from 'src/app/services/teacher.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-teacher-sent-tasks',
@@ -14,9 +15,10 @@ export class TeacherSentTasksComponent implements OnInit {
   displayedColumns: string[];
   dataSource: any;
   createdTasks: Task[];
-  
+
   constructor(private taskService: TaskServiceApi,
-    private teacherService: TeacherService) { }
+    private teacherService: TeacherService,
+    private router: Router) { }
 
   ngOnInit() {
     this.getCreatedTasks(); 
@@ -27,6 +29,7 @@ export class TeacherSentTasksComponent implements OnInit {
 
   initializeTask(): void {
     let task = new Task();
+    this.teacherService.editingTask(false);
     this.teacherService.initTask(task);
   }
 
@@ -52,4 +55,13 @@ export class TeacherSentTasksComponent implements OnInit {
     });
   }
   
+  viewTask(task: Task): void {
+    this.teacherService.viewTask(task);
+    this.router.navigateByUrl('teacher/task/view');
+  }
+
+  editTask(task: Task): void {
+    this.teacherService.initTask(task);
+    this.teacherService.editingTask(true);
+  }
 }

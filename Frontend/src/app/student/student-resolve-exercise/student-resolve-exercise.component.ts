@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { MatDialog, MatButtonToggle } from '@angular/material';
 import { DialogComponent } from '../dialog/dialog.component';
 import { Router } from '@angular/router';
+import { ExerciseService } from 'src/app/services/exercise.service';
 
 @Component({
   selector: 'app-student-resolve-exercise',
@@ -34,12 +35,13 @@ export class StudentResolveExerciseComponent implements OnInit {
 
   constructor(private studentService: StudentService,
     public dialog: MatDialog,
-    private router: Router) { }
+    private router: Router,
+    private exerciseService: ExerciseService) { }
 
   ngOnInit() {
     this.config = environment.configurationVis;
     this.canContinue = false;
-    this.taskTitle = this.studentService.obtainTaskTitle();
+    this.taskTitle = this.studentService.taskToResolveValue.title;
     this.setExerciseToResolve();
     this.currentInfoLabel = `Ejercicio ${this.studentService.obtainNumCurrentExercise()}
     /${this.studentService.obtainTotalExercises()}`;
@@ -68,7 +70,7 @@ export class StudentResolveExerciseComponent implements OnInit {
   setUpNetwork(): void  {
     // only points are obtained
     let data = {
-      nodes: this.obtainData(),
+      nodes: this.exerciseService.obtainPoints(this.exerciseToResolve),
       edges: []
     }
     let options = this.defineOptions();
@@ -117,15 +119,17 @@ export class StudentResolveExerciseComponent implements OnInit {
    * add the fund according to the set configuration
    */
   setBackground(): void {
-    let url = this.exerciseToResolve.image.imageb64;
-    let position = this.exerciseToResolve.image.position;
-    let size = this.exerciseToResolve.image.size;
-    let sourceCanvas = document.querySelector('canvas');
-
-    sourceCanvas.style.backgroundImage = `url('${url}')`;
-    sourceCanvas.style.backgroundRepeat = "no-repeat";
-    sourceCanvas.style.backgroundPosition = position;
-    sourceCanvas.style.backgroundSize = size;
+    if(this.exerciseToResolve.image && this.exerciseToResolve.image.imageb64){
+      let url = this.exerciseToResolve.image.imageb64;
+      let position = this.exerciseToResolve.image.position;
+      let size = this.exerciseToResolve.image.size;
+      let sourceCanvas = document.querySelector('canvas');
+  
+      sourceCanvas.style.backgroundImage = `url('${url}')`;
+      sourceCanvas.style.backgroundRepeat = "no-repeat";
+      sourceCanvas.style.backgroundPosition = position;
+      sourceCanvas.style.backgroundSize = size;
+    }
   }
 
   /**

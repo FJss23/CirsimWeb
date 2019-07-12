@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AdminAllUsersComponent } from './admin-all-users.component';
+import { SharedModule } from 'src/app/model/modules/shared.module';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('AdminAllUsersComponent', () => {
   let component: AdminAllUsersComponent;
@@ -8,7 +10,8 @@ describe('AdminAllUsersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AdminAllUsersComponent ]
+      declarations: [ AdminAllUsersComponent ],
+      imports: [SharedModule,  HttpClientModule]
     })
     .compileComponents();
   }));
