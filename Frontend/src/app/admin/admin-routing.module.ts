@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 import { AdminGuard } from '../guards/admin.guard';
 import { AdminAllUsersComponent } from './admin-all-users/admin-all-users.component';
+import { AdminNewUserComponent } from './admin-new-user/admin-new-user.component';
+import { AdminLoadUsersComponent } from './admin-load-users/admin-load-users.component';
 
 const routes: Routes = [
   {
@@ -13,6 +15,14 @@ const routes: Routes = [
       {
         path: '', 
         component: AdminAllUsersComponent 
+      },
+      {
+        path: 'admin/new',
+        component: AdminNewUserComponent
+      },
+      {
+        path: 'admin/load-users',
+        component: AdminLoadUsersComponent
       }
     ]
   }

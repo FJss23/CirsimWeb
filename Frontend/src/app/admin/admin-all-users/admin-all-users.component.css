@@ -1,11 +1,17 @@
-.explanation {
-    font-family: "Courier New", Courier, monospace;
-}
 
 .error {
     margin-top: 1%;
     color: red;
 }
-.input-csv {
-     margin-top: 2%;
+
+.btn-new-user{
+    margin-top: 1%;
+    margin-bottom: 1%;
+    font-size: 120%;
+}
+
+#info {
+    margin-bottom: 1%;
+    font-style: oblique;
+    color: darkgray;
 }

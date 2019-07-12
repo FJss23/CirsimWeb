@@ -27,7 +27,7 @@
       max="3000-12-1T00:00"required> 
     </mat-form-field>  
 
-    <div *ngIf="openNow()" class="error-calendar">La tarea se abrirá inmediatamente</div>
+    <div *ngIf="openNow()" id="info">La fecha ya ha pasado, tarea se abrirá inmediatamente</div>
     <div *ngIf="validDate()" class="error-calendar">La fecha es obligatoria</div>
      
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">

@@ -1,19 +1,15 @@
 <div class="content">
-  <h1 class="pageTitle">Gestión de usuarios</h1>
+  <h1 class="pageTitle">Lista de usuarios</h1>
   <mat-divider></mat-divider>
-  <h2>Selecciona un fichero para la carga de usuarios</h2>
-  <div fxLayout="column">
-    <label>Admite ficheros en formato csv de la forma:</label>
-    <p class="explanation">nombre-de-usuario;contraseña;nombre;apellidos;rol</p>
-    <label>Los roles permitidos son ROLE_STUDENT o ROLE_TEACHER</label>
-    <div class="input-csv">
-      <input #myInput type="file" accept=".csv" (change)="onSelectFile($event)">
-    </div>
-    <div class="error">
-      <div *ngFor="let error of errorMessage">{{error}}</div>
-    </div>
+
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <label id="info">Un usuario en estado inactivo no puede iniciar sesión en el sistema</label>
+    <button mat-raised-button color="accent" matTooltip="Click para añadir un nuevo usuario"
+    routerLink="admin/new" (click)="createUser()" class="btn-new-user">
+      <mat-icon >add_circle</mat-icon> USUARIO
+    </button> 
   </div>
-  <h2>Usuarios del sistema</h2>
+
   <div class="mat-elevation-z8" id="table">
     <table mat-table [dataSource]="dataSource">
 
@@ -43,11 +39,19 @@
       </ng-container>
 
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef class="header-del"> Cambiar estado </th>
+        <th mat-header-cell *matHeaderCellDef class="header-del"> Acciones </th>
         <td mat-cell *matCellDef="let user" class="cell-de"> 
-            <button mat-stroked-button matTooltip="Click para cambiar el estado del usuario" color="primary"
+            <button mat-icon-button  matTooltip="Click para eliminar al usuario" color="warn"
+            (click)="deleteUser(user)">
+              <mat-icon aria-label="Borrar">delete</mat-icon>
+            </button> 
+            <button mat-icon-button  matTooltip="Click para editar al usuario usuario" color="primary"
+            (click)="editUser(user)">
+              <mat-icon aria-label="Editar">edit</mat-icon>
+            </button> 
+            <button mat-icon-button  matTooltip="Click para cambiar el estado del usuario" color="primary"
             (click)="changeStatus(user)">
-              <mat-icon aria-label="Loop">autorenew</mat-icon>
+              <mat-icon aria-label="Estado">autorenew</mat-icon>
             </button> 
         </td>
       </ng-container>

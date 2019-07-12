@@ -1,0 +1,13 @@
+.content-form {
+    width: 40%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+mat-form-field {
+    margin-bottom: 2%;
+}
+
+#error-username {
+    color: red;
+}

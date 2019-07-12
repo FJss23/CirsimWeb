@@ -52,8 +52,20 @@ export class UserApiService {
    * Remove all users of the application
    */
   deleteAllUsers(): Observable<any> {
-    return this.http.delete(environment.user + `s`).pipe(
+    return this.http.delete(environment.user + `s`, this.httpOptions).pipe(
       tap(() => console.log(`All users deleted`))
+    );
+  }
+
+  deleteUser(user: User): Observable<any>  {
+    return this.http.delete(environment.user + `/${user.id}`, this.httpOptions).pipe(
+      tap(() => console.log(`One user right now deleted`))
+    );
+  }
+
+  addUser(user: User): Observable<any> {
+    return this.http.post(environment.user, user,this.httpOptions).pipe(
+      tap(() => console.log(`Adding one new user to backend`))
     );
   }
 }

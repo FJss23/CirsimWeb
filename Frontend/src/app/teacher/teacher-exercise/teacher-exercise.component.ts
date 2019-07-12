@@ -161,7 +161,7 @@ export class TeacherExerciseComponent implements OnInit {
     });
 
     this.network.on('dragEnd', (properties: any) => {
-      if(this.exerciseToEdit && this.activeSelectionMode){
+      if(this.activeSelectionMode){
         console.log('active dragend')
         let points: Point [] = this.getPoints()
         for(let elem in properties.nodes){
@@ -401,7 +401,9 @@ export class TeacherExerciseComponent implements OnInit {
             if(this.selectionMode){
               this.color = values.color;
               this.valueSizeConnection = values.width;
-              values.color = '#5d8dc7';
+              if(this.network.getSelectedNodes().length == 0){
+                values.color = '#5d8dc7';
+              }
             }
           }
         },

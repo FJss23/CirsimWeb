@@ -1,0 +1,12 @@
+.input-csv {
+    margin-top: 2%;
+}
+
+.error {
+    margin-top: 1%;
+    color: red;
+}
+
+.explanation {
+    font-family: "Courier New", Courier, monospace;
+}

@@ -33,3 +33,9 @@ th:nth-child(3) {
     color: red;
     margin-bottom: 1%;
 }
+
+#info {
+    margin-bottom: 1%;
+    font-style: oblique;
+    color: darkgray;
+}

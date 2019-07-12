@@ -8,11 +8,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tfg.cirsim.api.controllers.dto.StatusUserOnlyDto;
 import com.tfg.cirsim.api.entities.Role;
 import com.tfg.cirsim.api.entities.Status;
+import com.tfg.cirsim.api.entities.Task;
 import com.tfg.cirsim.api.entities.User;
+import com.tfg.cirsim.api.repository.TaskRepository;
 import com.tfg.cirsim.api.repository.UserRepository;
 import com.tfg.cirsim.api.services.TaskService;
 import com.tfg.cirsim.api.services.UserService;
@@ -27,6 +30,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	TaskRepository taskRepository;
 	
 	@Autowired
 	TaskService taskService;
@@ -74,9 +80,23 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public User deleteUser(Long id){
 		User user = userRepository.findById(id).get();
-		userRepository.deleteById(id);
+		if(user.getRole().equals(Role.TEACHER)) {
+			user.getTaskAuthor().forEach(task -> {
+				taskService.deleteTask(task.getId());
+			});
+			userRepository.deleteById(id);
+		}
+		if(user.getRole().equals(Role.STUDENT)) {
+			for(Task task: user.getTaskToDo()) {
+				task.getStudents().remove(user);
+			}
+			user.getTaskAuthor().clear();
+			userRepository.deleteById(id);
+		}
+
 		return user;
 	}
 
@@ -85,6 +105,15 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		if(user.getStatus() == null) {
 			user.setStatus(Status.ACTIVE);
+		}
+		if(user.getRole().equals(Role.STUDENT)) {
+			Set<Task> tasks = taskService.getTasks();
+			user.setTaskToDo(tasks);
+		}
+		
+		User userExist = userRepository.findByUsername(user.getUsername());
+		if(userExist != null) {
+			return null;
 		}
 		return userRepository.save(user);
 	}
