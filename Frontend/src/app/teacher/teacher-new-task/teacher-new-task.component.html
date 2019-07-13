@@ -1,5 +1,5 @@
 <div class="content">
-  <h1 class="pageTitle">Nueva tarea</h1>
+  <h1 class="pageTitle">{{title}}</h1>
   <mat-divider></mat-divider>
   <form (ngSubmit)="actionTask()" [formGroup]="taskForm">
     <div fxLayout="row" fxLayoutAlign="space-between center">
@@ -63,7 +63,7 @@
     <div *ngIf="errorMinEx" class="error">* La creación de tareas requiere como mínimo 1 ejercicio.</div>
     <div *ngIf="errorMaxEx" class="error">* La creación de tarea permite un máximo de 10 ejercicios.</div>
     <div fxLayout="row" fxLayoutAlign="center center"  class="confirm">
-      <button mat-stroked-button color="primary" type="submit" id="create-task">Crear tarea</button>
+      <button mat-stroked-button color="primary" type="submit" id="create-task">{{btnMessage}}</button>
     </div>
   </form>
 </div>

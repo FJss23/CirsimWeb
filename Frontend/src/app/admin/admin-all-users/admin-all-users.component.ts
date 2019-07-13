@@ -32,9 +32,12 @@ export class AdminAllUsersComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.userService.setUserToEdit(null);
     this.successMessage = this.userService.successMessageValue;
-    setTimeout(() => {
-      this.successMessage = null
-    }, 4000)
+    if(this.successMessage != null){
+      setTimeout(() => {
+        this.successMessage = null;
+        this.userService.setSuccessMessage(null);
+      }, 750)
+    }
   }
 
   asignUsersAndSort(users: any): void {

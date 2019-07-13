@@ -6,6 +6,7 @@ import { TeacherService } from 'src/app/services/teacher.service';
 import { MyErrorStateMatcher } from 'src/app/model/errors/myErrorStateMatcher';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-teacher-new-task',
@@ -20,11 +21,15 @@ export class TeacherNewTaskComponent implements OnInit {
   matcher: MyErrorStateMatcher;
   errorMinEx: boolean;
   errorMaxEx: boolean;
+
+  title: string;
+  btnMessage: string;
   
   constructor(private taskService: TaskServiceApi,
     private teacherService: TeacherService,
     private router: Router,
-    private formBuilder: FormBuilder) 
+    private formBuilder: FormBuilder,
+    private userService: UserService) 
   { }
 
   ngOnInit() {
@@ -42,6 +47,13 @@ export class TeacherNewTaskComponent implements OnInit {
    let myDate = this.teacherService.getCurrentTask().openDate;
    let locale = 'es-ES';
    this.date = formatDate(myDate, format, locale);
+
+   this.title = 'Nueva tarea';
+   this.btnMessage = 'Crear tarea'
+   if(this.teacherService.editingCurrentTask == true){
+    this.title = 'Editar tarea';
+    this.btnMessage = 'Editar tarea'
+   }
   }
 
   adjustTaskParams(): void {
@@ -49,7 +61,6 @@ export class TeacherNewTaskComponent implements OnInit {
     if(!this.errorMaxEx){
       this.setTitle();
       this.setTime();
-      //this.teacherService.exerciseToEdit = null;
       this.teacherService.setExerciseToEdit(null);
       this.router.navigateByUrl('teacher/task/new/simulation');
     }
@@ -79,12 +90,14 @@ export class TeacherNewTaskComponent implements OnInit {
   editTask(): void {
     this.taskService.editTask(this.teacherService.getCurrentTask()).subscribe(() => {
       this.teacherService.editingCurrentTask = false;
+      this.userService.setSuccessMessage('Tarea editada correctamente');
       this.router.navigateByUrl('/teacher');
     });
   }
 
   addingTask(): void {
     this.taskService.addTask(this.teacherService.getCurrentTask()).subscribe(() => {
+      this.userService.setSuccessMessage('Tarea creada correctamente');
       this.router.navigateByUrl('/teacher');
     });
   }

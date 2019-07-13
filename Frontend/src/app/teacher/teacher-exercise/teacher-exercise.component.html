@@ -1,5 +1,5 @@
 <div class="content">
-  <h1 class="pageTitle">Nueva tarea > Nuevo ejercicio</h1>
+  <h1 class="pageTitle">{{titleGlobal}}</h1>
   <mat-divider></mat-divider>
     <div fxLayout="column">
     <h2 class="second-title">1.- Añade información general</h2>
@@ -89,7 +89,12 @@
             </mat-form-field> 
 
             <div class="campo">
-              <button [disabled]="!activeSelectionMode" mat-stroked-button color="warn" (click)="applyChanges()">Aplicar cambios</button>
+              <button [disabled]="!activeSelectionMode" mat-stroked-button color="warn" (click)="applyChanges()"
+              matTooltip="Click para aplicar los cambios de la edición">Aplicar cambios</button>
+            </div>
+            <div class="reestablecer">
+              <button mat-stroked-button color="primary" (click)="resetPoints()"
+              matTooltip="Click reestablecer la posición original de los puntos y conexiones">Restablecer posición</button>
             </div>
           </div>
         </div>
@@ -99,6 +104,6 @@
     <div fxLayout="row" fxLayoutAlign="center center"  class="confirm">
       <button mat-stroked-button color="primary" (click)="goBack()" type="button">Atrás</button>
       <button mat-stroked-button color="primary"type="submit" id="create-exercise"
-      (click)="documentEditForm.ngSubmit.emit()">Añadir ejercicio</button>
+      (click)="documentEditForm.ngSubmit.emit()">{{bntText}}</button>
     </div>
 </div>

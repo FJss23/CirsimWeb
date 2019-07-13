@@ -4,6 +4,7 @@ import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { Task } from 'src/app/model/task';
 import { TeacherService } from 'src/app/services/teacher.service';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-teacher-sent-tasks',
@@ -16,15 +17,26 @@ export class TeacherSentTasksComponent implements OnInit {
   dataSource: any;
   createdTasks: Task[];
 
+  successMessage: string;
+
   constructor(private taskService: TaskServiceApi,
     private teacherService: TeacherService,
-    private router: Router) { }
+    private router: Router,
+    private userService: UserService) { }
 
   ngOnInit() {
     this.getCreatedTasks(); 
     this.displayedColumns = ['title', 'openData', 'numExercises', 'action'];
     this.dataSource = new MatTableDataSource<Task>(this.createdTasks);
     this.dataSource.paginator = this.paginator;
+    this.successMessage = this.userService.successMessageValue;
+    this.teacherService.editingCurrentTask = false;
+    if(this.successMessage != null){
+      setTimeout(() => {
+        this.successMessage = null;
+        this.userService.setSuccessMessage(null);
+      }, 750)
+    }
   }
 
   getCreatedTasks(): void {

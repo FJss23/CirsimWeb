@@ -78,9 +78,7 @@ export class StudentResolveExerciseComponent implements OnInit {
 
     // the zoom/scale appears center at the position of the first node added, 
     // it must be centered at the origin
-    this.network.moveTo({
-      position: {x: 0, y: 0}
-    });
+    this.resetPoints();
 
     this.setBackground();
 
@@ -89,7 +87,9 @@ export class StudentResolveExerciseComponent implements OnInit {
     this.network.on('select', (properties: any) => {
       if(this.canDelete){
         this.deleteSelected();
-      } 
+      } else  {
+        this.network.unselectAll();
+      }
     });
   }
 
@@ -213,6 +213,12 @@ export class StudentResolveExerciseComponent implements OnInit {
    })
   }
 
+  resetPoints(): void  {
+    this.network.moveTo({
+      position: {x: 0, y: 0}
+    });
+  }
+
   /**
   * global network options
   */
@@ -245,7 +251,7 @@ export class StudentResolveExerciseComponent implements OnInit {
         // it controls that the color is the same as that of the solution
         addEdge: (nodeData: any, callback: any) => {  
           nodeData.width = this.config.defaultSizeConnection;
-          nodeData.color = { color: this.randomColor() };
+          nodeData.color = { color: '#000000' };
           let connections: Connection[] = this.exerciseToResolve.connections;
           connections.forEach(connection => {
             // there is connection and the user has made it from one direction or another
@@ -283,11 +289,6 @@ export class StudentResolveExerciseComponent implements OnInit {
   loseFocus() {
     this.btnDelete.checked = false;
     this.btnConnection.checked = false;
-  }
-
-  randomColor(): String {
-    return ['#660066', '#000000', '#ff0000',
-    '#0000ff', '#daa520','#008000'][Math.random()*6|0];
   }
 
   deActivateDelete(): void {

@@ -20,6 +20,11 @@
       </mat-button-toggle-group>
       <div #networkContainer class="network-view"></div>
     </div>
-    <button mat-raised-button color="primary" class="finish-btn" (click)="checkResponse()">Terminar</button>
+    <div class="final" fxLayout="row">
+      <button mat-stroked-button color="primary" (click)="resetPoints()" id="reestablecer"
+      matTooltip="Click reestablecer la posición original de los puntos y conexiones">Restablecer posición</button>
+      <button mat-raised-button color="primary" class="finish-btn" (click)="checkResponse()"
+      matTooltip="Click para terminar el ejercicio">Terminar</button>
+    </div>
   </div>
 </div>

@@ -46,6 +46,8 @@ export class TeacherExerciseComponent implements OnInit {
   matcher: MyErrorStateMatcher;
 
   exerciseToEdit: Exercise;
+  titleGlobal: string;
+  bntText: string;
 
   constructor(private teacherService: TeacherService,
     private router: Router,
@@ -82,7 +84,11 @@ export class TeacherExerciseComponent implements OnInit {
     this.color = this.config.defaultColor;
     this.exerciseToEdit = this.teacherService.exerciseToEditValue;
 
+    this.titleGlobal = 'Crear ejercicio'
+    this.bntText = 'Añadir ejercicio'
     if(this.exerciseToEdit){
+      this.titleGlobal = 'Editar ejercicio'
+      this.bntText = 'Editar ejercicio'
       this.setUpEditExercise();
     } else {
       this.setUpNewExercise();
@@ -183,6 +189,10 @@ export class TeacherExerciseComponent implements OnInit {
 
     // the zoom/scale appears center at the position of the first node added, 
     // it must be centered at the origin
+    this.resetPoints();
+  }
+
+  resetPoints(): void {
     this.network.moveTo({
       position: {x: 0, y: 0}
     });

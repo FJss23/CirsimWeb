@@ -84,3 +84,10 @@ mat-toolbar{
 .finish-btn {
   margin-top: 1% !important;
 }
+
+.success {
+  margin-bottom: 1%;
+  color:green;
+  font-weight:bold;
+  text-align: center;
+}

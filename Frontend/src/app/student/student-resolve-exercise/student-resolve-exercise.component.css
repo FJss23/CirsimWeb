@@ -4,3 +4,10 @@
     padding: 0.80%;
     border: 1px solid grey;
 }
+.final {
+    margin-top: 1% !important;
+}
+
+#reestablecer {
+    margin-right: 3% !important;
+}
