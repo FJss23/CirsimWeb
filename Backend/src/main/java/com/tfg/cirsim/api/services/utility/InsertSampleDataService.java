@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.tfg.cirsim.api.entities.Role;
 import com.tfg.cirsim.api.entities.User;
 import com.tfg.cirsim.api.repository.UserRepository;
-import com.tfg.cirsim.api.services.UserService;
 
 /**
  * 

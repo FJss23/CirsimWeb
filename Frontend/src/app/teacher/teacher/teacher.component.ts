@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthServiceApi } from 'src/app/services/api/auth-api.service';
+import { Task } from 'src/app/model/task';
+import { TeacherService } from 'src/app/services/teacher.service';
 
 @Component({
   selector: 'app-teacher',
@@ -19,4 +21,5 @@ export class TeacherComponent implements OnInit {
   logout() {
     this.authService.logout();
   }
+
 }

@@ -34,7 +34,7 @@ public class TaskController {
 	@PreAuthorize("hasRole('ROLE_TEACHER') or hasRole('ROLE_STUDENT')")
 	@GetMapping(value = "/task")
 	public Set<Task> getTasks() {
-		return taskService.getTasks();
+		return taskService.getTasksWithRole();
 	}
 	
 	@PreAuthorize("hasRole('ROLE_TEACHER')")

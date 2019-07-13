@@ -5,6 +5,8 @@ import { UserApiService } from 'src/app/services/api/user-api.service';
 import { Status } from 'src/app/model/status';
 import { DialogComponent } from '../dialog/dialog.component';
 import { Role } from 'src/app/model/role';
+import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-all-users',
@@ -18,13 +20,16 @@ export class AdminAllUsersComponent implements OnInit {
   dataSource: any;
   users: User[];
 
-  constructor(private userService: UserApiService) { }
+  constructor(private userApiService: UserApiService,
+    private userService: UserService,
+    private router: Router) { }
 
   ngOnInit() {
     this.getUsers();
     this.displayedColumns = ['username','name', 'surname', 'role', 'status','actions'];
     this.dataSource = new MatTableDataSource<User>(this.users);
     this.dataSource.paginator = this.paginator;
+    this.userService.setUserToEdit(null);
   }
 
   asignUsersAndSort(users: any): void {
@@ -43,7 +48,7 @@ export class AdminAllUsersComponent implements OnInit {
    * get a list of users and order them
    */
   getUsers(): void {
-    this.userService.getUsers().subscribe(
+    this.userApiService.getUsers().subscribe(
       (users: any) => {
         this.asignUsersAndSort(users);
       }
@@ -55,7 +60,7 @@ export class AdminAllUsersComponent implements OnInit {
    */
   changeStatus(user: User): void {
     let newStatus = (`STATUS_${user.status}` == Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE);
-    this.userService.partialUpdateUser({status: newStatus}, user.id).subscribe(
+    this.userApiService.partialUpdateUser({status: newStatus}, user.id).subscribe(
       () => this.getUsers()
     );
   }
@@ -64,21 +69,18 @@ export class AdminAllUsersComponent implements OnInit {
    * Remove all users
    */
   deleteAllUser(): void {
-    this.userService.deleteAllUsers().subscribe(
+    this.userApiService.deleteAllUsers().subscribe(
       () => console.log(`All users deleted`)
     );
   }
 
-  createUser(): void {
-
-  }
-
   editUser(user: User): void {
-
+    this.userService.setUserToEdit(user);
+    this.router.navigateByUrl('admin/user/new');
   }
 
   deleteUser(user: User): void {
-    this.userService.deleteUser(user).subscribe(
+    this.userApiService.deleteUser(user).subscribe(
       () => this.getUsers()
     );
   }

@@ -41,7 +41,7 @@ public class TaskServiceImpl implements TaskService {
 	 * tasks, if the user has a teacher role, it returns the tares created
 	 */
 	@Override
-	public Set<Task> getTasks() {
+	public Set<Task> getTasksWithRole() {
 		User authenticated = userService.getAuthenticatedUser();
 		Set<Task> taskToDo = new HashSet<Task>();
 		if(authenticated.getRole() == Role.STUDENT) {
@@ -141,6 +141,15 @@ public class TaskServiceImpl implements TaskService {
 			});
 		});
 		taskRepository.deleteAll();
+	}
+
+	@Override
+	public Set<Task> getTasks() {
+		Set<Task> tasks = new HashSet<Task>();
+		taskRepository.findAll().forEach(task -> {
+			tasks.add(task);
+		});
+		return tasks;
 	}
 
 	

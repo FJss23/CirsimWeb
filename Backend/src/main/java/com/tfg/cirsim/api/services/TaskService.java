@@ -12,7 +12,7 @@ import com.tfg.cirsim.api.entities.Task;
  */
 public interface TaskService {
 	
-	Set<Task> getTasks();
+	Set<Task> getTasksWithRole();
 	
 	Task getTask(Long id);
 	
@@ -23,4 +23,7 @@ public interface TaskService {
 	Task addTask(Task task);
 
 	void deleteAll();
+	
+	Set<Task> getTasks();
+	
 }

@@ -17,11 +17,11 @@ const routes: Routes = [
         component: AdminAllUsersComponent 
       },
       {
-        path: 'admin/new',
+        path: 'user/new',
         component: AdminNewUserComponent
       },
       {
-        path: 'admin/load-users',
+        path: 'load-users',
         component: AdminLoadUsersComponent
       }
     ]

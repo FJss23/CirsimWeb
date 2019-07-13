@@ -68,4 +68,11 @@ export class UserApiService {
       tap(() => console.log(`Adding one new user to backend`))
     );
   }
+
+  updateUser(user: User): Observable<any> {
+    console.log(user);
+    return this.http.put(environment.user + `/${user.id}`, user, this.httpOptions).pipe(
+      tap(() => console.log(`Updating user to backend`))
+    );
+  }
 }

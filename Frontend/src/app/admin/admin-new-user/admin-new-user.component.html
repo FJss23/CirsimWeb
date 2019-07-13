@@ -1,10 +1,10 @@
 <div class="content">
-  <h1 class="pageTitle">Nuevo usuario</h1>
+  <h1 class="pageTitle">{{titlePage}}</h1>
   <mat-divider></mat-divider>
-  <form (ngSubmit)="addUser()" [formGroup]="userForm">
+ 
+  <form (ngSubmit)="applyUser()" [formGroup]="userForm">
     <div fxLayout="column" class="content-form">
-      <h2>Añade la información del nuevo usuario</h2>
-
+      <h2>{{title}}</h2>
       <mat-form-field>
         <input matInput placeholder="Nombre de usuario" #maxLengthUserName maxlength="25"
         [errorStateMatcher]="matcher" formControlName="username" required>
@@ -42,6 +42,18 @@
       </mat-form-field>
 
       <mat-form-field>
+          <mat-label>Estado</mat-label>
+          <mat-select formControlName="status" required>
+            <mat-option *ngFor="let st of status" [value]="st">
+              {{st}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="userForm.get('status').errors?.required">
+              El estado es <strong>obligatorio</strong>
+          </mat-error>
+        </mat-form-field>
+
+      <mat-form-field>
         <mat-label>Rol</mat-label>
         <mat-select formControlName="role" required>
           <mat-option *ngFor="let rol of roles" [value]="rol">
@@ -52,10 +64,14 @@
             El rol es <strong>obligatorio</strong>
         </mat-error>
       </mat-form-field>
-    <div *ngIf="repeatedUserError" id="error-username"> El nombre de usuario ya existe</div>
+      <div *ngIf="repeatedUserError" id="error-username">* El nombre de usuario ya existe</div>
+      <div *ngIf="blankSpace" id="error-username">* Hay espacios en blanco en el formulario</div>
     </div>
+
     <div fxLayout="row" fxLayoutAlign="center center"  class="confirm">
-        <button mat-stroked-button color="primary" type="submit" id="create-task">Crear usuario</button>
-      </div>
+      <button mat-stroked-button color="primary" type="submit" id="create-task">
+        {{btnText}}
+      </button>
+    </div>
   </form>
 </div>

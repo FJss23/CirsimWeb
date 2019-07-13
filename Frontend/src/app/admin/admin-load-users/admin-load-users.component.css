@@ -10,3 +10,9 @@
 .explanation {
     font-family: "Courier New", Courier, monospace;
 }
+
+#active {
+    margin-top: 1%;
+    font-style: oblique;
+    color: darkgray;
+}

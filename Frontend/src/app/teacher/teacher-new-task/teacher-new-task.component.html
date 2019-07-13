@@ -4,21 +4,22 @@
   <form (ngSubmit)="actionTask()" [formGroup]="taskForm">
     <div fxLayout="row" fxLayoutAlign="space-between center">
       <mat-form-field fxFlex="50" >
-          <input matInput #maxLengthTitle maxlength="50" placeholder="Título de la tarea" 
-          formControlName="title" required [errorStateMatcher]="matcher"
-          [value]="taskForm.get('title').value == undefined ? null : taskForm.get('title').value">
+        <input matInput #maxLengthTitle maxlength="50" placeholder="Título de la tarea" 
+        formControlName="title" required [errorStateMatcher]="matcher"
+        [value]="taskForm.get('title').value == undefined ? null : taskForm.get('title').value">
 
-          <mat-error *ngIf="taskForm.get('title').errors?.required">
-              El título de la tarea es <strong>obligatorio</strong>
-          </mat-error>
-          
-          <mat-hint align="end">{{maxLengthTitle.value.length}} / 50</mat-hint>
+        <mat-error *ngIf="taskForm.get('title').errors?.required">
+            El título de la tarea es <strong>obligatorio</strong>
+        </mat-error>
+        
+        <mat-hint align="end">{{maxLengthTitle.value.length}} / 50</mat-hint>
       </mat-form-field>
 
       <button mat-raised-button color="accent" 
       matTooltip="Click para añadir un nuevo ejercicio a la tarea"
       class="btn-new-exercise" (click)="adjustTaskParams()" type="button">
-        <mat-icon >add_circle</mat-icon> EJERCICIO</button>
+        <mat-icon >add_circle</mat-icon> EJERCICIO
+      </button>
     </div>
 
     <mat-form-field class="calendar">
@@ -27,7 +28,7 @@
       max="3000-12-1T00:00"required> 
     </mat-form-field>  
 
-    <div *ngIf="openNow()" id="info">La fecha ya ha pasado, tarea se abrirá inmediatamente</div>
+    <div *ngIf="openNow()" id="info">** La tarea se abrirá inmediatamente</div>
     <div *ngIf="validDate()" class="error-calendar">La fecha es obligatoria</div>
      
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
@@ -59,8 +60,8 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <div *ngIf="errorMinEx" class="error">*La creación de tareas requiere como mínimo 1 ejercicio.</div>
-    <div *ngIf="errorMaxEx" class="error">*La creación de tarea permite un máximo de 10 ejercicios.</div>
+    <div *ngIf="errorMinEx" class="error">* La creación de tareas requiere como mínimo 1 ejercicio.</div>
+    <div *ngIf="errorMaxEx" class="error">* La creación de tarea permite un máximo de 10 ejercicios.</div>
     <div fxLayout="row" fxLayoutAlign="center center"  class="confirm">
       <button mat-stroked-button color="primary" type="submit" id="create-task">Crear tarea</button>
     </div>

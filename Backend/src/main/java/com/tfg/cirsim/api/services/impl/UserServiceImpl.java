@@ -15,7 +15,6 @@ import com.tfg.cirsim.api.entities.Role;
 import com.tfg.cirsim.api.entities.Status;
 import com.tfg.cirsim.api.entities.Task;
 import com.tfg.cirsim.api.entities.User;
-import com.tfg.cirsim.api.repository.TaskRepository;
 import com.tfg.cirsim.api.repository.UserRepository;
 import com.tfg.cirsim.api.services.TaskService;
 import com.tfg.cirsim.api.services.UserService;
@@ -31,8 +30,6 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepository userRepository;
 	
-	@Autowired
-	TaskRepository taskRepository;
 	
 	@Autowired
 	TaskService taskService;
@@ -63,6 +60,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User updateUser(Long id, User user) {
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		return userRepository.findById(id)
 				.map(oldUser -> {
 					oldUser.setId(id);
@@ -101,21 +99,25 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public User addUser(User user) {
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		if(user.getStatus() == null) {
-			user.setStatus(Status.ACTIVE);
-		}
-		if(user.getRole().equals(Role.STUDENT)) {
-			Set<Task> tasks = taskService.getTasks();
-			user.setTaskToDo(tasks);
-		}
-		
 		User userExist = userRepository.findByUsername(user.getUsername());
 		if(userExist != null) {
 			return null;
-		}
-		return userRepository.save(user);
+		} else {
+			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+			if(user.getStatus() == null) {
+				user.setStatus(Status.ACTIVE);
+			}
+			if(user.getRole().equals(Role.STUDENT)) {
+				Set<Task> tasks = taskService.getTasks();
+				tasks.forEach(task -> {
+					task.getStudents().add(user);
+				});
+				user.setTaskToDo(tasks);
+			}
+			return userRepository.save(user);
+		}	
 	}
 
 	@Override

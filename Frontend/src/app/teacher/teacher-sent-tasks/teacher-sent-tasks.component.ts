@@ -27,12 +27,6 @@ export class TeacherSentTasksComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
-  initializeTask(): void {
-    let task = new Task();
-    this.teacherService.editingTask(false);
-    this.teacherService.initTask(task);
-  }
-
   getCreatedTasks(): void {
     this.taskService.getTasks().subscribe(
       (tasks) => {
@@ -41,6 +35,12 @@ export class TeacherSentTasksComponent implements OnInit {
         this.dataSource.data = this.createdTasks;
       }
     );
+  }
+
+  initializeTask(): void {
+    let task = new Task();
+    this.teacherService.editingTask(false);
+    this.teacherService.initTask(task);
   }
 
   deleteTask(task: Task): void {
