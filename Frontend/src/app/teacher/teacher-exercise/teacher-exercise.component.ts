@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { FormGroup, FormBuilder, Validators, FormGroupDirective } from '@angular/forms';
 import { MyErrorStateMatcher } from 'src/app/model/errors/myErrorStateMatcher';
 import { ExerciseService } from 'src/app/services/exercise.service';
+import { ImageInfo } from 'src/app/model/global/imageInfo';
 
 @Component({
   selector: 'app-teacher-exercise',
@@ -25,16 +26,17 @@ export class TeacherExerciseComponent implements OnInit {
   imageUrl: any;
 
   // exercise configuration
-  selectedPositionImage: string;
-  selectedSizeImage: string;
+  public selectedPositionImage: string;
+  public selectedSizeImage: string;
   color: string;
   valueNamePoint: string;
   valueSizePoint: number;
   valueSizeConnection: number;
 
   // information to select
-  positionsImage: string[];
-  sizeImage: string[];
+  sizeImage: ImageInfo[];
+  imageInfo: ImageInfo[];
+
 
   // button config
   @ViewChild('documentEditForm') documentEditForm: FormGroupDirective; 
@@ -57,21 +59,20 @@ export class TeacherExerciseComponent implements OnInit {
     });
     this.matcher = new MyErrorStateMatcher();
     this.config = environment.configurationVis;
-    this.positionsImage = [
-      'left top',
-      'left center',
-      'left bottom',
-      'right top',
-      'right center',
-      'right bottom',
-      'center top',
-      'center center',
-      'center bottom',
-    ];
-    this.selectedPositionImage = this.positionsImage[0];
+    this.imageInfo = [
+      { name:'left top', nameSig: 'izquierda arriba', position: 1 },
+      { name:'left center', nameSig: 'izquierda centro', position: 2 },
+      { name:'left bottom', nameSig: 'izquierda abajo', position: 3 },
+      { name:'right top', nameSig: 'derecha arriba', position: 4 },
+      { name:'right center', nameSig: 'derecha centro', position: 5 },
+      { name:'right bottom', nameSig:  'derecha abajo', position: 6 },
+      { name:'center top', nameSig: 'centro arriba', position: 7 },
+      { name:'center center', nameSig: 'centro centro', position: 8 },
+      { name:'center bottom', nameSig: 'centro abajo', position: 9 },
+    ]
     this.sizeImage = [
-      "auto",
-      "contain"
+      { name:'auto', nameSig: 'tamaño original', position: 1 },
+      { name:'contain', nameSig: 'ajustado al lienzo', position: 2 },
     ];
     this.canDelete = false;
     this.activeSelectionMode = false;
@@ -97,14 +98,13 @@ export class TeacherExerciseComponent implements OnInit {
 
   setUpNewExercise(): void {
     this.setUpNetwork();
-    this.selectedPositionImage = this.positionsImage[0];
-    this.selectedSizeImage = this.sizeImage[0];
   }
 
   setUpEditExercise(): void {
     this.setUpNetwork(this.setUpExercise(this.exerciseToEdit))
     if(this.exerciseToEdit.image != null){
       this.selectedPositionImage = this.exerciseToEdit.image.position;
+      console.log(this.selectedPositionImage);
       this.selectedSizeImage =  this.exerciseToEdit.image.size;
       this.imageUrl = this.exerciseToEdit.image.imageb64;
     }
@@ -195,8 +195,10 @@ export class TeacherExerciseComponent implements OnInit {
     let sourceCanvas = document.querySelector('canvas');
     sourceCanvas.style.backgroundImage = `url('${(image) ? image : this.imageUrl}')`;
     sourceCanvas.style.backgroundRepeat = "no-repeat";
-    sourceCanvas.style.backgroundPosition =  (pos) ? pos : this.positionsImage[0];
-    sourceCanvas.style.backgroundSize = (size) ? size : this.sizeImage[0];
+    sourceCanvas.style.backgroundPosition =  (pos) ? pos : this.imageInfo[0].name;
+    sourceCanvas.style.backgroundSize = (size) ? size : this.sizeImage[0].name;
+    this.selectedPositionImage = 'left top';
+    this.selectedSizeImage = 'auto';
   }
 
   /**

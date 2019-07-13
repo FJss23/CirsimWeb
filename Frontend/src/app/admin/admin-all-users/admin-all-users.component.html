@@ -3,13 +3,13 @@
   <mat-divider></mat-divider>
 
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <label id="info">** Un usuario en estado INACTIVO no puede iniciar sesión en el sistema</label>
+    <label id="info">** Un usuario en estado INACTIVE no puede iniciar sesión en el sistema</label>
     <button mat-raised-button color="accent" matTooltip="Click para añadir un nuevo usuario"
     routerLink="user/new" class="btn-new-user">
       <mat-icon >add_circle</mat-icon> USUARIO
     </button> 
   </div>
-
+  <div class="success" *ngIf="successMessage != null">{{successMessage}}</div>
   <div class="mat-elevation-z8" id="table">
     <table mat-table [dataSource]="dataSource">
 

@@ -5,6 +5,8 @@ import { DialogComponent } from '../dialog/dialog.component';
 import { UserApiService } from 'src/app/services/api/user-api.service';
 import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
+import { Status } from 'src/app/model/status';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-admin-load-users',
@@ -23,11 +25,13 @@ export class AdminLoadUsersComponent implements OnInit {
   namePos: number;
   surnamePos: number;
   rolPos:number;
+  statusPos: number;
   totalParams: number;
   
   constructor(public dialog: MatDialog,
-    private userService: UserApiService,
-    private router: Router) { }
+    private userApiService: UserApiService,
+    private router: Router,
+    private userService: UserService) { }
 
   ngOnInit() {
     this.usernamePos = 0;
@@ -35,7 +39,8 @@ export class AdminLoadUsersComponent implements OnInit {
     this.namePos = 2;
     this.surnamePos = 3;
     this.rolPos = 4;
-    this.totalParams = 5
+    this.statusPos = 5;
+    this.totalParams = 6;
     this.errorMessage = [];
   }
 
@@ -100,6 +105,9 @@ export class AdminLoadUsersComponent implements OnInit {
             this.errorMessage.push(`La línea ${index + 1} contiene un rol no permitido`);
             console.log(cols[i]);
           }
+          if(i == this.statusPos && cols[i] != Status.ACTIVE && cols[i] != Status.INACTIVE){
+            this.errorMessage.push(`La línea ${index + 1} contiene un estado no permitido`);
+          }
         }
         if(cols.length < this.totalParams){
           this.errorMessage.push(`La línea ${index + 1} tiene menos parámetros de los requeridos`);
@@ -144,8 +152,10 @@ export class AdminLoadUsersComponent implements OnInit {
       let name = line[this.namePos];
       let surname = line[this.surnamePos];
       let role = line[this.rolPos];
+      let status = line[this.statusPos];
 
-      users.push(new User(username, password, role).setName(name).setSurName(surname));
+      users.push(new User(username, password, role).setName(name).setSurName(surname)
+      .setStatus(status));
     });
     if(users.length > 0){
       this.deleteOldUsersAndCreateNews(users);
@@ -157,10 +167,11 @@ export class AdminLoadUsersComponent implements OnInit {
    * removes existing users and adds new ones that are passed as a parameter
    */
   deleteOldUsersAndCreateNews(users: User[]): void {
-    this.userService.deleteAllUsers().subscribe(
+    this.userApiService.deleteAllUsers().subscribe(
       () => {
-        this.userService.addUsers(users). subscribe(
+        this.userApiService.addUsers(users). subscribe(
           () => {
+            this.userService.setSuccessMessage('Usuarios añadidos correctamente');
             this.router.navigateByUrl('admin');
           }
         );

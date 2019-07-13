@@ -69,6 +69,7 @@ export class AdminNewUserComponent implements OnInit {
         this.userApiService.addUser(user).subscribe(
           () => {
             this.repeatedUserError = false;
+            this.userService.setSuccessMessage('Usuario añadido correctamente');
             this.router.navigateByUrl('/admin'); 
           });
       } else {
@@ -89,6 +90,7 @@ export class AdminNewUserComponent implements OnInit {
           () => {
             this.repeatedUserError = false;
             this.userService.setUserToEdit(null);
+            this.userService.setSuccessMessage('Usuario editado correctamente');
             this.router.navigateByUrl('/admin');
         });
       } else {

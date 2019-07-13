@@ -78,6 +78,11 @@ export class TeacherService {
     return  value? value.value: null;
   }
 
+  public set exerciseToEditValue(value: any) {
+    this.exerciseToEdit = value;
+    this.exerciseToEditSubject = value;
+  }
+
   public get taskToViewValue() {
     let value = this.taskToViewSubject;
     return  value? value.value: null;

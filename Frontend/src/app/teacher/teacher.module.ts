@@ -7,6 +7,7 @@ import { SharedModule } from '../model/modules/shared.module';
 import { TeacherNewTaskComponent } from './teacher-new-task/teacher-new-task.component';
 import { TeacherExerciseComponent } from './teacher-exercise/teacher-exercise.component';
 import { TeacherViewExercisesComponent } from './teacher-view-exercises/teacher-view-exercises.component';
+import { TeacherEditorExplanationComponent } from './teacher-editor-explanation/teacher-editor-explanation.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { TeacherViewExercisesComponent } from './teacher-view-exercises/teacher-
     TeacherComponent,
     TeacherNewTaskComponent,
     TeacherExerciseComponent,
-    TeacherViewExercisesComponent
+    TeacherViewExercisesComponent,
+    TeacherEditorExplanationComponent
   ],
   imports: [
     CommonModule,

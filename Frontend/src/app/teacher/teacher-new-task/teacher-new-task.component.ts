@@ -49,7 +49,8 @@ export class TeacherNewTaskComponent implements OnInit {
     if(!this.errorMaxEx){
       this.setTitle();
       this.setTime();
-      this.teacherService.exerciseToEdit = null;
+      //this.teacherService.exerciseToEdit = null;
+      this.teacherService.setExerciseToEdit(null);
       this.router.navigateByUrl('teacher/task/new/simulation');
     }
   }

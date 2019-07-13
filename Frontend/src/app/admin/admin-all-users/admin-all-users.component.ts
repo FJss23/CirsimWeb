@@ -19,6 +19,7 @@ export class AdminAllUsersComponent implements OnInit {
   displayedColumns: string[];
   dataSource: any;
   users: User[];
+  successMessage: string;
 
   constructor(private userApiService: UserApiService,
     private userService: UserService,
@@ -30,6 +31,10 @@ export class AdminAllUsersComponent implements OnInit {
     this.dataSource = new MatTableDataSource<User>(this.users);
     this.dataSource.paginator = this.paginator;
     this.userService.setUserToEdit(null);
+    this.successMessage = this.userService.successMessageValue;
+    setTimeout(() => {
+      this.successMessage = null
+    }, 4000)
   }
 
   asignUsersAndSort(users: any): void {

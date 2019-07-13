@@ -35,7 +35,7 @@
       </div>
 
       <h2 class="second-title">3.- Realiza la conexión</h2>
-      
+      <app-teacher-editor-explanation></app-teacher-editor-explanation>
       <div id="editor">
         <div class="buttons">
           <mat-button-toggle-group aria-label="Font Style" #mats>
@@ -62,19 +62,19 @@
             </mat-form-field>
 
             <div class="label-option"  fxLayout="column" fxLayoutAlign="center start"> 
-              <label class= "label-campo">Tamaño puntos : <label class="rek">{{valueSizePoint}}</label></label>  
+              <label class= "label-campo">Tamaño punto : <label class="rek">{{valueSizePoint}}</label></label>  
               <mat-slider min="4" max="18" step="1" value="valueSizePoint" [(ngModel)]="valueSizePoint"></mat-slider>
               
-              <label class="label-campo">Tamaño conexiones : <label class="rek">{{valueSizeConnection}}</label></label>  
+              <label class="label-campo">Tamaño conexión : <label class="rek">{{valueSizeConnection}}</label></label>  
               <mat-slider min="1" max="11" step="1" value="valueSizeConnection" [(ngModel)]="valueSizeConnection"></mat-slider>   
               
             </div>
 
             <mat-form-field class="campo">
-              <mat-label>Posición fondo</mat-label>
+              <mat-label>Posición imagen</mat-label>
               <mat-select [(ngModel)]="selectedPositionImage">
-                <mat-option *ngFor="let pos of positionsImage" [value]="pos" (click)="setPositionBackground(pos)">
-                  {{pos}}
+                <mat-option *ngFor="let pos of imageInfo" [value]="pos.name" (click)="setPositionBackground(pos.name)">
+                  {{pos.nameSig}}
                 </mat-option>
               </mat-select>
             </mat-form-field> 
@@ -82,8 +82,8 @@
             <mat-form-field class="campo">
               <mat-label>Tamaño imagen</mat-label>
               <mat-select [(ngModel)]="selectedSizeImage">
-                <mat-option *ngFor="let elem of sizeImage" [value]="elem" (click)="setSizeBackground(elem)">
-                  {{elem}}
+                <mat-option *ngFor="let elem of sizeImage" [value]="elem.name" (click)="setSizeBackground(elem.name)">
+                  {{elem.nameSig}}
                 </mat-option>
               </mat-select>
             </mat-form-field> 
