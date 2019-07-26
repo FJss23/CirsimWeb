@@ -23,7 +23,6 @@ import com.tfg.cirsim.api.security.utility.TokenUtil;
 /**
  * 
  * @author francisco riedemann
- * @date 05/06/2019
  *
  */
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -64,9 +63,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			UsernamePasswordAuthenticationToken userToken = 
 					new UsernamePasswordAuthenticationToken(username, password,
 							new ArrayList<>());
-			
-			System.out.println("Access attempt " + credentials.getUsername() + 
-					" " + credentials.getPassword());
 			return authenticationManager.authenticate(userToken);
 
 		} catch (IOException e) {
@@ -86,7 +82,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		if (token == null)
 			return;
 		
-		System.out.println("Attemp success");
 		response = tokenUtil.completeHeaderWithToken(response, token);
 	}
 }

@@ -78,10 +78,8 @@ export class TeacherNewTaskComponent implements OnInit {
       }
 
       if(this.teacherService.editingCurrentTask){
-        console.log('editing');
         this.editTask();
       } else {
-        console.log('adding');
         this.addingTask();
       }   
     }

@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 /**
  * 
  * @author francisco.riedemann
- * @date 03/06/2019
  *
  */
 public enum Role {

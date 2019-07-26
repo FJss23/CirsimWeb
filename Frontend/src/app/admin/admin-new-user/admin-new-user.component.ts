@@ -59,8 +59,8 @@ export class AdminNewUserComponent implements OnInit {
     }
   }
 
+  
   addUser(user: User): void {
-    console.log('adding new user');
 
     this.userApiService.getUsers().subscribe((allUsers: any) => {
       let users: User[] = allUsers.body;
@@ -80,7 +80,6 @@ export class AdminNewUserComponent implements OnInit {
   }
 
   editUser(user: User): void {
-    console.log('editing user');
 
     this.userApiService.getUsers().subscribe((allUsers: any) => {
       let users: User[] = allUsers.body;
@@ -115,7 +114,6 @@ export class AdminNewUserComponent implements OnInit {
     let canCreate = true;
     let existingUsername = this.userToEdit.username;
     users.forEach((user: User) => {
-      console.log(`existente en bbdd: ${user.username}, nuevo ${newusername}, actual: ${existingUsername}`)
       if(user.username == newusername && user.username != existingUsername ){
         canCreate = false;
       }  

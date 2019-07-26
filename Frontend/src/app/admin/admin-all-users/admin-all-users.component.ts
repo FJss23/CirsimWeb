@@ -1,10 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from 'src/app/model/user';
-import { MatPaginator, MatTableDataSource, Sort, MatDialog } from '@angular/material';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { UserApiService } from 'src/app/services/api/user-api.service';
 import { Status } from 'src/app/model/status';
-import { DialogComponent } from '../dialog/dialog.component';
-import { Role } from 'src/app/model/role';
 import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
 
@@ -77,16 +75,20 @@ export class AdminAllUsersComponent implements OnInit {
    * Remove all users
    */
   deleteAllUser(): void {
-    this.userApiService.deleteAllUsers().subscribe(
-      () => console.log(`All users deleted`)
-    );
+    this.userApiService.deleteAllUsers();
   }
 
+  /**
+   * Edit one user
+   */
   editUser(user: User): void {
     this.userService.setUserToEdit(user);
     this.router.navigateByUrl('admin/user/new');
   }
 
+  /**
+   * Delete one user
+   */
   deleteUser(user: User): void {
     this.userApiService.deleteUser(user).subscribe(
       () => this.getUsers()

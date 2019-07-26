@@ -18,7 +18,6 @@ import com.tfg.cirsim.api.repository.UserRepository;
 /**
  * 
  * @author francisco riedemann
- * @date 06/06/2019
  *
  */
 @Service("userDetailsService")

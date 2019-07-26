@@ -18,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * 
  * @author Francisco.Riedemann
- * @date 03/06/2019
  *
  */
 @Entity(name="TUSER")

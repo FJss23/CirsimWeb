@@ -9,7 +9,6 @@ import com.tfg.cirsim.api.entities.User;
 /**
  * 
  * @author Francisco.Riedemann
- * @date 03/06/2019
  *
  */
 public interface UserService {
@@ -34,5 +33,8 @@ public interface UserService {
 
 	Set<User> addUsers(Set<User> users);
 
+	/**
+	 * Deletes all system users except the administrator and removes all tasks
+	 */
 	void deleteUsersAndTask();
 }

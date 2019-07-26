@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 /**
  * 
  * @author francisco.riedemann
- * @date 04/09/2019
  *
  */
 public enum Status {	

@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StudentResolveExerciseComponent } from './student-resolve-exercise.component';
 import { SharedModule } from 'src/app/model/modules/shared.module';
-import { AdminRoutingModule } from 'src/app/admin/admin-routing.module';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('StudentResolveExerciseComponent', () => {
@@ -23,7 +22,4 @@ describe('StudentResolveExerciseComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 });

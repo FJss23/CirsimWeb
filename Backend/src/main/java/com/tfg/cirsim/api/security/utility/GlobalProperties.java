@@ -3,7 +3,6 @@ package com.tfg.cirsim.api.security.utility;
 /*
  * 
  * @author francisco riedemann
- * @date 06/06/2019
  *
  */
 public final class GlobalProperties {

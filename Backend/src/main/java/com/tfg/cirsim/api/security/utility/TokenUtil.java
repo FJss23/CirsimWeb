@@ -20,7 +20,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 /**
  * 
  * @author francisco.riedemann
- * @date 04/06/2019
  *
  */
 

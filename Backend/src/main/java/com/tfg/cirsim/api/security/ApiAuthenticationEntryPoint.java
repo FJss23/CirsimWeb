@@ -3,7 +3,6 @@ package com.tfg.cirsim.api.security;
 /**
  * 
  * @author francisco.riedemann
- * @date 08/06/2019
  */
 import java.io.IOException;
 import java.util.Date;

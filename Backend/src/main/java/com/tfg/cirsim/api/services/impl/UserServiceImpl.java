@@ -21,7 +21,6 @@ import com.tfg.cirsim.api.services.UserService;
 
 /**
  * @author Francisco.Riedemann
- * @date 03/06/2019
  *
  */
 @Service
@@ -153,9 +152,6 @@ public class UserServiceImpl implements UserService {
 		return usersSet;
 	}
 
-	/**
-	 * Deletes all system users except the administrator and removes all tasks
-	 */
 	@Override
 	public void deleteUsersAndTask() {
 		taskService.deleteAll();

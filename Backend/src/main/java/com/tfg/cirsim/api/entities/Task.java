@@ -19,7 +19,6 @@ import javax.persistence.OneToMany;
 /**
  * 
  * @author francisco riedemann
- * @date 2o/06/2019
  *
  */
 @Entity(name="TTASK")

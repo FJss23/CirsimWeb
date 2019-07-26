@@ -22,7 +22,6 @@ import com.tfg.cirsim.api.services.utility.ImageUtil;
 /**
  * 
  * @author francisco riedemann
- * @date 20/06/2019
  *
  */
 @Service
@@ -36,10 +35,6 @@ public class TaskServiceImpl implements TaskService {
 	@Autowired
 	UserService userService;
 	
-	/**
-	 * if the authenticated user has a student role, it returns the assigned 
-	 * tasks, if the user has a teacher role, it returns the tares created
-	 */
 	@Override
 	public Set<Task> getTasksWithRole() {
 		User authenticated = userService.getAuthenticatedUser();
@@ -65,10 +60,6 @@ public class TaskServiceImpl implements TaskService {
 		return addTask(task);
 	}
 
-	/**
-	 * eliminates a task and additionally the images associated with 
-	 * the exercises
-	 */
 	@Override
 	@Transactional
 	public void deleteTask(Long id) {
@@ -129,9 +120,6 @@ public class TaskServiceImpl implements TaskService {
 		});
 	}
 
-	/**
-	 * eliminates all tasks and additionally the images of each exercise
-	 */
 	@Override
 	@Transactional
 	public void deleteAll() {

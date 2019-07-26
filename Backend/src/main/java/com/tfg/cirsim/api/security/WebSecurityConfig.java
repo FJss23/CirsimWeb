@@ -22,7 +22,6 @@ import com.tfg.cirsim.api.repository.UserRepository;
 /**
  * 
  * @author francisco.riedemann
- * @date 04/06/2019
  */
 @Configuration
 @EnableWebSecurity

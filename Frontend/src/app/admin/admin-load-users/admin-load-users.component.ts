@@ -103,7 +103,7 @@ export class AdminLoadUsersComponent implements OnInit {
           cols[i] = cols[i].trim();
           if(i == this.rolPos && cols[i] != Role.STUDENT && cols[i] != Role.TEACHER){
             this.errorMessage.push(`La línea ${index + 1} contiene un rol no permitido`);
-            console.log(cols[i]);
+           
           }
           if(i == this.statusPos && cols[i] != Status.ACTIVE && cols[i] != Status.INACTIVE){
             this.errorMessage.push(`La línea ${index + 1} contiene un estado no permitido`);
@@ -122,6 +122,10 @@ export class AdminLoadUsersComponent implements OnInit {
     }
   }
 
+  /**
+   * 
+   * check for repeated user names
+   */
   checkUserNames(csv: any[]) {
     let usernames = [];
     csv.forEach(cols => {

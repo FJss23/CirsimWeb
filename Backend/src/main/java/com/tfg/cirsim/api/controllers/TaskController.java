@@ -20,7 +20,6 @@ import com.tfg.cirsim.api.services.TaskService;
 /**
  * 
  * @author francisco riedemann
- * @date 20/06/2019
  *
  */
 @RestController

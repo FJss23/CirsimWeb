@@ -21,7 +21,6 @@ import com.tfg.cirsim.api.security.utility.TokenUtil;
 /**
  * 
  * @author francisco.riedemann
- * @date 04/06/2019
  * 
  * Special case, UserDetailsService with the tag @Autowired can not be injected
  */

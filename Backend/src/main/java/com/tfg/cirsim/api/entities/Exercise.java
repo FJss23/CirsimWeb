@@ -18,7 +18,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * 
  * @author francisco riedemann
- * @date 20/06/2019
  */
 @Entity(name="TEXERCISE")
 public class Exercise {

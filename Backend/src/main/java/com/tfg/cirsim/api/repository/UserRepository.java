@@ -14,7 +14,6 @@ import com.tfg.cirsim.api.entities.User;
 /**
  * 
  * @author Francisco.Riedemann
- * @date 03/06/2019
  *
  */
 @Repository

@@ -28,6 +28,17 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
     
     @Test
+    public void saveUserTest() {
+    	User teacher = new User("user3","123","Esteban","Hernandez", Role.TEACHER);
+        entityManager.persist(teacher);
+        entityManager.flush();
+        Set<User> found = userRepository.findByRole(Role.TEACHER);
+     
+        assertThat(found.size())
+          .isEqualTo(1);
+    }
+    
+    @Test
     public void findUserByRoleTest() {
         User teacher = new User("user3","123","Esteban","Hernandez", Role.TEACHER);
         entityManager.persist(teacher);

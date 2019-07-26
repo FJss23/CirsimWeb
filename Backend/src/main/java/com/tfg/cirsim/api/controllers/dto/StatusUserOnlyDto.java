@@ -5,7 +5,6 @@ import com.tfg.cirsim.api.entities.Status;
 /**
  * 
  * @author francisco.riedemann
- * @date 04/06/2019
  * 
  */
 public class StatusUserOnlyDto {

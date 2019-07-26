@@ -22,7 +22,6 @@ import com.tfg.cirsim.api.services.UserService;
 /**
  * 
  * @author Francisco.Riedemann
- * @date 03/06/2019
  *
  */
 @RestController

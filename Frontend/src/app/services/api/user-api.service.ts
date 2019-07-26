@@ -24,18 +24,14 @@ export class UserApiService {
    * add a list of users
    */
   addUsers(users: User[]): Observable<any> {
-    return this.http.post<User[]>(environment.user + `s`, users, this.httpOptions).pipe(
-      tap(() => console.log(`Sending new users to backend`))
-    );
+    return this.http.post<User[]>(environment.user + `s`, users, this.httpOptions);
   }
 
   /**
    * get all the users of the application
    */
   getUsers(): Observable<any> {
-    return this.http.get<User[]>(environment.user, this.httpOptions).pipe(
-      tap(() => console.log(`Getting users from backend`))
-    );
+    return this.http.get<User[]>(environment.user, this.httpOptions);
   }
 
   /**
@@ -43,36 +39,35 @@ export class UserApiService {
    */
   partialUpdateUser({status : value}, id: number): Observable<any> {
     return this.http.patch(environment.user + `/${id}`,  { status : value }, 
-      this.httpOptions).pipe(
-      tap(() => console.log(`Updating user from backend`))
-    );
+      this.httpOptions);
   }
 
   /**
    * Remove all users of the application
    */
   deleteAllUsers(): Observable<any> {
-    return this.http.delete(environment.user + `s`, this.httpOptions).pipe(
-      tap(() => console.log(`All users deleted`))
-    );
+    return this.http.delete(environment.user + `s`, this.httpOptions);
   }
 
+  /**
+   * Delete one user
+   */
   deleteUser(user: User): Observable<any>  {
-    return this.http.delete(environment.user + `/${user.id}`, this.httpOptions).pipe(
-      tap(() => console.log(`One user right now deleted`))
-    );
+    return this.http.delete(environment.user + `/${user.id}`, this.httpOptions);
   }
 
+  /**
+   * 
+   * add a user to the system
+   */
   addUser(user: User): Observable<any> {
-    return this.http.post(environment.user, user,this.httpOptions).pipe(
-      tap(() => console.log(`Adding one new user to backend`))
-    );
+    return this.http.post(environment.user, user,this.httpOptions);
   }
 
+  /**
+   * update a user
+   */
   updateUser(user: User): Observable<any> {
-    console.log(user);
-    return this.http.put(environment.user + `/${user.id}`, user, this.httpOptions).pipe(
-      tap(() => console.log(`Updating user to backend`))
-    );
+    return this.http.put(environment.user + `/${user.id}`, user, this.httpOptions);
   }
 }

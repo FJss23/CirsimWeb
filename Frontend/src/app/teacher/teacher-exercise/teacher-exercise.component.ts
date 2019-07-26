@@ -101,16 +101,20 @@ export class TeacherExerciseComponent implements OnInit {
       this.setBackgroundImage(image.imageb64, image.position, image.size);
     } 
   }
-
+  /**
+   * initialize options for a new exercise
+   */
   setUpNewExercise(): void {
     this.setUpNetwork();
   }
 
+  /**
+   * initialize the edition
+   */
   setUpEditExercise(): void {
     this.setUpNetwork(this.setUpExercise(this.exerciseToEdit))
     if(this.exerciseToEdit.image != null){
       this.selectedPositionImage = this.exerciseToEdit.image.position;
-      console.log(this.selectedPositionImage);
       this.selectedSizeImage =  this.exerciseToEdit.image.size;
       this.imageUrl = this.exerciseToEdit.image.imageb64;
     }
@@ -138,8 +142,6 @@ export class TeacherExerciseComponent implements OnInit {
   setUpNetwork(editData?: any): void  {
     let data = (editData) ? editData : {};
     let options = this.defineOptions();
-    console.log('data to import');
-    console.log(data);
     this.network = new Network(this.networkContainer.nativeElement, data, options);
 
     // event that jumps when a point or connection is selected, if the delete 
@@ -168,7 +170,6 @@ export class TeacherExerciseComponent implements OnInit {
 
     this.network.on('dragEnd', (properties: any) => {
       if(this.activeSelectionMode){
-        console.log('active dragend')
         let points: Point [] = this.getPoints()
         for(let elem in properties.nodes){
           points.forEach(point => {
@@ -284,8 +285,6 @@ export class TeacherExerciseComponent implements OnInit {
     let image = this.getImage();
     let title = this.exerciseForm.value.title;
     let description = this.exerciseForm.value.description;
-
-    console.log(points)
 
     if(this.exerciseToEdit){
       this.exerciseToEdit.points = points;
